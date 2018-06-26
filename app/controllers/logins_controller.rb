@@ -7,10 +7,11 @@ class LoginsController < ApplicationController
   
   def log_user
 	flash[:notice] = "Log in successful."
+	redirect_to '/view_documents'
   end
   
   def index
-    @logins = Login.all
+  
   end
 
 end

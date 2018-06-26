@@ -12,8 +12,6 @@
     %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
     / Custom fonts for this template
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
-    / Page level plugin CSS
-    %link{:href => "vendor/datatables/dataTables.bootstrap4.css", :rel => "stylesheet"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
   %body#page-top.fixed-nav.sticky-footer.bg-dark
@@ -29,11 +27,11 @@
             %a.nav-link{:href => "/dashboard"}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
             %a.nav-link{:href => "/view_documents"}
               %i.fa.fa-fw.fa-file
               %span.nav-link-text View Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
@@ -52,37 +50,11 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item.active View Documents
-        / Example DataTables Card
-        .card.mb-3
-          .card-header
-            %i.fa.fa-table
-            Events
-          .card-body
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
-                  %tr
-                    %th Name
-                    %th Author
-                    %th Description
-                    %th Location
-                    %th Date Modfied
-                    %th Status
-                    %th Actions
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
-                %tbody
-            %br/
-            %a.btn.btn-primary{:href => "/view_event"} View Events
-            %a.btn.btn-primary{:href => "/add_document"} Add Document
-            %a.btn.btn-secondary{:href => "/dashboard"} Back
+          %li.breadcrumb-item.active Folders
+        .row
+          .col-12
+            %h1 Blank
+            %p This is an example of a blank page that you can use as a starting point for creating new ones.
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
@@ -109,10 +81,5 @@
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
       / Core plugin JavaScript
       %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
-      / Page level plugin JavaScript
-      %script{:src => "vendor/datatables/jquery.dataTables.js"}
-      %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
       / Custom scripts for all pages
       %script{:src => "js/sb-admin.min.js"}
-      / Custom scripts for this page
-      %script{:src => "js/sb-admin-datatables.min.js"}

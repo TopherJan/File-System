@@ -19,13 +19,13 @@
       .card.card-login.mx-auto.mt-5
         .card-header Login
         .card-body
-          %form{:action => "log_user", :method => "get", :name => "loguser"}
+          %form{:action => "view_documents", :method => "get", :name => "loguser"}
             .form-group
               %label{:for => "exampleInputEmail1"} Email address
               %input#exampleInputEmail1.form-control{"aria-describedby" => "emailHelp", :placeholder => "example@up.edu.ph", :type => "email"}/
             .form-group
               %label{:for => "exampleInputPassword1"} Password
-              %input#exampleInputPassword1.form-control{:placeholder => "Password", :type => "password"}/
+              %input#exampleInputPassword1.form-control{:placeholder => "*****", :type => "password"}/
             .form-group
               .form-check
                 %label.form-check-label
@@ -34,7 +34,7 @@
             %button.btn.btn-primary.btn-block{:type => "submit"} Login
           .text-center
             %a.d-block.small.mt-3{:href => "/create_account"} Register an Account
-            %a.d-block.small{:href => "/forgot_password"} Forgot Password?
+            %a.d-block.small{:href => "/forgot"} Forgot Password?
     / Bootstrap core JavaScript
     %script{:src => "vendor/jquery/jquery.min.js"}
     %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

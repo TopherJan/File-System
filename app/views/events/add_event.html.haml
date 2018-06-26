@@ -1,0 +1,125 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %meta{:content => "", :name => "description"}/
+    %meta{:content => "", :name => "author"}/
+    %title Physical Document Tracking System
+    / Bootstrap core CSS
+    %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
+    / Custom fonts for this template
+    %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
+    / Custom styles for this template
+    %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
+  %body#page-top.fixed-nav.sticky-footer.bg-dark
+    / Navigation
+    %nav#mainNav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+      %a.navbar-brand{:href => "/dashboard"}
+        %strong Physical Document Tracking System
+      %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
+        %span.navbar-toggler-icon
+      #navbarResponsive.collapse.navbar-collapse
+        %ul#exampleAccordion.navbar-nav.navbar-sidenav
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
+            %a.nav-link{:href => "/dashboard"}
+              %i.fa.fa-fw.fa-dashboard
+              %span.nav-link-text Dashboard
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
+            %a.nav-link{:href => "/view_documents"}
+              %i.fa.fa-fw.fa-file
+              %span.nav-link-text View Documents
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
+            %a.nav-link{:href => "/folders"}
+              %i.fa.fa-fw.fa-folder
+              %span.nav-link-text Folders
+        %ul.navbar-nav.sidenav-toggler
+          %li.nav-item
+            %a#sidenavToggler.nav-link.text-center
+              %i.fa.fa-fw.fa-angle-left
+        %ul.navbar-nav.ml-auto
+          %li.nav-item
+            %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
+              %i.fa.fa-fw.fa-sign-out>
+              Logout
+    .content-wrapper
+      .container-fluid
+        / Breadcrumbs
+        %ol.breadcrumb
+          %li.breadcrumb-item
+            %a{:href => "/dashboard"} Dashboard
+          %li.breadcrumb-item
+            %a{:href => "/view_documents"} View Documents
+          %li.breadcrumb-item
+            %a{:href => "/view_event"} View Events
+          %li.breadcrumb-item.active Add Events
+        / Example DataTables Card
+        .card.mb-3
+          .card-header
+            %i.fa.fa-table
+            Add Event
+          .card-body
+            .form-validation
+              %form.form-valide{:action => "/log_user", :method => "post"}
+                .form-group
+                  %b DOCUMENT EVENT
+                  %br/
+                  .form-group
+                    .form-row
+                      .col-md-6
+                        %label{:for => "val-date"}
+                          Date
+                          %span.text-danger *
+                        %input#val-date.form-control{:name => "val-date", :placeholder => "", :type => "password"}/
+                      .col-md-6
+                        %label{:for => "val-type"}
+                          Type
+                          %span.text-danger *
+                        %input#val-type.form-control{:name => "val-type", :placeholder => "", :type => "text"}/
+                  .form-group
+                    %label{:for => "val-remarks"}
+                      Remarks
+                      %span.text-danger *
+                    %div
+                      %input#val-remarks.form-control{:name => "val-remarks", :placeholder => "Add Description here", :type => "text"}/
+                %div
+                  %button.btn.btn-primary{:type => "button"} Add
+                  %a.btn.btn-secondary{:href => "/view_event"} Back
+                  %br/
+        / /.container-fluid
+        / /.content-wrapper
+        %footer.sticky-footer
+          .container
+            .text-center
+              %small Copyright © Your Website 2018
+        / Scroll to Top Button
+        %a.scroll-to-top.rounded{:href => "#page-top"}
+          %i.fa.fa-angle-up
+        / Logout Modal
+        #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+          .modal-dialog{:role => "document"}
+            .modal-content
+              .modal-header
+                %h5#exampleModalLabel.modal-title Ready to Leave?
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} ×
+              .modal-body Select "Logout" below if you are ready to end your current session.
+              .modal-footer
+                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                %a.btn.btn-primary{:href => "/log_user"} Logout
+        / Bootstrap core JavaScript
+        %script{:src => "vendor/jquery/jquery.min.js"}
+        %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
+        / Core plugin JavaScript
+        %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
+        / Page level plugin JavaScript
+        %script{:src => "vendor/chart.js/Chart.min.js"}
+        %script{:src => "vendor/datatables/jquery.dataTables.js"}
+        %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
+        / Custom scripts for all pages
+        %script{:src => "js/sb-admin.min.js"}
+        / Custom scripts for this page
+        %script{:src => "js/sb-admin-datatables.min.js"}
+        %script{:src => "js/sb-admin-charts.min.js"}
