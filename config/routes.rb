@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   get '/add_document' => 'documents#add_document'
   get '/add_event' => 'events#add_event'
   post '/redirect_account' => 'logins#login'
+  post '/redirect_acct' => 'account#redirect_account'
+  get '/log' => 'logins#log_user'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

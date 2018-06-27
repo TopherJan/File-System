@@ -19,13 +19,13 @@
       .card.card-login.mx-auto.mt-5
         .card-header Login
         .card-body
-          %form{:action => "view_documents", :method => "get", :name => "loguser"}
+          %form{:action => "log", :method => "get", :name => "log_user"}
             .form-group
               %label{:for => "exampleInputEmail1"} Email address
-              %input#exampleInputEmail1.form-control{"aria-describedby" => "emailHelp", :placeholder => "example@up.edu.ph", :type => "email"}/
+              %input#exampleInputEmail1.form-control{:name => "emailadd", :placeholder => "example@up.edu.ph", :type => "email"}/
             .form-group
               %label{:for => "exampleInputPassword1"} Password
-              %input#exampleInputPassword1.form-control{:placeholder => "*****", :type => "password"}/
+              %input#exampleInputPassword1.form-control{:name => "password", :placeholder => "*****", :type => "password"}/
             .form-group
               .form-check
                 %label.form-check-label

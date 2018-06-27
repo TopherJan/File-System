@@ -20,7 +20,7 @@
         .card-header Register an Account
         .card-body
           .form-validation
-            %form{:action => "redirect_account", :method => "post", :name => "create_account"}
+            %form{:action => "redirect_acct", :method => "post", :name => "create_account"}
               .form-group
                 .form-row
                   .col-md-6
@@ -28,43 +28,43 @@
                       First name
                       %span.text-danger *
                     %div
-                      %input#val-firstname.form-control{:name => "val-firstname", :placeholder => "Enter first name", :type => "text"}/
+                      %input#val-firstname.form-control{:name => "firstname", :placeholder => "Enter first name", :type => "text", :value => "#{@firstname}"}/
                   .col-md-6
                     %label{:for => "val-lastname"}
                       Last name
                       %span.text-danger *
                     %div
-                      %input#val-lastname.form-control{"aria-describedby" => "nameHelp", :name => "val-lastname", :placeholder => "Enter last name", :type => "text"}/
+                      %input#val-lastname.form-control{"aria-describedby" => "nameHelp", :name => "lastname", :placeholder => "Enter last name", :type => "text", :value => "#{@lastname}"}/
               .form-group
                 %label{:for => "val-email"}
                   Email address
                   %span.text-danger *
                 %div
-                  %input#val-email.form-control{:name => "val-email", :placeholder => "example@up.edu.ph", :type => "text"}/
+                  %input#val-email.form-control{:name => "emailadd", :placeholder => "example@up.edu.ph", :type => "text", :value => "#{@emailadd}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "val-password"}
                       Password
                       %span.text-danger *
-                    %input#val-password.form-control{:name => "val-password", :placeholder => "*****", :type => "password"}/
+                    %input#val-password.form-control{:name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
                   .col-md-6
                     %label{:for => "val-confirm-password"}
                       Confirm password
                       %span.text-danger *
-                    %input#val-confirm-password.form-control{:name => "val-password", :placeholder => "*****", :type => "password"}/
+                    %input#val-confirm-password.form-control{:name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "val-jobtitle"}
                       Job Title
                       %span.text-danger *
-                    %input#val-jobtitle.form-control{:name => "val-jobtitle", :placeholder => "Job Title", :type => "password"}/
+                    %input#val-jobtitle.form-control{:name => "jobtitle", :placeholder => "Job Title", :type => "text", :value => "#{@jobtitle}"}/
                   .col-md-6
                     %label{:for => "val-phoneus"}
                       Contact Number
                       %span.text-danger *
-                    %input#val-phoneus.form-control{:name => "val-phoneus", :placeholder => "+639123456789", :type => "text"}/
+                    %input#val-phoneus.form-control{:name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
               %button.btn.btn-primary.btn-block{:type => "submit"} Register
           .text-center
             %a.d-block.small.mt-3{:href => "/log_user"} Login Page
