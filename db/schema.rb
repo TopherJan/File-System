@@ -12,38 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20180626031435) do
 
-  create_table "authors", force: :cascade do |t|
-    t.integer "author_id"
-    t.string "name"
-    t.string "contact"
-    t.string "department"
-    t.string "agency"
-    t.string "address"
-    t.integer "doc_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "documents", force: :cascade do |t|
-    t.integer "doc_id"
-    t.string "name"
-    t.string "type"
-    t.text "description"
-    t.string "location"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "events", force: :cascade do |t|
-    t.integer "event_id"
-    t.date "date"
-    t.string "type"
-    t.text "remarks"
-    t.integer "doc_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "logins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
