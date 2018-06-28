@@ -3,7 +3,7 @@ class CreateDocuments < ActiveRecord::Migration[5.1]
     create_table :documents do |t|
       t.integer :doc_id
       t.string :name
-      t.string :type
+      t.string :doc_type
       t.text :description
       t.string :location
 

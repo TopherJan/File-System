@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180626031435) do
+ActiveRecord::Schema.define(version: 20180627064433) do
 
   create_table "authors", force: :cascade do |t|
     t.integer "author_id"
@@ -27,9 +27,9 @@ ActiveRecord::Schema.define(version: 20180626031435) do
   create_table "documents", force: :cascade do |t|
     t.integer "doc_id"
     t.string "name"
-    t.string "type"
     t.text "description"
     t.string "location"
+    t.string "doc_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20180626031435) do
   create_table "events", force: :cascade do |t|
     t.integer "event_id"
     t.date "date"
-    t.string "type"
+    t.string "event_type"
     t.text "remarks"
     t.integer "doc_id"
     t.datetime "created_at", null: false

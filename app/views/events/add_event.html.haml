@@ -53,7 +53,7 @@
           %li.breadcrumb-item
             %a{:href => "/view_documents"} View Documents
           %li.breadcrumb-item
-            %a{:href => "/view_event"} View Events
+            %a{:href => view_event_path(:id => "#{@doc_id}")} View Events
           %li.breadcrumb-item.active Add Events
         / Example DataTables Card
         .card.mb-3
@@ -62,31 +62,39 @@
             Add Event
           .card-body
             .form-validation
-              %form.form-valide{:action => "/log_user", :method => "post"}
+              %form.form-valide{:action => "add_event", :method => "get", :name =>"addEvent"}
                 .form-group
                   %b DOCUMENT EVENT
                   %br/
+                  .form-group
+                    %div
+                      %input#val-doc_id.form-control{:name => "event[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
                   .form-group
                     .form-row
                       .col-md-6
                         %label{:for => "val-date"}
                           Date
                           %span.text-danger *
-                        %input#val-date.form-control{:name => "val-date", :placeholder => "", :type => "password"}/
+                        %input#val-date.form-control{:name => "event[date]", :placeholder => "", :type => "date", :required => 'required'}/
                       .col-md-6
                         %label{:for => "val-type"}
                           Type
                           %span.text-danger *
-                        %input#val-type.form-control{:name => "val-type", :placeholder => "", :type => "text"}/
+                        %select#val-doctype.form-control{:name => "event[event_type]", :required => 'required', :placeholder => "Please select"}
+                          %option{:value => "Created"} Created
+                          %option{:value => "Received"} Received
+                          %option{:value => "Forwarded"} Forwarded
+                          %option{:value => "Returned"} Returned
+                          %option{:value => "Acknowledged"} Acknowledged
+                          %option{:value => "Accomplished"} Accomplished
                   .form-group
                     %label{:for => "val-remarks"}
                       Remarks
-                      %span.text-danger *
                     %div
-                      %input#val-remarks.form-control{:name => "val-remarks", :placeholder => "Add Description here", :type => "text"}/
+                      %input#val-remarks.form-control{:name => "event[remarks]", :placeholder => "Add Description here", :type => "text"}/
                 %div
-                  %button.btn.btn-primary{:type => "button"} Add
-                  %a.btn.btn-secondary{:href => "/view_event"} Back
+                  %button.btn.btn-primary{:type => "submit"} Add
+                  %a.btn.btn-secondary{:href => view_event_path(:id => "#{@doc_id}")} Back
                   %br/
         / /.container-fluid
         / /.content-wrapper

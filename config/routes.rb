@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  root "logins#login"
-  get 'forgot' => 'logins#forget'
+  root 'logins#login'
+  resources :documents
+  resources :events
+  get '/forgot' => 'logins#forget'
   get '/dashboard' => 'logins#dashboard'
   get '/create_account' => 'account#create_account'
   get '/log_user' => 'logins#login'
@@ -9,5 +11,13 @@ Rails.application.routes.draw do
   get '/add_document' => 'documents#add_document'
   get '/add_event' => 'events#add_event'
   post '/redirect_account' => 'logins#login'
+  put '/view_event' => 'events#view_event'
+  get '/submit_event' => 'events#submit_event'
+  get '/add_event_path' => 'events#add_event'
+  post '/add_event' => 'events#add_event'
+  post '/add_documents' => 'documents#add_documents'
+  post '/view_event' => 'events#view_event'
+  post '/view_documents' => 'documents#view_documents'
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

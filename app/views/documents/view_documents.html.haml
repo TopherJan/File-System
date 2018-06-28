@@ -67,7 +67,7 @@
                     %th Author
                     %th Description
                     %th Location
-                    %th Date Modfied
+                    %th Date Modified
                     %th Status
                     %th Actions
                 /
@@ -79,8 +79,19 @@
                   </tr>
                   </tfoot>
                 %tbody
+                  - @documents.zip(@authors).each do |document, author|
+                    %tr
+                      %td= document.name
+                      %td= author.name
+                      %td= document.description
+                      %td= document.location
+                      %td= document.doc_type
+                      %td= author.doc_id
+                      %td
+                        %span= link_to "View /", view_event_path(id: document.id)
+                        %span= link_to "Edit /"
+                        %span= link_to "Delete"
             %br/
-            %a.btn.btn-primary{:href => "/view_event"} View Events
             %a.btn.btn-primary{:href => "/add_document"} Add Document
             %a.btn.btn-secondary{:href => "/dashboard"} Back
       / /.container-fluid

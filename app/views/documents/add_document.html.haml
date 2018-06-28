@@ -60,7 +60,7 @@
             Add Document
           .card-body
             .form-validation
-              %form.form-valide{:action => "login.html", :method => "post"}
+              %form.form-valide{:action => "add_document", :method => "get", :name =>"addDocument"}
                 .form-group
                   %b DOCUMENT INFORMATION
                   %br/
@@ -70,24 +70,29 @@
                         %label{:for => "val-docname"}
                           Document Name
                           %span.text-danger *
-                        %input#val-docname.form-control{:name => "val-docname", :placeholder => "Name of the Document", :type => "text"}/
+                        %input#val-docname.form-control{:name => "document[name]", :placeholder => "Name of the Document", :type => "text", :required => 'required'}/
                       .col-md-6
                         %label{:for => "val-doctype"}
                           Document Type
                           %span.text-danger *
-                        %input#val-doctype.form-control{:name => "val-doctype", :placeholder => "", :type => "text"}/
+                        %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required', :placeholder => "Please select"}
+                          %option{:value => "Informational"} Informational
+                          %option{:value => "Requires Action"} Requires Action
                   .form-group
                     %label{:for => "val-description"}
                       Description
                       %span.text-danger *
                     %div
-                      %input#val-description.form-control{:name => "val-description", :placeholder => "Add Description here", :type => "text"}/
+                      %input#val-description.form-control{:name => "document[description]", :placeholder => "Add Description here", :type => "text", :required => 'required'}/
                   .form-group
                     %label{:for => "val-location"}
                       Location
                       %span.text-danger *
                     %div
-                      %input#val-location.form-control{:name => "val-location", :placeholder => "", :type => "text"}/
+                      %input#val-location.form-control{:name => "document[location]", :placeholder => "", :type => "text", :required => 'required'}/
+                  .form-group
+                    %label.form-control-label{:for => "uploadfiles"} Upload Files
+                    %input#uploadfiles.form-control-file{:multiple => "multiple", :name => "uploadfiles", :type => "file"}/
                 .form-group
                   %b AUTHOR INFORMATION
                   %br/
@@ -97,32 +102,31 @@
                         %label{:for => "val-authorname"}
                           Name
                           %span.text-danger *
-                        %input#val-authorname.form-control{:name => "val-authorname", :placeholder => "Name of the Author", :type => "text"}/
+                        %input#val-authorname.form-control{:name => "author[name]", :placeholder => "Name of the Author", :type => "text", :required => 'required'}/
                       .col-md-6
                         %label{:for => "val-contactnum"}
                           Contact Number
                           %span.text-danger *
-                        %input#val-contactnum.form-control{:name => "val-contactnum", :placeholder => "+69278781163", :type => "text"}/
+                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69278781163", :type => "text", :required => 'required'}/
                   .form-group
                     .form-row
                       .col-md-6
                         %label{:for => "val-department"}
                           Department
-                          %span.text-danger *
-                        %input#val-department.form-control{:name => "val-department", :placeholder => "Name of the Department", :type => "password"}/
+                        %input#val-department.form-control{:name => "author[department]", :placeholder => "Name of the Department", :type => "text"}/
                       .col-md-6
                         %label{:for => "val-agency"}
                           Agency
                           %span.text-danger *
-                        %input#val-agency.form-control{:name => "val-agency", :placeholder => "Name of the Agency", :type => "text"}/
+                        %input#val-agency.form-control{:name => "author[agency]", :placeholder => "Name of the Agency", :type => "text", :required => 'required'}/
                   .form-group
                     %label{:for => "val-address"}
                       Address
                       %span.text-danger *
                     %div
-                      %input#val-address.form-control{:name => "val-address", :placeholder => "", :type => "text"}/
+                      %input#val-address.form-control{:name => "author[address]", :placeholder => "", :type => "text", :required => 'required'}/
                 %div
-                  %button.btn.btn-primary{:type => "button"} Add
+                  %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => "/view_documents"} Back
         / /.container-fluid
         / /.content-wrapper

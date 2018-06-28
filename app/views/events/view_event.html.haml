@@ -65,16 +65,20 @@
               .form-row
                 .col-md-6
                   %b Name of Document:
+                  #{@doc_name}
                   %br/
                 .col-md-6
-                  %b Type of Document::
+                  %b Type of Document: 
+                  #{@doc_type}
                   %br/
               .form-row
                 .col-md-6
-                  %b Author:
+                  %b Author: 
+                  #{@author_name}
                   %br/
                 .col-md-6
-                  %b Folder:
+                  %b Folder: 
+                  #{@doc_location}
                   %br/
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -92,8 +96,13 @@
                   </tr>
                   </tfoot>
                 %tbody
+                  - @events.each do |event|
+                    %tr
+                      %td= event.date
+                      %td= event.event_type
+                      %td= event.remarks
             %br/
-            %a.btn.btn-primary{:href => "/add_event"} Add Event
+            %a.btn.btn-primary{:href => add_event_path(:id => "#{@doc_id}")} Add Event
             %a.btn.btn-secondary{:href => "/view_documents"} Back
       / /.container-fluid
       / /.content-wrapper
