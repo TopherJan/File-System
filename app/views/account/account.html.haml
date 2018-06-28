@@ -59,10 +59,55 @@
           .card-header
             %i.fa.fa-user
             Account
-          .row
-            .col-12
-              %h1 Blank
-              %p This is an example of a blank page that you can use as a starting point for creating new ones.
+          .card-body
+            .form-validation
+              %form.form-valide{:action => "redirect_acct", :method => "post", :name => "create_account"}
+                .form-group
+                  %label{:for => "emailadd"}
+                    Email address
+                    %span.text-danger *
+                  %div
+                    %input#email.form-control/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "password"}
+                        Password
+                        %span.text-danger *
+                      %input#password.form-control/
+                    .col-md-6
+                      %label{:for => "confirm-password"}
+                        Confirm password
+                        %span.text-danger *
+                      %input#confirm-password.form-control/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "firstname"}
+                        First name
+                        %span.text-danger *
+                      %div
+                        %input#firstname.form-control/
+                    .col-md-6
+                      %label{:for => "lastname"}
+                        Last name
+                        %span.text-danger *
+                      %div
+                        %input#lastname.form-control/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "jobtitle"}
+                        Job Title
+                        %span.text-danger *
+                      %input#jobtitle.form-control/
+                    .col-md-6
+                      %label{:for => "phone"}
+                        Contact Number
+                        %span.text-danger *
+                      %input#phone.form-control/
+                %button.btn.btn-primary.btn-block{:type => "submit"} UPDATE INFORMATION
+            .text-center
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
