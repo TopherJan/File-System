@@ -36,7 +36,7 @@
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
-            %a.nav-link{:href => "/account"}
+            %a.nav-link{:href => "/profile_information"}
               %i.fa.fa-fw.fa-user
               %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
@@ -67,19 +67,21 @@
                     Email address
                     %span.text-danger *
                   %div
-                    %input#email.form-control/
+                    %input.form-control.form-control-line{:name => "emailadd", :readonly => "readonly", :type => "text", :value => "#{@emailadd}"}/
                 .form-group
                   .form-row
                     .col-md-6
                       %label{:for => "password"}
                         Password
                         %span.text-danger *
-                      %input#password.form-control/
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
                     .col-md-6
                       %label{:for => "confirm-password"}
-                        Confirm password
+                        Confirm Password
                         %span.text-danger *
-                      %input#confirm-password.form-control/
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
                 .form-group
                   .form-row
                     .col-md-6
@@ -87,25 +89,28 @@
                         First name
                         %span.text-danger *
                       %div
-                        %input#firstname.form-control/
+                        %input.form-control.form-control-line{:name => "first_name", :readonly => "readonly", :type => "text", :value => "#{@first_name}"}/
                     .col-md-6
                       %label{:for => "lastname"}
                         Last name
                         %span.text-danger *
                       %div
-                        %input#lastname.form-control/
-                .form-group
-                  .form-row
-                    .col-md-6
-                      %label{:for => "jobtitle"}
-                        Job Title
-                        %span.text-danger *
-                      %input#jobtitle.form-control/
-                    .col-md-6
-                      %label{:for => "phone"}
-                        Contact Number
-                        %span.text-danger *
-                      %input#phone.form-control/
+                        %input.form-control.form-control-line{:name => "last_name", :readonly => "readonly", :type => "text", :value => "#{@last_name}"}/
+                        %br
+                  .form-group
+                    .form-row
+                      .col-md-6
+                        %label{:for => "job_title"}
+                          Job Title
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "job_title", :readonly => "readonly", :type => "text", :value => "#{@jobtitle}"}/
+                      .col-md-6
+                        %label{:for => "phone"}
+                          Last name
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "phone", :readonly => "readonly", :type => "text", :value => "#{@phone}"}/
                 %button.btn.btn-primary.btn-block{:type => "submit"} UPDATE INFORMATION
             .text-center
       / /.container-fluid

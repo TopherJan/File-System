@@ -21,7 +21,8 @@ def log_user
 			flash[:notice] = "Log in successful."
 			session[:current_user_emailadd] = @emailadd
 			session[:current_user_password] = @password
-			redirect_to controller: "documents", action: "view_documents"
+
+			redirect_to controller: "account", action: "profile_information"
 		end
 
 	end
