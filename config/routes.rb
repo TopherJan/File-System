@@ -23,5 +23,7 @@ Rails.application.routes.draw do
   post '/view_event' => 'events#view_event'
   post '/view_documents' => 'documents#view_documents'
   post '/redirect_acct' => 'account#redirect_account'
+  post '/edit_profile_information' => 'account#edit_profile_information'
+  post '/update_profile_information' => 'account#update_profile_information'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

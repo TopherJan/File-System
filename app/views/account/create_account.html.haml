@@ -28,13 +28,13 @@
                       First name
                       %span.text-danger *
                     %div
-                      %input#firstname.form-control{:name => "firstname", :placeholder => "Enter first name", :type => "text", :value => "#{@firstname}"}/
+                      %input#firstname.form-control{:name => "first_name", :placeholder => "Enter first name", :type => "text", :value => "#{@first_name}"}/
                   .col-md-6
                     %label{:for => "lastname"}
                       Last name
                       %span.text-danger *
                     %div
-                      %input#lastname.form-control{:name => "lastname", :placeholder => "Enter last name", :type => "text", :value => "#{@lastname}"}/
+                      %input#lastname.form-control{:name => "last_name", :placeholder => "Enter last name", :type => "text", :value => "#{@last_name}"}/
               .form-group
                 %label{:for => "emailadd"}
                   Email address
@@ -59,7 +59,7 @@
                     %label{:for => "jobtitle"}
                       Job Title
                       %span.text-danger *
-                    %input#jobtitle.form-control{:name => "jobtitle", :placeholder => "Job Title", :type => "text", :value => "#{@jobtitle}"}/
+                    %input#jobtitle.form-control{:name => "job_title", :placeholder => "Job Title", :type => "text", :value => "#{@job_title}"}/
                   .col-md-6
                     %label{:for => "phone"}
                       Contact Number
