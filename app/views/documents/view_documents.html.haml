@@ -88,9 +88,9 @@
                       %td= document.doc_type
                       %td= author.doc_id
                       %td
-                        %span= link_to "View /", view_event_path(id: document.id)
-                        %span= link_to "Edit /"
-                        %span= link_to "Delete"
+                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
+                        %a.btn-sm.btn-success{:href => ""} Edit
+                        %a.btn-sm.btn-danger{:href => ""} Delete
             %br/
             %a.btn.btn-primary{:href => "/add_document"} Add Document
             %a.btn.btn-secondary{:href => "/dashboard"} Back
