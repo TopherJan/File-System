@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-	attr_accessor :emailadd, :password, :first_name, :last_name, :job_title, :phone
 
 	validates :emailadd, presence: true, uniqueness: true
 	validates :password, presence: true

@@ -37,6 +37,10 @@
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
+            %a.nav-link{:href => "/folders"}
+              %i.fa.fa-fw.fa-user
+              %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
           %li.nav-item
             %a#sidenavToggler.nav-link.text-center
@@ -103,7 +107,7 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/log_user"} Logout
+              %a.btn.btn-primary{:href => "/"} Logout
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
