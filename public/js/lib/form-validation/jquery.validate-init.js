@@ -15,25 +15,29 @@ var form_validation = function() {
                     jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
                 },
                 rules: {
-                    "val-firstname": {
+                    "firstname": {
                         required: !0,
                         minlength: 1
                     },
-                    "val-lastname": {
+                    "lastname": {
                         required: !0,
                         minlength: 1
                     },
-                    "val-email": {
+                    "phone": {
+                        required: !0,
+                        minlength: 1
+                    },
+                    "emailadd": {
                         required: !0,
                         email: !0
                     },
-                    "val-password": {
+                    "password": {
                         required: !0,
                         minlength: 5
                     },
-                    "val-confirm-password": {
+                    "confirm-password": {
                         required: !0,
-                        equalTo: "#val-password"
+                        equalTo: "#password"
                     },
                     "val-select2": {
                         required: !0
@@ -57,7 +61,7 @@ var form_validation = function() {
                         required: !0,
                         url: !0
                     },
-                    "val-phoneus": {
+                    "phone": {
                         required: !0,
                         phoneUS: !0
                     },
@@ -76,30 +80,30 @@ var form_validation = function() {
                     "val-terms": {
                         required: !0
                     },
-                    "val-jobtitle": {
+                    "jobtitle": {
                         required: !0,
                         minlength: 1
                     }
                 },
                 messages: {
-                    "val-firstname": {
+                    "firstname": {
                         required: "Please enter a first name",
                         minlength: "Your first name must consist of at least 1 character"
                     },
-                    "val-jobtitle": {
+                    "jobtitle": {
                         required: "Please enter a job title",
                         minlength: "Your job title must consist of at least 1 character"
                     },
-                    "val-lastname": {
+                    "lastname": {
                         required: "Please enter a last name",
                         minlength: "Your last name must consist of at least 1 character"
                     },
-                    "val-email": "Please enter a valid email address",
-                    "val-password": {
+                    "emailadd": "Please enter a valid email address",
+                    "password": {
                         required: "Please provide a password",
                         minlength: "Your password must be at least 5 characters long"
                     },
-                    "val-confirm-password": {
+                    "confirm-password": {
                         required: "Please provide a password",
                         minlength: "Your password must be at least 5 characters long",
                         equalTo: "Please enter the same password as above"
@@ -110,7 +114,7 @@ var form_validation = function() {
                     "val-skill": "Please select a skill!",
                     "val-currency": "Please enter a price!",
                     "val-website": "Please enter your website!",
-                    "val-phoneus": "Please enter a PH phone!",
+                    "phone": "Please enter a PH phone!",
                     "val-digits": "Please enter only digits!",
                     "val-number": "Please enter a number!",
                     "val-range": "Please enter a number between 1 and 5!",

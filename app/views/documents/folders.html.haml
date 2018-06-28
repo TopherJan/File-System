@@ -35,6 +35,10 @@
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
+            %a.nav-link{:href => "/profile_information"}
+              %i.fa.fa-fw.fa-user
+              %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
           %li.nav-item
             %a#sidenavToggler.nav-link.text-center
@@ -51,10 +55,14 @@
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
           %li.breadcrumb-item.active Folders
-        .row
-          .col-12
-            %h1 Blank
-            %p This is an example of a blank page that you can use as a starting point for creating new ones.
+        .card.mb-3
+          .card-header
+            %i.fa.fa-folder
+            Folders
+          .row
+            .col-12
+              %h1 Blank
+              %p This is an example of a blank page that you can use as a starting point for creating new ones.
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

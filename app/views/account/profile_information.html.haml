@@ -12,8 +12,6 @@
     %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
     / Custom fonts for this template
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
-    / Page level plugin CSS
-    %link{:href => "vendor/datatables/dataTables.bootstrap4.css", :rel => "stylesheet"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
   %body#page-top.fixed-nav.sticky-footer.bg-dark
@@ -29,11 +27,11 @@
             %a.nav-link{:href => "/dashboard"}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
             %a.nav-link{:href => "/view_documents"}
               %i.fa.fa-fw.fa-file
               %span.nav-link-text View Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
@@ -56,48 +54,65 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item.active View Documents
-        / Example DataTables Card
+          %li.breadcrumb-item.active Account
         .card.mb-3
           .card-header
-            %i.fa.fa-table
-            Documents
+            %i.fa.fa-user
+            Account
           .card-body
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
-                  %tr
-                    %th Name
-                    %th Author
-                    %th Description
-                    %th Location
-                    %th Date Modified
-                    %th Status
-                    %th Actions
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
-                %tbody
-                  - @documents.zip(@authors).each do |document, author|
-                    %tr
-                      %td= document.name
-                      %td= author.name
-                      %td= document.description
-                      %td= document.location
-                      %td= document.doc_type
-                      %td= author.doc_id
-                      %td
-                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
-                        %a.btn-sm.btn-success{:href => ""} Edit
-                        %a.btn-sm.btn-danger{:href => ""} Delete
-            %br/
-            %a.btn.btn-primary{:href => "/add_document"} Add Document
-            %a.btn.btn-secondary{:href => "/dashboard"} Back
+            .form-validation
+              %form.form-valide{:action => "redirect_acct", :method => "post", :name => "create_account"}
+                .form-group
+                  %label{:for => "emailadd"}
+                    Email address
+                    %span.text-danger *
+                  %div
+                    %input.form-control.form-control-line{:name => "emailadd", :readonly => "readonly", :type => "text", :value => "#{@emailadd}"}/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "password"}
+                        Password
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
+                    .col-md-6
+                      %label{:for => "confirm-password"}
+                        Confirm Password
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "firstname"}
+                        First name
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "first_name", :readonly => "readonly", :type => "text", :value => "#{@first_name}"}/
+                    .col-md-6
+                      %label{:for => "lastname"}
+                        Last name
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "last_name", :readonly => "readonly", :type => "text", :value => "#{@last_name}"}/
+                        %br
+                  .form-group
+                    .form-row
+                      .col-md-6
+                        %label{:for => "job_title"}
+                          Job Title
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "job_title", :readonly => "readonly", :type => "text", :value => "#{@jobtitle}"}/
+                      .col-md-6
+                        %label{:for => "phone"}
+                          Contact Number
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "phone", :readonly => "readonly", :type => "text", :value => "#{@phone}"}/
+                %button.btn.btn-primary.btn-block{:type => "submit"} UPDATE INFORMATION
+            .text-center
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
@@ -118,16 +133,11 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/"} Logout
+              %a.btn.btn-primary{:href => "/log_user"} Logout
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
       / Core plugin JavaScript
       %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
-      / Page level plugin JavaScript
-      %script{:src => "vendor/datatables/jquery.dataTables.js"}
-      %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
       / Custom scripts for all pages
       %script{:src => "js/sb-admin.min.js"}
-      / Custom scripts for this page
-      %script{:src => "js/sb-admin-datatables.min.js"}
