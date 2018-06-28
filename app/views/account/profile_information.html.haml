@@ -62,56 +62,41 @@
           .card-body
             .form-validation
               %form.form-valide{:action => "edit_profile_information", :method => "post"}
-                .form-group
-                  %label{:for => "emailadd"}
-                    Email address
-                    %span.text-danger *
-                  %div
-                    %input.form-control.form-control-line{:name => "emailadd", :readonly => "readonly", :type => "text", :value => "#{@emailadd}"}/
-                .form-group
-                  .form-row
-                    .col-md-6
-                      %label{:for => "password"}
-                        Password
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
-                    .col-md-6
-                      %label{:for => "confirm-password"}
-                        Confirm Password
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
-                .form-group
-                  .form-row
-                    .col-md-6
-                      %label{:for => "firstname"}
-                        First name
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "first_name", :readonly => "readonly", :type => "text", :value => "#{@first_name}"}/
-                    .col-md-6
-                      %label{:for => "lastname"}
-                        Last name
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "last_name", :readonly => "readonly", :type => "text", :value => "#{@last_name}"}/
-                        %br
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "job_title"}
-                          Job Title
-                          %span.text-danger *
-                        %div
-                          %input.form-control.form-control-line{:name => "job_title", :readonly => "readonly", :type => "text", :value => "#{@job_title}"}/
-                      .col-md-6
-                        %label{:for => "phone"}
-                          Contact Number
-                          %span.text-danger *
-                        %div
-                          %input.form-control.form-control-line{:name => "phone", :readonly => "readonly", :type => "text", :value => "#{@phone}"}/
-                %button.btn.btn-primary.btn-block{:type => "submit"} UPDATE INFORMATION
+                .form-col
+                  .col-md-5
+                    .row
+                      %label{:style => 'font-size: 20px'}
+                        %b EMAIL ADDRESS:
+                        #{@emailadd}
+                    .row
+                      %label{:style => 'font-size: 20px'}
+                        %b FIRST NAME:
+                        #{@first_name}
+                    .row
+                      %label{:style => 'font-size: 20px'}
+                        %b LAST NAME:
+                        #{@last_name}
+                    .row
+                      %label{:style => 'font-size: 20px'}
+                        %b JOB TITLE:
+                        #{@job_title}
+                    .row
+                      %label{:style => 'font-size: 20px'}
+                        %b CONTACT NUMBER:
+                        #{@phone}
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                  .col
+                    %button.btn.btn-primary.btn{:type => "submit"} UPDATE ACCOUNT
+                    %button.btn.btn-danger.btn{:type => "/profile_information"} DELETE ACCOUNT
             .text-center
       / /.container-fluid
       / /.content-wrapper

@@ -2,6 +2,7 @@ class AccountController < ApplicationController
 
 
 	skip_before_action :verify_authenticity_token
+
 	def profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@first_name = @current_user.first_name
@@ -30,27 +31,27 @@ class AccountController < ApplicationController
 	end
 
 
-		def create_account
-			@emailadd
-			@first_name
-			@last_name
-			@password
-			@job_title
-			@phone
-		end
-
-		def redirect_account
-			@first_name = params[:first_name]
-			@last_name = params[:last_name]
-			@emailadd = params[:emailadd]
-			@password = params[:password]
-			@job_title = params[:job_title]
-			@phone = params[:phone]
-
-			@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
-
-			redirect_to controller: "logins", action: "log_user"
-		end
-
-
+	def create_account
+		@emailadd
+		@first_name
+		@last_name
+		@password
+		@job_title
+		@phone
 	end
+
+	def redirect_account
+		@first_name = params[:first_name]
+		@last_name = params[:last_name]
+		@emailadd = params[:emailadd]
+		@password = params[:password]
+		@job_title = params[:job_title]
+		@phone = params[:phone]
+
+		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
+
+		redirect_to controller: "logins", action: "log_user"
+	end
+
+
+end
