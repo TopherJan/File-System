@@ -69,20 +69,38 @@
               .form-row
                 .col-md-6
                   %b Name of Document:
-                  #{@doc_name}
+                  #{@document.name}
                   %br/
                 .col-md-6
-                  %b Type of Document: 
-                  #{@doc_type}
+                  %b Author: 
+                  #{@author.name}
                   %br/
               .form-row
                 .col-md-6
-                  %b Author: 
-                  #{@author_name}
+                  %b Type of Document: 
+                  #{@document.doc_type}
                   %br/
                 .col-md-6
-                  %b Folder: 
-                  #{@doc_location}
+                  %b Contact Number: 
+                  #{@author.contact}
+                  %br/
+              .form-row
+                .col-md-6
+                  %b Location: 
+                  #{@document.location}
+                  %br/
+                .col-md-6
+                  %b Agency: 
+                  #{@author.agency}
+                  %br/
+              .form-row
+                .col-md-6
+                  %b Description: 
+                  #{@document.description}
+                  %br/
+                .col-md-6
+                  %b Address: 
+                  #{@author.address}
                   %br/
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}

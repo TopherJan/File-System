@@ -15,13 +15,19 @@ Rails.application.routes.draw do
   get '/add_event' => 'events#add_event'
   get '/folders' => 'documents#folders'
   get '/profile_information' => 'account#profile_information'
-  put '/view_event' => 'events#view_event'
   get '/submit_event' => 'events#submit_event'
   get '/add_event_path' => 'events#add_event'
   post '/add_event' => 'events#add_event'
   post '/add_documents' => 'documents#add_documents'
-  post '/view_event' => 'events#view_event'
   post '/view_documents' => 'documents#view_documents'
   post '/redirect_acct' => 'account#redirect_account'
+  get '/edit_document_view' => 'documents#edit_document_view'
+  post '/edit_document_view' => 'documents#edit_document_view'
+  get '/update_document' => 'documents#update_document'
+  post '/update_document' => 'documents#update_document'
+  get '/delete_document' => 'documents#delete_document'
+  
+  get '/update_event' => 'events#update_event'
+  post '/update_event' => 'events#update_event'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

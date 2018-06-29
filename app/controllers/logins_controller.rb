@@ -23,8 +23,8 @@ def log_user
 			session[:current_user_password] = @password
 			redirect_to controller: "documents", action: "view_documents"
 		end
-
 	end
+	
   def logout
 		reset_session
 		redirect_to '/'
