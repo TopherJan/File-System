@@ -29,7 +29,7 @@ class EventsController < ApplicationController
 	end
   end
   def event_params
-    params.require(:event).permit(:date, :event_type, :remarks, :doc_id)
+    params.require(:event).permit(:event_date, :event_type, :remarks, :doc_id)
   end
   
 end

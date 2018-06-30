@@ -83,14 +83,14 @@
                   </tr>
                   </tfoot>
                 %tbody
-                  - @documents.zip(@authors).each do |document, author|
+                  - @documents.zip(@authors, @events).each do |document, author, event|
                     %tr
                       %td= document.name
                       %td= author.name
                       %td= document.description
                       %td= document.location
-                      %td= document.doc_type
-                      %td= author.doc_id
+                      %td= event.event_date
+                      %td= event.event_type
                       %td
                         %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
                         %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit

@@ -4,6 +4,7 @@ class DocumentsController < ApplicationController
     if params[:document] != nil
 	  @documents = Document.new(user_params)
 	  doc = params[:id]
+	  
 	  if @documents.save!      
         flash[:success] = "Document added!"
 	    add_author
@@ -29,14 +30,17 @@ class DocumentsController < ApplicationController
     if params[:author] != nil
 	  @authors = Author.new(author_params)
 	  @authors.save!
+	  @event = Event.new(event_params)
+	  @event.save!
 	end
 	
-	redirect_to '/view_documents'
+	redirect_to '/view_documents', notice: "The document has been uploaded."
   end
   
   def view_documents
     @authors = Author.all
     @documents = Document.all
+	@events = Event.group(:doc_id)
   end
   
   def delete_document
@@ -52,11 +56,15 @@ class DocumentsController < ApplicationController
   end
   
   def user_params
-    params.require(:document).permit(:name, :description, :location, :doc_type)
+    params.require(:document).permit(:name, :description, :location, :doc_type, attachments_attributes: [:attachment, :doc_id])
   end
   
   def author_params
 	params.require(:author).permit(:name, :contact, :department, :agency, :address)
+  end
+  
+  def event_params
+	params.require(:event).permit(:doc_id, :event_date, :event_type, :remarks)
   end
   
 end

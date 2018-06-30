@@ -129,6 +129,18 @@
                       %span.text-danger *
                     %div
                       %input#val-address.form-control{:name => "author[address]", :placeholder => "", :type => "text", :required => 'required'}/
+                  .form-group
+                    %div
+                      %input#val-doc_id.form-control{:name => "event[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
+                  .form-group
+                    %div
+                      %input#val-event_date.form-control{:name => "event[event_date]", :placeholder => "", :type => "hidden", :value=> " "}/
+                  .form-group
+                    %div
+                      %input#val-event_type.form-control{:name => "event[event_type]", :placeholder => "", :type => "hidden", :value=> " "}/
+                  .form-group
+                    %div
+                      %input#val-remarks.form-control{:name => "event[remarks]", :placeholder => "", :type => "hidden", :value=> " "}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => "/view_documents"} Back
