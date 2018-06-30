@@ -29,5 +29,9 @@ Rails.application.routes.draw do
   
   get '/update_event' => 'events#update_event'
   post '/update_event' => 'events#update_event'
+  get '/view_file' => 'attachments#view_file'
+  get '/upload_file' => 'attachments#upload_file'
+  get '/save_file' => 'attachments#save_file'
+  get '/delete_file' => 'attachments#delete_file'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

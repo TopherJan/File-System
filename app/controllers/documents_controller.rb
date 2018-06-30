@@ -40,7 +40,7 @@ class DocumentsController < ApplicationController
   def view_documents
     @authors = Author.all
     @documents = Document.all
-	@events = Event.group(:doc_id)
+	@events = Event.all
   end
   
   def delete_document

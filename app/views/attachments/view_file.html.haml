@@ -58,75 +58,43 @@
             %a{:href => "/dashboard"} Dashboard
           %li.breadcrumb-item
             %a{:href => "/view_documents"} View Documents
-          %li.breadcrumb-item.active View Events
+          %li.breadcrumb-item
+            %a{:href => ""} View Event
+          %li.breadcrumb-item.active View Files
         / Example DataTables Card
         .card.mb-3
           .card-header
             %i.fa.fa-table
             Events
           .card-body
-            .form-group
-              .form-row
-                .col-md-6
-                  %b Name of Document:
-                  #{@document.name}
-                  %br/
-                .col-md-6
-                  %b Author: 
-                  #{@author.name}
-                  %br/
-              .form-row
-                .col-md-6
-                  %b Type of Document: 
-                  #{@document.doc_type}
-                  %br/
-                .col-md-6
-                  %b Contact Number: 
-                  #{@author.contact}
-                  %br/
-              .form-row
-                .col-md-6
-                  %b Location: 
-                  #{@document.location}
-                  %br/
-                .col-md-6
-                  %b Agency: 
-                  #{@author.agency}
-                  %br/
-              .form-row
-                .col-md-6
-                  %b Description: 
-                  #{@document.description}
-                  %br/
-                .col-md-6
-                  %b Address: 
-                  #{@author.address}
-                  %br/
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                 %thead
                   %tr
-                    %th Date
-                    %th Type
-                    %th Remarks
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
+                    %th Name
+                    %th Download Link
+                    %th Options
                 %tbody
-                  - @events.each do |event|
+                  - @attachments.each do |attachment|
                     %tr
-                      %td= event.event_date
-                      %td= event.event_type
-                      %td= event.remarks
+                      %td= attachment.name
+                      %td= link_to "Download File", attachment.attachment_url
+                      %td
+                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
+                          .modal-dialog{:role => "document"}
+                            .modal-content
+                              .modal-header
+                                %h5#deleteModalLabel.modal-title Are you sure you want to delete the file?
+                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                  %span{"aria-hidden" => "true"} ×
+                              .modal-body Select "Delete" below if you want to delete the file.
+                              .modal-footer
+                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                                %a.btn.btn-danger{:href => delete_file_path(id: attachment.id)} Delete
             %br/
-            %a.btn.btn-primary{:href => view_file_path(:id => "#{@doc_id}")} View Files
-            %a.btn.btn-primary{:href => add_event_path(:id => "#{@doc_id}")} Add Event
-            %a.btn.btn-secondary{:href => "/view_documents"} Back
+            %a.btn.btn-primary{:href => upload_file_path(id: "#{@doc_id}")} Upload File
+            %a.btn.btn-secondary{:href => view_event_path(id: "#{@doc_id}")} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

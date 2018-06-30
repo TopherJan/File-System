@@ -56,91 +56,38 @@
             %a{:href => "/dashboard"} Dashboard
           %li.breadcrumb-item
             %a{:href => "/view_documents"} View Documents
-          %li.breadcrumb-item.active Add Document
+          %li.breadcrumb-item
+            %a{:href => view_event_path(:id => "#{@doc_id}")} View Events
+          %li.breadcrumb-item.active Add Events
         / Example DataTables Card
         .card.mb-3
           .card-header
             %i.fa.fa-table
-            Add Document
+            Add Event
           .card-body
             .form-validation
-              %form.form-valide{:action => "add_document", :method => "get", :name =>"addDocument"}
+              %form.form-valide{:action => "save_file", :method => "get", :name =>"addEvent"}
                 .form-group
-                  %b DOCUMENT INFORMATION
+                  %b ADD FILES
                   %br/
                   .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-docname"}
-                          Document Name
-                          %span.text-danger *
-                        %input#val-docname.form-control{:name => "document[name]", :placeholder => "Name of the Document", :type => "text", :required => 'required'}/
-                      .col-md-6
-                        %label{:for => "val-doctype"}
-                          Document Type
-                          %span.text-danger *
-                        %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required', :placeholder => "Please select"}
-                          %option{:value => "Informational"} Informational
-                          %option{:value => "Requires Action"} Requires Action
-                  .form-group
-                    %label{:for => "val-description"}
-                      Description
-                      %span.text-danger *
                     %div
-                      %input#val-description.form-control{:name => "document[description]", :placeholder => "Add Description here", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label{:for => "val-location"}
-                      Location
-                      %span.text-danger *
-                    %div
-                      %input#val-location.form-control{:name => "document[location]", :placeholder => "", :type => "text", :required => 'required'}/
-                .form-group
-                  %b AUTHOR INFORMATION
-                  %br/
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-authorname"}
-                          Name
-                          %span.text-danger *
-                        %input#val-authorname.form-control{:name => "author[name]", :placeholder => "Name of the Author", :type => "text", :required => 'required'}/
-                      .col-md-6
-                        %label{:for => "val-contactnum"}
-                          Contact Number
-                          %span.text-danger *
-                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69278781163", :type => "text", :required => 'required'}/
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-department"}
-                          Department
-                        %input#val-department.form-control{:name => "author[department]", :placeholder => "Name of the Department", :type => "text"}/
-                      .col-md-6
-                        %label{:for => "val-agency"}
-                          Agency
-                          %span.text-danger *
-                        %input#val-agency.form-control{:name => "author[agency]", :placeholder => "Name of the Agency", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label{:for => "val-address"}
-                      Address
-                      %span.text-danger *
-                    %div
-                      %input#val-address.form-control{:name => "author[address]", :placeholder => "", :type => "text", :required => 'required'}/
+                      %input#val-doc_id.form-control{:name => "doc_id", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
                   .form-group
                     %div
-                      %input#val-doc_id.form-control{:name => "event[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
+                      %input#val-doc_id.form-control{:name => "attachment[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
                   .form-group
+                    %label{:for => "val-name"}
+                      Name
                     %div
-                      %input#val-event_date.form-control{:name => "event[event_date]", :placeholder => "", :type => "hidden", :value=> " "}/
+                      %input#val-name.form-control{:name => "attachment[name]", :placeholder => "Name of File", :type => "text"}/
                   .form-group
-                    %div
-                      %input#val-event_type.form-control{:name => "event[event_type]", :placeholder => "", :type => "hidden", :value=> " "}/
-                  .form-group
-                    %div
-                      %input#val-remarks.form-control{:name => "event[remarks]", :placeholder => "", :type => "hidden", :value=> " "}/
+                    %label.form-control-label{:for => "uploadfiles"} Upload File
+                    %input#uploadfiles.form-control-file{:name => "attachment[attachment]", :type => "file"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
-                  %a.btn.btn-secondary{:href => "/view_documents"} Back
+                  %a.btn.btn-secondary{:href => view_file_path(id: "#{@doc_id}")} Back
+                  %br/
         / /.container-fluid
         / /.content-wrapper
         %footer.sticky-footer
