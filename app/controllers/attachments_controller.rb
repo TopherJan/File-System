@@ -14,8 +14,6 @@ class AttachmentsController < ApplicationController
 
     if @attachment.save
       redirect_to view_file_path(id: params[:doc_id]), notice: "The attachment #{@attachment.name} has been uploaded."
-    else
-      render "new"
     end
   end
 
@@ -28,6 +26,6 @@ class AttachmentsController < ApplicationController
 
 private
   def attachment_params
-    params.require(:attachment).permit(:name, :attachment, :doc_id)
+    params.require(:attachment).permit(:name,:attachment,:doc_id)
   end
 end

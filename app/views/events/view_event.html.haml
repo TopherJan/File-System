@@ -102,6 +102,8 @@
                   %b Address: 
                   #{@author.address}
                   %br/
+            .form-group
+              %a.btn.btn-primary{:href => view_file_path(:id => "#{@doc_id}")} View Files
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                 %thead
@@ -124,7 +126,6 @@
                       %td= event.event_type
                       %td= event.remarks
             %br/
-            %a.btn.btn-primary{:href => view_file_path(:id => "#{@doc_id}")} View Files
             %a.btn.btn-primary{:href => add_event_path(:id => "#{@doc_id}")} Add Event
             %a.btn.btn-secondary{:href => "/view_documents"} Back
       / /.container-fluid

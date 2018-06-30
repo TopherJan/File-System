@@ -26,7 +26,8 @@ Rails.application.routes.draw do
   get '/update_document' => 'documents#update_document'
   post '/update_document' => 'documents#update_document'
   get '/delete_document' => 'documents#delete_document'
-  
+  get '/attachments' => 'attachments#view_file'
+  post '/attachments' => 'attachments#save_file'
   get '/update_event' => 'events#update_event'
   post '/update_event' => 'events#update_event'
   get '/view_file' => 'attachments#view_file'

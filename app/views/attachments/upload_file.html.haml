@@ -66,24 +66,23 @@
             Add Event
           .card-body
             .form-validation
-              %form.form-valide{:action => "save_file", :method => "get", :name =>"addEvent"}
+              = form_for @attachment, html: { multipart: true } do |f|
                 .form-group
-                  %b ADD FILES
-                  %br/
-                  .form-group
-                    %div
-                      %input#val-doc_id.form-control{:name => "doc_id", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
-                  .form-group
-                    %div
-                      %input#val-doc_id.form-control{:name => "attachment[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
-                  .form-group
-                    %label{:for => "val-name"}
-                      Name
-                    %div
-                      %input#val-name.form-control{:name => "attachment[name]", :placeholder => "Name of File", :type => "text"}/
-                  .form-group
-                    %label.form-control-label{:for => "uploadfiles"} Upload File
-                    %input#uploadfiles.form-control-file{:name => "attachment[attachment]", :type => "file"}/
+                  %div
+                    %input#val-docid.form-control{:name => "attachment[doc_id]", :type => "hidden", :required => 'required', :value => "#{@doc_id}"}/
+                  %div
+                    %input#val-doc_id.form-control{:name => "doc_id", :type => "hidden", :required => 'required', :value => "#{@doc_id}"}/
+                .form-group
+                  %label{:for => "attachment[name]"}
+                    Name
+                    %span.text-danger *
+                  %div
+                    %input#val-name.form-control{:name => "attachment[name]", :placeholder => "Name of the File", :type => "text", :required => 'required'}/
+                .form-group
+                  %div
+                  = f.label :attachment
+                  %div
+                  = f.file_field :attachment
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => view_file_path(id: "#{@doc_id}")} Back

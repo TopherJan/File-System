@@ -5,7 +5,7 @@ class EventsController < ApplicationController
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	
-	@events = Event.where(:doc_id => params[:id])
+	@events = Event.where(:doc_id => params[:id]).order(:event_date)
     @doc = Document.where(@doc_id)
   end
   
