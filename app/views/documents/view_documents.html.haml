@@ -52,6 +52,10 @@
               Logout
     .content-wrapper
       .container-fluid
+        - if flash[:notice]
+          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            .notice= flash[:notice]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -83,31 +87,7 @@
                   </tr>
                   </tfoot>
                 %tbody
-                  - @documents.zip(@authors).each do |document, author|
-                    %tr
-                      %td= document.name
-                      %td= author.name
-                      %td= document.description
-                      %td= document.location
-                      %td= document.date_modified
-                      %td= document.status
-                      %td
-                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
-                        %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                          .modal-dialog{:role => "document"}
-                            .modal-content
-                              .modal-header
-                                %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                  %span{"aria-hidden" => "true"} ×
-                              .modal-body Select "Delete" below if you want to delete the document.
-                              .modal-footer
-                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
-                                %br/
-            %br
+            %br/
             %a.btn.btn-primary{:href => "/add_document"} Add Document
             %a.btn.btn-secondary{:href => "/dashboard"} Back
       / /.container-fluid
@@ -131,7 +111,7 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/"} Logout
-      / Delete Modal    
+      / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

@@ -52,7 +52,7 @@ class AccountController < ApplicationController
 
 		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
 
-		redirect_to controller: "logins", action: "log_user"
+		redirect_to '/'
 	end
 
 	def delete_user
