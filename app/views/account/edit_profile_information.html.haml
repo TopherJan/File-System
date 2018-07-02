@@ -7,13 +7,12 @@
     %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
     %meta{:content => "", :name => "description"}/
     %meta{:content => "", :name => "author"}/
+
     %title Physical Document Tracking System
     / Bootstrap core CSS
     %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
     / Custom fonts for this template
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
-    / Page level plugin CSS
-    %link{:href => "vendor/datatables/dataTables.bootstrap4.css", :rel => "stylesheet"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
   %body#page-top.fixed-nav.sticky-footer.bg-dark
@@ -31,7 +30,7 @@
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
             %a.nav-link{:href => "/view_documents"}
-              %i.fa.fa-fw.fa-file-text
+              %i.fa.fa-fw.fa-file
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
@@ -56,60 +55,73 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item.active View Documents
-        / Example DataTables Card
+          %li.breadcrumb-item.active Account
         .card.mb-3
           .card-header
-            %i.fa.fa-list-alt
-            Documents
+            %i.fa.fa-user
+            Account
           .card-body
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
-                  %tr
-                    %th Name
-                    %th Author
-                    %th Description
-                    %th Location
-                    %th Date Modified
-                    %th Status
-                    %th Actions
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
-                %tbody
-                  - @documents.zip(@authors, @events).each do |document, author, event|
-                    %tr
-                      %td= document.name
-                      %td= author.name
-                      %td= document.description
-                      %td= document.location
-                      %td= event.event_date
-                      %td= event.event_type
-                      %td
-                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
-                        %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                          .modal-dialog{:role => "document"}
-                            .modal-content
-                              .modal-header
-                                %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                  %span{"aria-hidden" => "true"} ×
-                              .modal-body Select "Delete" below if you want to delete the document.
-                              .modal-footer
-                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
-                                %br/
-            %br
-            %a.btn.btn-primary{:href => "/add_document"} Add Document
-            %a.btn.btn-secondary{:href => "/dashboard"} Back
+            .form-validation
+              %form.form-valide{:action => "update_profile_information", :method => "post"}
+                .form-group
+                  %label{:for => "emailadd"}
+                    Email address
+                    %span.text-danger *
+                  %div
+                    %input.form-control.form-control-line{:name => "emailadd", :type => "text", :value => "#{@emailadd}"}/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "password"}
+                        Password
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :type => "password", :value => "#{@password}"}/
+                    .col-md-6
+                      %label{:for => "confirm-password"}
+                        Confirm Password
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "password", :type => "password", :value => "#{@password}"}/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %label{:for => "firstname"}
+                        First name
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "first_name", :type => "text", :value => "#{@first_name}"}/
+                    .col-md-6
+                      %label{:for => "lastname"}
+                        Last name
+                        %span.text-danger *
+                      %div
+                        %input.form-control.form-control-line{:name => "last_name", :type => "text", :value => "#{@last_name}"}/
+                        %br
+                  .form-group
+                    .form-row
+                      .col-md-6
+                        %label{:for => "job_title"}
+                          Job Title
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "job_title", :type => "text", :value => "#{@job_title}"}/
+                      .col-md-6
+                        %label{:for => "phone"}
+                          Contact Number
+                          %span.text-danger *
+                        %div
+                          %input.form-control.form-control-line{:name => "phone", :type => "text", :value => "#{@phone}"}/
+                          %br/
+                    .form-group
+                      .form-row
+                        .col-md-6
+                          %div
+                            %button.btn.btn-success.btn-block{:type => "submit"} SAVE
+                        .col-md-6
+                          %div
+                            %button.btn.btn-primary.btn-block{:type => "/profile_information"} CANCEL
+            .text-center
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
@@ -130,17 +142,11 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/"} Logout
-      / Delete Modal    
+              %a.btn.btn-primary{:href => "/log_user"} Logout
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
       / Core plugin JavaScript
       %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
-      / Page level plugin JavaScript
-      %script{:src => "vendor/datatables/jquery.dataTables.js"}
-      %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
       / Custom scripts for all pages
       %script{:src => "js/sb-admin.min.js"}
-      / Custom scripts for this page
-      %script{:src => "js/sb-admin-datatables.min.js"}

@@ -2,9 +2,8 @@ Rails.application.routes.draw do
   root 'logins#login'
   resources :documents
   resources :events
-  get '/forgot' => 'logins#forget'
-  get '/dashboard' => 'logins#dashboard'
   get '/create_account' => 'account#create_account'
+  get '/forgot' => 'logins#forget'
   get '/log_user' => 'logins#login'
   get '/log' => 'logins#log_user'
   get 'forgot' => 'logins#forget'
@@ -20,6 +19,10 @@ Rails.application.routes.draw do
   post '/add_event' => 'events#add_event'
   post '/add_documents' => 'documents#add_documents'
   post '/view_documents' => 'documents#view_documents'
+  get '/folders' => 'documents#folders'
+  get '/profile_information' => 'account#profile_information'
+  post '/edit_profile_information' => 'account#edit_profile_information'
+  post '/update_profile_information' => 'account#update_profile_information'
   post '/redirect_acct' => 'account#redirect_account'
   get '/edit_document_view' => 'documents#edit_document_view'
   post '/edit_document_view' => 'documents#edit_document_view'
@@ -34,5 +37,6 @@ Rails.application.routes.draw do
   get '/upload_file' => 'attachments#upload_file'
   get '/save_file' => 'attachments#save_file'
   get '/delete_file' => 'attachments#delete_file'
+  get 'delete_user' => 'account#delete_user'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

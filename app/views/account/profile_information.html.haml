@@ -27,11 +27,11 @@
             %a.nav-link{:href => "/dashboard"}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
             %a.nav-link{:href => "/view_documents"}
               %i.fa.fa-fw.fa-file
               %span.nav-link-text View Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
@@ -61,57 +61,41 @@
             Account
           .card-body
             .form-validation
-              %form.form-valide{:action => "redirect_acct", :method => "post", :name => "create_account"}
-                .form-group
-                  %label{:for => "emailadd"}
-                    Email address
-                    %span.text-danger *
-                  %div
-                    %input.form-control.form-control-line{:name => "emailadd", :readonly => "readonly", :type => "text", :value => "#{@emailadd}"}/
-                .form-group
-                  .form-row
-                    .col-md-6
-                      %label{:for => "password"}
-                        Password
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
-                    .col-md-6
-                      %label{:for => "confirm-password"}
-                        Confirm Password
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "password", :readonly => "readonly", :type => "password", :value => "#{@password}"}/
-                .form-group
-                  .form-row
-                    .col-md-6
-                      %label{:for => "firstname"}
-                        First name
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "first_name", :readonly => "readonly", :type => "text", :value => "#{@first_name}"}/
-                    .col-md-6
-                      %label{:for => "lastname"}
-                        Last name
-                        %span.text-danger *
-                      %div
-                        %input.form-control.form-control-line{:name => "last_name", :readonly => "readonly", :type => "text", :value => "#{@last_name}"}/
-                        %br
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "job_title"}
-                          Job Title
-                          %span.text-danger *
-                        %div
-                          %input.form-control.form-control-line{:name => "job_title", :readonly => "readonly", :type => "text", :value => "#{@jobtitle}"}/
-                      .col-md-6
-                        %label{:for => "phone"}
-                          Contact Number
-                          %span.text-danger *
-                        %div
-                          %input.form-control.form-control-line{:name => "phone", :readonly => "readonly", :type => "text", :value => "#{@phone}"}/
-                %button.btn.btn-primary.btn-block{:type => "submit"} UPDATE INFORMATION
+              %form.form-valide{:action => "edit_profile_information", :method => "post"}
+                .form-col
+                  .col-md-5
+                    .row
+                      %label{:style => "font-size: 20px"}
+                        %b EMAIL ADDRESS:
+                        #{@emailadd}
+                    .row
+                      %label{:style => "font-size: 20px"}
+                        %b FIRST NAME:
+                        #{@first_name}
+                    .row
+                      %label{:style => "font-size: 20px"}
+                        %b LAST NAME:
+                        #{@last_name}
+                    .row
+                      %label{:style => "font-size: 20px"}
+                        %b JOB TITLE:
+                        #{@job_title}
+                    .row
+                      %label{:style => "font-size: 20px"}
+                        %b CONTACT NUMBER:
+                        #{@phone}
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                    %br/
+                %button.btn.btn-primary{:type => "submit"} UPDATE ACCOUNT
+                %a.button.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}")}DELETE ACCOUNT
             .text-center
       / /.container-fluid
       / /.content-wrapper
