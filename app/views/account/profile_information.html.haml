@@ -65,23 +65,23 @@
                 .form-col
                   .col-md-5
                     .row
-                      %label{:style => 'font-size: 20px'}
+                      %label{:style => "font-size: 20px"}
                         %b EMAIL ADDRESS:
                         #{@emailadd}
                     .row
-                      %label{:style => 'font-size: 20px'}
+                      %label{:style => "font-size: 20px"}
                         %b FIRST NAME:
                         #{@first_name}
                     .row
-                      %label{:style => 'font-size: 20px'}
+                      %label{:style => "font-size: 20px"}
                         %b LAST NAME:
                         #{@last_name}
                     .row
-                      %label{:style => 'font-size: 20px'}
+                      %label{:style => "font-size: 20px"}
                         %b JOB TITLE:
                         #{@job_title}
                     .row
-                      %label{:style => 'font-size: 20px'}
+                      %label{:style => "font-size: 20px"}
                         %b CONTACT NUMBER:
                         #{@phone}
                     %br/
@@ -94,9 +94,8 @@
                     %br/
                     %br/
                     %br/
-                  .col
-                    %button.btn.btn-primary.btn{:type => "submit"} UPDATE ACCOUNT
-                    %button.btn.btn-danger.btn{:type => "/profile_information"} DELETE ACCOUNT
+                %button.btn.btn-primary{:type => "submit"} UPDATE ACCOUNT
+                %a.button.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}")}DELETE ACCOUNT
             .text-center
       / /.container-fluid
       / /.content-wrapper

@@ -3,6 +3,8 @@ class AccountController < ApplicationController
 
 	skip_before_action :verify_authenticity_token
 
+
+
 	def profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@first_name = @current_user.first_name
@@ -14,9 +16,9 @@ class AccountController < ApplicationController
 	end
 
 	def edit_profile_information
+		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@password = session[:current_user_password]
 		@emailadd = session[:current_user_emailadd]
-		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@first_name = @current_user.first_name
 		@last_name = @current_user.last_name
 		@job_title = @current_user.job_title
@@ -53,5 +55,15 @@ class AccountController < ApplicationController
 		redirect_to controller: "logins", action: "log_user"
 	end
 
+	def delete_user
+		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
+		@emailadd = session[:current_user_emailadd]
+		@user = User.find_by(:emailadd => @emailadd)
+		User.delete(@emailadd)
+		User.delete(@user)
+
+
+		redirect_to '/'
+  end
 
 end

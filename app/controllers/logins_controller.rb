@@ -1,10 +1,8 @@
 class LoginsController < ApplicationController
 
-	before_action :confirm_logged_in, :only => [:logout]
-	attr_accessor :user, :dash
 
   def login
-
+		@user = User.all
   end
 
 def log_user
@@ -15,7 +13,7 @@ def log_user
 
 
 		if @user.empty?
-			flash[:error] = "Incorrect Email address or Password. Try Again."
+			flash[:warning] = "Incorrect Email address or Password. Try Again."
 			redirect_to '/'
 		else
 			flash[:notice] = "Log in successful."
@@ -25,6 +23,7 @@ def log_user
 		end
 
 	end
+
   def logout
 		reset_session
 		redirect_to '/'

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :documents
   resources :events
 
+
   get '/create_account' => 'account#create_account'
   get '/forgot' => 'logins#forget'
   get '/log_user' => 'logins#login'
@@ -29,6 +30,8 @@ Rails.application.routes.draw do
   post '/edit_profile_information' => 'account#edit_profile_information'
   post '/update_profile_information' => 'account#update_profile_information'
   post '/redirect_acct' => 'account#redirect_account'
+
+  get 'delete_user' => 'account#delete_user'
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
