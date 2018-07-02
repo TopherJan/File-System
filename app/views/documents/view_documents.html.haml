@@ -31,7 +31,7 @@
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
             %a.nav-link{:href => "/view_documents"}
-              %i.fa.fa-fw.fa-file
+              %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
@@ -60,7 +60,7 @@
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-table
+            %i.fa.fa-list-alt
             Documents
           .card-body
             .table-responsive
@@ -107,6 +107,7 @@
                                 %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
                                 %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
                                 %br/
+            %br
             %a.btn.btn-primary{:href => "/add_document"} Add Document
             %a.btn.btn-secondary{:href => "/dashboard"} Back
       / /.container-fluid

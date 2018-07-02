@@ -31,7 +31,7 @@
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocument"}
             %a.nav-link{:href => "/view_documents"}
-              %i.fa.fa-fw.fa-file
+              %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
@@ -59,13 +59,13 @@
           %li.breadcrumb-item
             %a{:href => "/view_documents"} View Documents
           %li.breadcrumb-item
-            %a{:href => ""} View Event
+            %a{:href => ""} View Events
           %li.breadcrumb-item.active View Files
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-table
-            Events
+            %i.fa.fa-copy
+            Files
           .card-body
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -77,7 +77,7 @@
                 %tbody
                   - @attachments.each do |attachment|
                     %tr
-                      %td= attachment.name
+                      %td= attachment.attachment_in_database
                       %td= link_to "Download File", attachment.attachment_url
                       %td
                         %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete

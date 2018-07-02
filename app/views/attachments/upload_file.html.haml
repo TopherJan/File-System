@@ -29,7 +29,7 @@
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
             %a.nav-link{:href => "/view_documents"}
-              %i.fa.fa-fw.fa-file
+              %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
@@ -57,13 +57,15 @@
           %li.breadcrumb-item
             %a{:href => "/view_documents"} View Documents
           %li.breadcrumb-item
-            %a{:href => view_event_path(:id => "#{@doc_id}")} View Events
+            %a{:href => ""} View Events
+          %li.breadcrumb-item
+            %a{:href => ""} View Files
           %li.breadcrumb-item.active Add Events
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-table
-            Add Event
+            %i.fa.fa-copy
+            Add Files
           .card-body
             .form-validation
               = form_for @attachment, html: { multipart: true } do |f|
@@ -72,12 +74,6 @@
                     %input#val-docid.form-control{:name => "attachment[doc_id]", :type => "hidden", :required => 'required', :value => "#{@doc_id}"}/
                   %div
                     %input#val-doc_id.form-control{:name => "doc_id", :type => "hidden", :required => 'required', :value => "#{@doc_id}"}/
-                .form-group
-                  %label{:for => "attachment[name]"}
-                    Name
-                    %span.text-danger *
-                  %div
-                    %input#val-name.form-control{:name => "attachment[name]", :placeholder => "Name of the File", :type => "text", :required => 'required'}/
                 .form-group
                   %div
                   = f.label :attachment

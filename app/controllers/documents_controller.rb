@@ -40,7 +40,7 @@ class DocumentsController < ApplicationController
   def view_documents
     @authors = Author.all
     @documents = Document.all
-	@events = Event.all
+	@events = Event.find_by_sql("SELECT t.doc_id, t.event_type, r.event_date FROM (SELECT doc_id, event_type, MAX(event_date) as event_date FROM events group by doc_id) r INNER JOIN events t ON t.doc_id AND t.event_date = r.event_date")
   end
   
   def delete_document

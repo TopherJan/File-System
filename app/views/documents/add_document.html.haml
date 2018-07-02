@@ -29,7 +29,7 @@
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "ViewDocuments"}
             %a.nav-link{:href => "/view_documents"}
-              %i.fa.fa-fw.fa-file
+              %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => "/folders"}
@@ -60,14 +60,14 @@
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-table
+            %i.fa.fa-list-alt
             Add Document
           .card-body
             .form-validation
               %form.form-valide{:action => "add_document", :method => "get", :name =>"addDocument"}
                 .form-group
-                  %b DOCUMENT INFORMATION
-                  %br/
+                  %h4
+                    %b DOCUMENT INFORMATION
                   .form-group
                     .form-row
                       .col-md-6
@@ -93,10 +93,10 @@
                       Location
                       %span.text-danger *
                     %div
-                      %input#val-location.form-control{:name => "document[location]", :placeholder => "", :type => "text", :required => 'required'}/
+                      %input#val-location.form-control{:name => "document[location]", :placeholder => "Location of the Document", :type => "text", :required => 'required'}/
                 .form-group
-                  %b AUTHOR INFORMATION
-                  %br/
+                  %h4
+                    %b AUTHOR INFORMATION
                   .form-group
                     .form-row
                       .col-md-6
@@ -125,7 +125,7 @@
                       Address
                       %span.text-danger *
                     %div
-                      %input#val-address.form-control{:name => "author[address]", :placeholder => "", :type => "text", :required => 'required'}/
+                      %input#val-address.form-control{:name => "author[address]", :placeholder => "Address of the Author", :type => "text", :required => 'required'}/
                   .form-group
                     %div
                       %input#val-doc_id.form-control{:name => "event[doc_id]", :placeholder => "", :type => "hidden", :value=> "#{@doc_id}"}/
