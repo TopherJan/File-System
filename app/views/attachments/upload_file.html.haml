@@ -67,6 +67,8 @@
             %i.fa.fa-copy
             Add Files
           .card-body
+            %h4
+              %b FILE UPLOAD
             .form-validation
               = form_for @attachment, html: { multipart: true } do |f|
                 .form-group

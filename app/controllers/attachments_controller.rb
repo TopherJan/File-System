@@ -6,8 +6,7 @@ class AttachmentsController < ApplicationController
 
   def upload_file
 	@doc_id = params[:id]
-    @attachment = Attachment.new(params[:attachment])
-	@attachment.name =  @attachment.attachment.file.filename if @attachment.name == ""
+    @attachment = Attachment.new
   end
 
   def save_file
