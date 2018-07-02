@@ -38,5 +38,7 @@ Rails.application.routes.draw do
   get '/save_file' => 'attachments#save_file'
   get '/delete_file' => 'attachments#delete_file'
   get 'delete_user' => 'account#delete_user'
+  get '/folder_year' => 'documents#folder_year'
+  get '/document_by_folder' => 'documents#document_by_folder'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -54,20 +54,23 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item.active Folders
+          %li.breadcrumb-item
+            %a{:href => folders_path} Folders
+          %li.breadcrumb-item.active #{@doc_type}
         .card.mb-3
           .card-header
             %i.fa.fa-folder
             Folders
           .card-body
-            - @folders.each do |folder|
-              %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type)}
+            %h3 #{@doc_type}
+            - @doc_year.each do |document|
+              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date: document.date_modified.year)}
                 %h1
                   %i.fa.fa-fw.fa-folder-open
                   %span.nav-link-text
-                  %td= folder.doc_type
+                  %td= document.date_modified.year if document.date_modified
             %div
-              %a.btn.btn-secondary.float-right{:href => '/dashboard'} Back
+              %a.btn.btn-secondary.float-right{:href => folders_path} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

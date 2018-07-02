@@ -29,9 +29,7 @@ class DocumentsController < ApplicationController
   def add_author
     if params[:author] != nil
 	  @authors = Author.new(author_params)
-	  @authors.save!
-	  @event = Event.new(event_params)
-	  @event.save!
+	  @authors.save
 	end
 	
 	redirect_to '/view_documents', notice: "The document has been uploaded."
@@ -49,9 +47,25 @@ class DocumentsController < ApplicationController
 	
 	Document.delete(@doc)
 	Author.delete(@author)
-	Event.delete(event.ids)
+	Event.delete(event)
 	
 	redirect_to '/view_documents'
+  end
+  
+  def folders
+    @folders = Document.select(:doc_type).distinct
+  end
+  
+  def folder_year
+    @doc_year = Document.select(:date_modified).distinct
+	@doc_type = params[:doc_type]
+  end
+  
+  def document_by_folder
+    @doc_type = params[:doc_type]
+	@date = params[:date]
+	
+	@documents = Document.where("SELECT * FROM documents where strftime('%Y', 'date_modified') = #{@date}")
   end
   
   def user_params

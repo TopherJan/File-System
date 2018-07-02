@@ -12,6 +12,8 @@
     %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
     / Custom fonts for this template
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
+    / Page level plugin CSS
+    %link{:href => "vendor/datatables/dataTables.bootstrap4.css", :rel => "stylesheet"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
   %body#page-top.fixed-nav.sticky-footer.bg-dark
@@ -54,20 +56,64 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item.active Folders
+          %li.breadcrumb-item
+            %a{:href => folders_path} Folders
+          %li.breadcrumb-item
+            %a{:href => folder_year_path(doc_type: "#{@doc_type}")} #{@doc_type}
+          %li.breadcrumb-item.active #{@date}
+        / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-folder
-            Folders
+            %i.fa.fa-list-alt
+            Documents
           .card-body
-            - @folders.each do |folder|
-              %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type)}
-                %h1
-                  %i.fa.fa-fw.fa-folder-open
-                  %span.nav-link-text
-                  %td= folder.doc_type
-            %div
-              %a.btn.btn-secondary.float-right{:href => '/dashboard'} Back
+            .table-responsive
+              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                %thead
+                  %tr
+                    %th Name
+                    %th Author
+                    %th Description
+                    %th Location
+                    %th Date Modified
+                    %th Status
+                    %th Actions
+                /
+                  <tfoot>
+                  <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Remarks</th>
+                  </tr>
+                  </tfoot>
+                %tbody
+                  - @documents.zip(@authors).each do |document, author|
+                    %tr
+                      %td= document.name
+                      %td= author.name
+                      %td= document.description
+                      %td= document.location
+                      %td= document.date_modified
+                      %td= document.status
+                      %td
+                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
+                        %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
+                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
+                          .modal-dialog{:role => "document"}
+                            .modal-content
+                              .modal-header
+                                %h5#deleteModalLabel.modal-title Are you sure you want to delete?
+                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                  %span{"aria-hidden" => "true"} ×
+                              .modal-body Select "Delete" below if you want to delete the document.
+                              .modal-footer
+                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                                %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
+                                %br/
+            %br
+            %a.btn.btn-primary{:href => "/add_document"} Add Document
+            %a.btn.btn-secondary{:href => "/dashboard"} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
@@ -88,11 +134,17 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/log_user"} Logout
+              %a.btn.btn-primary{:href => "/"} Logout
+      / Delete Modal    
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
       / Core plugin JavaScript
       %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
+      / Page level plugin JavaScript
+      %script{:src => "vendor/datatables/jquery.dataTables.js"}
+      %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
       / Custom scripts for all pages
       %script{:src => "js/sb-admin.min.js"}
+      / Custom scripts for this page
+      %script{:src => "js/sb-admin-datatables.min.js"}
