@@ -15,6 +15,8 @@ class AccountController < ApplicationController
 		@emailadd = session[:current_user_emailadd]
 	end
 
+
+
 	def edit_profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@password = session[:current_user_password]
@@ -23,12 +25,14 @@ class AccountController < ApplicationController
 		@last_name = @current_user.last_name
 		@job_title = @current_user.job_title
 		@phone = @current_user.phone
+
 	end
 
 
 	def update_profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
+			flash[:notice] = "SUCCESSFULLY UPDATED!"
 		redirect_to "/profile_information"
 	end
 
@@ -52,7 +56,9 @@ class AccountController < ApplicationController
 
 		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
 
+	 	  flash[:success] = "SUCCESSFULLY REGISTERED!"
 		redirect_to '/'
+
 	end
 
 	def delete_user
@@ -62,7 +68,7 @@ class AccountController < ApplicationController
 		User.delete(@emailadd)
 		User.delete(@user)
 
-
+    flash[:warning] = "ACCOUNT SUCCESSFULLY DELETED!"
 		redirect_to '/'
   end
 

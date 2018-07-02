@@ -2,13 +2,14 @@ class LoginsController < ApplicationController
 
 
   def login
-		@user = User.all
+
   end
 
 def dashboard
 
    @countUser = User.count
    @countDocument = Document.count
+   @countAttachment = Attachment.count
 end
 
 def log_user

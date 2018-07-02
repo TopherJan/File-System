@@ -55,7 +55,7 @@
         - if flash[:notice]
           .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
             %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-            .notice= flash[:notice]
+            %b.notice= flash[:notice]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
