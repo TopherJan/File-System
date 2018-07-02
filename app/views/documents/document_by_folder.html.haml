@@ -60,7 +60,7 @@
             %a{:href => folders_path} Folders
           %li.breadcrumb-item
             %a{:href => folder_year_path(doc_type: "#{@doc_type}")} #{@doc_type}
-          %li.breadcrumb-item.active #{@date}
+          %li.breadcrumb-item.active #{@date_given}
         / Example DataTables Card
         .card.mb-3
           .card-header
@@ -87,10 +87,10 @@
                   </tr>
                   </tfoot>
                 %tbody
-                  - @documents.zip(@authors).each do |document, author|
+                  - @documents.each do |document|
                     %tr
                       %td= document.name
-                      %td= author.name
+                      %td= document.author_name
                       %td= document.description
                       %td= document.location
                       %td= document.date_modified
@@ -112,8 +112,7 @@
                                 %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
                                 %br/
             %br
-            %a.btn.btn-primary{:href => "/add_document"} Add Document
-            %a.btn.btn-secondary{:href => "/dashboard"} Back
+            %a.btn.btn-secondary.float-right{:href => folder_year_path(doc_type: "#{@doc_type}")} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

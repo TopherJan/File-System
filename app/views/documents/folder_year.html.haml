@@ -64,7 +64,7 @@
           .card-body
             %h3 #{@doc_type}
             - @doc_year.each do |document|
-              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date: document.date_modified.year)}
+              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date_given: document.date_modified.year)}
                 %h1
                   %i.fa.fa-fw.fa-folder-open
                   %span.nav-link-text

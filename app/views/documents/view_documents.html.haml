@@ -83,10 +83,10 @@
                   </tr>
                   </tfoot>
                 %tbody
-                  - @documents.zip(@authors).each do |document, author|
+                  - @documents.each do |document|
                     %tr
                       %td= document.name
-                      %td= author.name
+                      %td= document.author_name
                       %td= document.description
                       %td= document.location
                       %td= document.date_modified
