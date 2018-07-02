@@ -25,18 +25,18 @@ class AccountController < ApplicationController
 		@last_name = @current_user.last_name
 		@job_title = @current_user.job_title
 		@phone = @current_user.phone
-
+		flash[:notice] = "NO CHANGES!"
 	end
 
 
 	def update_profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
-			flash[:notice] = "SUCCESSFULLY UPDATED!"
+		flash[:notice] = "SUCCESSFULLY UPDATED!"
 		redirect_to "/profile_information"
 	end
 
-
+	
 	def create_account
 		@emailadd
 		@first_name
@@ -56,7 +56,7 @@ class AccountController < ApplicationController
 
 		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
 
-	 	  flash[:success] = "SUCCESSFULLY REGISTERED!"
+		flash[:success] = "SUCCESSFULLY REGISTERED!"
 		redirect_to '/'
 
 	end
@@ -68,8 +68,8 @@ class AccountController < ApplicationController
 		User.delete(@emailadd)
 		User.delete(@user)
 
-    flash[:warning] = "ACCOUNT SUCCESSFULLY DELETED!"
+		flash[:warning] = "ACCOUNT SUCCESSFULLY DELETED!"
 		redirect_to '/'
-  end
+	end
 
 end
