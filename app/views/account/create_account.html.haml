@@ -24,47 +24,47 @@
               .form-group
                 .form-row
                   .col-md-6
-                    %label{:for => "firstname"}
+                    %label{:for => "first_name"}
                       First name
                       %span.text-danger *
                     %div
-                      %input#firstname.form-control{:required=>"required", :name => "firstname", :placeholder => "Enter first name", :type => "text", :value => "#{@firstname}"}/
+                      %input#firstname.form-control{:name => "first_name", :placeholder => "Enter first name", :type => "text", :value => "#{@first_name}"}/
                   .col-md-6
-                    %label{:for => "lastname"}
+                    %label{:for => "last_name"}
                       Last name
                       %span.text-danger *
                     %div
-                      %input#lastname.form-control{:required=>"required", :name => "lastname", :placeholder => "Enter last name", :type => "text", :value => "#{@lastname}"}/
+                      %input#lastname.form-control{:name => "last_name", :placeholder => "Enter last name", :type => "text", :value => "#{@last_name}"}/
               .form-group
                 %label{:for => "emailadd"}
                   Email address
                   %span.text-danger *
                 %div
-                  %input#email.form-control{:required=>"required", :name => "emailadd", :placeholder => "example@up.edu.ph", :type => "text", :value => "#{@emailadd}"}/
+                  %input#email.form-control{:name => "emailadd", :placeholder => "example@up.edu.ph", :type => "text", :value => "#{@emailadd}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "password"}
                       Password
                       %span.text-danger *
-                    %input#password.form-control{:required=>"required", :name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
+                    %input#password.form-control{:name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
                   .col-md-6
                     %label{:for => "confirm-password"}
                       Confirm password
                       %span.text-danger *
-                    %input#confirm-password.form-control{:required=>"required", :name => "confirm-password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
+                    %input#confirm-password.form-control{:name => "confirm-password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "jobtitle"}
                       Job Title
                       %span.text-danger *
-                    %input#jobtitle.form-control{:required=>"required", :name => "jobtitle", :placeholder => "Job Title", :type => "text", :value => "#{@jobtitle}"}/
+                    %input#jobtitle.form-control{:name => "job_title", :placeholder => "Job Title", :type => "text", :value => "#{@job_title}"}/
                   .col-md-6
                     %label{:for => "phone"}
                       Contact Number
                       %span.text-danger *
-                    %input#phone.form-control{:required=>"required", :name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
+                    %input#phone.form-control{:name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
               %button.btn.btn-primary.btn-block{:type => "submit"} Register
           .text-center
             %a.d-block.small.mt-3{:href => "/"} Login Page
@@ -74,3 +74,6 @@
     %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
     / Core plugin JavaScript
     %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
+    / Form validation
+    %script{:src => "js/lib/form-validation/jquery.validate.min.js"}
+    %script{:src => "js/lib/form-validation/jquery.validate-init.js?v=1"}
