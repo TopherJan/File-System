@@ -69,8 +69,6 @@ class AccountController < ApplicationController
 		@emailadd = session[:current_user_emailadd]
 
 		if(@emailadd.nil?)
-			@emailadd = @current_user.id_token
-		else
 	  	@first_name = params[:first_name]
 	  	@last_name = params[:last_name]
 	  	@emailadd = params[:emailadd]
