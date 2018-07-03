@@ -1,6 +1,7 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
   def change
-    create_table :users do |t|
+  drop_table :users
+  create_table :users do |t|
       t.string :provider
       t.string :uid
       t.string :name
