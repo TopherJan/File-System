@@ -19,6 +19,10 @@
       .card.card-login.mx-auto.mt-5
         .card-header Login
         .card-body
+          - if flash[:warning]
+            .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %b.notice= flash[:warning]
+
           %form{:action => "log", :method => "get", :name => "log_user"}
             .form-group
               %label{:for => "exampleInputEmail1"} Email address

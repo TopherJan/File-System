@@ -13,7 +13,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new(attachment_params)
 
     if @attachment.save
-      redirect_to view_file_path(id: params[:doc_id]), notice: "The attachment #{@attachment.name} has been uploaded."
+      redirect_to view_file_path(id: params[:doc_id])
     end
   end
 
@@ -21,7 +21,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
 	@doc_id = "#{@attachment.doc_id}"
     @attachment.destroy
-    redirect_to view_file_path(id: "#{@doc_id}"), notice:  "The attachment has been deleted."
+    redirect_to view_file_path(id: "#{@doc_id}")
   end
 
 private

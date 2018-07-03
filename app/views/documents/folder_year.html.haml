@@ -64,11 +64,11 @@
           .card-body
             %h3 #{@doc_type}
             - @doc_year.each do |document|
-              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date_given: document.date_modified.year)}
+              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date_given: document.dates)}
                 %h1
                   %i.fa.fa-fw.fa-folder-open
                   %span.nav-link-text
-                  %td= document.date_modified.year if document.date_modified
+                  %td= document.dates
             %div
               %a.btn.btn-secondary.float-right{:href => folders_path} Back
       / /.container-fluid

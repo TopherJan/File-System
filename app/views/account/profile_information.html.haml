@@ -50,6 +50,11 @@
               Logout
     .content-wrapper
       .container-fluid
+        - if flash[:notice]
+          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            %b.notice= flash[:notice]
+
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -95,7 +100,7 @@
                     %br/
                     %br/
                 %button.btn.btn-primary{:type => "submit"} UPDATE ACCOUNT
-                %a.button.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}")}DELETE ACCOUNT
+                %a.button.btn.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal", :href => delete_user_path(emailadd: "#{@emailadd}")}DELETE ACCOUNT
             .text-center
       / /.container-fluid
       / /.content-wrapper
@@ -118,6 +123,18 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/log_user"} Logout
+      / Delete Modal
+      #deleteModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog{:role => "document"}
+          .modal-content
+            .modal-header
+              %h5#exampleModalLabel.modal-title Are you sure?
+              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+            .modal-body Select "CONFIRM" if you want to delete your account.
+            .modal-footer
+              %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} CANCEL
+              %a.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}")} CONFIRM
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
