@@ -1,10 +1,15 @@
-class User < ActiveRecord::Base
-
-	validates :emailadd, presence: true, uniqueness: true
-	validates :password, presence: true
-	validates :first_name, presence: true
-	validates :last_name, presence: true
-	validates :job_title, presence: true
-	validates :phone, presence: true
-
+class User < ApplicationRecord
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.name = auth.info.name
+      user.id_token = auth.info.email
+      user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.save!
+    end
+  end
+  validates :id_token, uniqueness: true
+  validates :emailadd, uniqueness: true
 end

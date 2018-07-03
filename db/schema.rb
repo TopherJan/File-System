@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180702051040) do
+ActiveRecord::Schema.define(version: 20180703055515) do
 
   create_table "attachments", force: :cascade do |t|
     t.string "name"
@@ -60,6 +60,12 @@ ActiveRecord::Schema.define(version: 20180702051040) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
+    t.string "oauth_token"
+    t.string "id_token"
+    t.datetime "oauth_expires_at"
     t.text "emailadd"
     t.text "password"
     t.text "first_name"
