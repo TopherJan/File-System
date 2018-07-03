@@ -80,8 +80,15 @@
                           Document Type
                           %span.text-danger *
                         %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
-                          %option{:value => "Informational"} Informational
-                          %option{:value => "Requires Action"} Requires Action
+                          %option{:value => "Memo"} Memo
+                          %option{:value => "Endorsement"} Endorsement
+                          %option{:value => "Request"} Request
+                          %option{:value => "Recommendation"} Recommendation
+                          %option{:value => "Letter"} Letter
+                          %option{:value => "Travel Order"} Travel Order
+                          %option{:value => "Voucher"} Voucher
+                          %option{:value => "Incoming"} Incoming
+                          %option{:value => "Outgoing"} Outgoing
                   .form-group
                     %label{:for => "val-description"}
                       Description
