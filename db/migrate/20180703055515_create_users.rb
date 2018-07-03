@@ -1,6 +1,10 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
   def change
-  drop_table :users
+  
+  if table_exists?("users")
+    drop_table :users
+  end
+  
   create_table :users do |t|
       t.string :provider
       t.string :uid
