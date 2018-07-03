@@ -62,7 +62,7 @@ class DocumentsController < ApplicationController
   end
   
   def folder_year
-    @doc_year = Document.select(:date_modified).distinct.where(doc_type: params[:doc_type])
+    @doc_year = Document.select(:date_modified).where(doc_type: params[:doc_type]).distinct
 	@doc_type = params[:doc_type]
   end
   
