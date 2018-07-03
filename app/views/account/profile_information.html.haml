@@ -75,12 +75,8 @@
                         #{@emailadd}
                     .row
                       %label{:style => "font-size: 20px"}
-                        %b FIRST NAME:
+                        %b FULL NAME:
                         #{@first_name}
-                    .row
-                      %label{:style => "font-size: 20px"}
-                        %b LAST NAME:
-                        #{@last_name}
                     .row
                       %label{:style => "font-size: 20px"}
                         %b JOB TITLE:
@@ -122,7 +118,7 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/log_user"} Logout
+              %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
       / Delete Modal
       #deleteModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
         .modal-dialog{:role => "document"}

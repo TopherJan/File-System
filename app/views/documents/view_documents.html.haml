@@ -134,7 +134,7 @@
             .modal-body Select "Logout" below if you are ready to end your current session.
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/"} Logout
+              %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
       / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}

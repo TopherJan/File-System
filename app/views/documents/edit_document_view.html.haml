@@ -155,7 +155,7 @@
               .modal-body Select "Logout" below if you are ready to end your current session.
               .modal-footer
                 %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                %a.btn.btn-primary{:href => "/log_user"} Logout
+                %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
 
         #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
           .modal-dialog{:role => "document"}

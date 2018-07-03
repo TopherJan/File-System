@@ -7,24 +7,42 @@ class AccountController < ApplicationController
 
 	def profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-		@first_name = @current_user.first_name
-		@last_name = @current_user.last_name
-		@password = @current_user.password
-		@job_title = @current_user.job_title
-		@phone = @current_user.phone
 		@emailadd = session[:current_user_emailadd]
+
+		if(@emailadd.nil?)
+			@emailadd = @current_user.id_token
+			@first_name = @current_user.name
+
+		else
+			@emailadd = session[:current_user_emailadd]
+  		@first_name = @current_user.first_name
+  		@last_name = @current_user.last_name
+  		@password = @current_user.password
+  		@job_title = @current_user.job_title
+  		@phone = @current_user.phone
+
+		end
+
 	end
 
 
 
 	def edit_profile_information
+
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-		@password = session[:current_user_password]
 		@emailadd = session[:current_user_emailadd]
-		@first_name = @current_user.first_name
-		@last_name = @current_user.last_name
-		@job_title = @current_user.job_title
-		@phone = @current_user.phone
+
+		if(@emailadd.nil?)
+			@emailadd = @current_user.id_token
+		else
+		  @password = session[:current_user_password]
+		  @emailadd = session[:current_user_emailadd]
+	  	@first_name = @current_user.first_name
+		  @last_name = @current_user.last_name
+		  @job_title = @current_user.job_title
+		  @phone = @current_user.phone
+		end
+
 		flash[:notice] = "NO CHANGES!"
 	end
 
@@ -36,7 +54,7 @@ class AccountController < ApplicationController
 		redirect_to "/profile_information"
 	end
 
-	
+
 	def create_account
 		@emailadd
 		@first_name
@@ -47,13 +65,20 @@ class AccountController < ApplicationController
 	end
 
 	def redirect_account
-		@first_name = params[:first_name]
-		@last_name = params[:last_name]
-		@emailadd = params[:emailadd]
-		@password = params[:password]
-		@job_title = params[:job_title]
-		@phone = params[:phone]
+		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
+		@emailadd = session[:current_user_emailadd]
 
+		if(@emailadd.nil?)
+			@emailadd = @current_user.id_token
+		else
+	  	@first_name = params[:first_name]
+	  	@last_name = params[:last_name]
+	  	@emailadd = params[:emailadd]
+	  	@password = params[:password]
+	  	@job_title = params[:job_title]
+	  	@phone = params[:phone]
+
+    end
 		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
 
 		flash[:success] = "SUCCESSFULLY REGISTERED!"
