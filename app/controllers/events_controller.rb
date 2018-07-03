@@ -16,25 +16,18 @@ class EventsController < ApplicationController
 	  @events = Event.new(event_params)
 	  if @events.save
 	    @id = params[:doc_id]
-	    @event = Event.find_by_sql("Select event_type, event_date from (Select event_type, max(event_date) as event_date from events where doc_id = #{@id})")
-	    @doc_status = "#{@events.event_type}"
-	    @doc_date = "#{@events.event_date}"
+	    @event = Event.where(doc_id: params[:doc_id])
+		@event_update = @event.order(event_date: :desc).first
+	    @doc_status = "#{@event_update.event_type}"
+	    @doc_date = "#{@event_update.event_date}"
 		doc = Document.find(params[:doc_id])
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
-        flash[:success] = "Event added!"
-		
+        
 		redirect_to view_event_path(id: params[:doc_id])
 	  end
 	end
   end
   
-  def update_event
-	if params[:event] != nil
-	  @events = Event.new(event_params)
-	  @events.save!
-      flash[:success] = "Event added!"
-	end
-  end
   def event_params
     params.require(:event).permit(:event_date, :event_type, :remarks, :doc_id)
   end

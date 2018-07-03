@@ -102,8 +102,10 @@
                   %b Address: 
                   #{@author.address}
                   %br/
-            .form-group
-              %a.btn.btn-primary{:href => view_file_path(:id => "#{@doc_id}")} View Files
+              .form-row
+                .col-md-6
+                .col-md-6
+                  %a.btn.btn-primary.float-right{:href => view_file_path(:id => "#{@doc_id}")} View Files
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                 %thead

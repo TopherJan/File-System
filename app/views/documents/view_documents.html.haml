@@ -52,6 +52,10 @@
               Logout
     .content-wrapper
       .container-fluid
+        - if flash[:notice]
+          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            %b.notice= flash[:notice]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -131,7 +135,7 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/"} Logout
-      / Delete Modal    
+      / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
