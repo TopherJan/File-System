@@ -1,4 +1,3 @@
-
 var form_validation = function() {
     var e = function() {
             jQuery(".form-valide").validate({
@@ -15,6 +14,22 @@ var form_validation = function() {
                     jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
                 },
                 rules: {
+                    "firstname": {
+                        required: !0,
+                        minlength: 1
+                    },
+                    "lastname": {
+                        required: !0,
+                        minlength: 1
+                    },
+                    "phone": {
+                        required: !0,
+                        minlength: 1
+                    },
+                    "emailadd": {
+                        required: !0,
+                        email: !0
+                    },
                     "password": {
                         required: !0,
                         minlength: 5
@@ -70,6 +85,19 @@ var form_validation = function() {
                     }
                 },
                 messages: {
+                    "firstname": {
+                        required: "Please enter a first name",
+                        minlength: "Your first name must consist of at least 1 character"
+                    },
+                    "jobtitle": {
+                        required: "Please enter a job title",
+                        minlength: "Your job title must consist of at least 1 character"
+                    },
+                    "lastname": {
+                        required: "Please enter a last name",
+                        minlength: "Your last name must consist of at least 1 character"
+                    },
+                    "emailadd": "Please enter a valid email address",
                     "password": {
                         required: "Please provide a password",
                         minlength: "Your password must be at least 5 characters long"

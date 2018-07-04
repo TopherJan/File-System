@@ -41,7 +41,7 @@ def log_user
     session[:user_id] = user.id
     session[:user_password] = user.password
     flash[:success] = "SUCCESSFULLY REGISTERED!"
-    redirect_to root_path
+    redirect_to view_documents_path
   end
 
   def destroy

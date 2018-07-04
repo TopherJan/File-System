@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/delete_user' => 'account#delete_user'
   get '/create_account' => 'account#create_account'
   get '/profile_information' => 'account#profile_information'
-  post '/edit_profile_information' => 'account#edit_profile_information'
+  get '/edit_profile_information' => 'account#edit_profile_information'
   get '/update_profile_information' => 'account#update_profile_information'
   post '/update_profile_information' => 'account#update_profile_information'
   post '/redirect_acct' => 'account#redirect_account'

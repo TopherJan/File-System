@@ -67,40 +67,35 @@
         .card.mb-3
           .card-header
             %i.fa.fa-user
-            Account
+            Account Details
           .card-body
             .form-validation
-              %form.form-valide{:action => "edit_profile_information", :method => "post"}
-                .form-col
-                  .col-md-5
-                    .row
-                      %label{:style => "font-size: 20px"}
-                        %b EMAIL ADDRESS:
-                        #{@emailadd}
-                    .row
-                      %label{:style => "font-size: 20px"}
-                        %b FULL NAME:
-                        #{@first_name} #{@last_name}
-                    .row
-                      %label{:style => "font-size: 20px"}
-                        %b JOB TITLE:
-                        #{@job_title}
-                    .row
-                      %label{:style => "font-size: 20px"}
-                        %b CONTACT NUMBER:
-                        #{@phone}
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                    %br/
-                %button.btn.btn-primary{:type => "submit"} UPDATE ACCOUNT
-                %a.button.btn.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal", :href => delete_user_path(emailadd: "#{@emailadd}")}DELETE ACCOUNT
+              .form-group
+                .form-row
+                  .col-md-6
+                    %label{:for => "val-firstname"}
+                      %b First Name
+                    %input#val-firstname.form-control{:placeholder => "#{@first_name}", :disabled => "disabled"}/
+                  .col-md-6
+                    %label{:for => "val-lastname"}
+                      %b Last Name
+                    %input#val-lastname.form-control{:placeholder => "#{@last_name}", :disabled => "disabled"}/
+              .form-group
+                %label{:for => "val-email"}
+                  %b Email Address
+                %input#val-email.form-control{:placeholder => "#{@emailadd}", :disabled => "disabled"}/
+              .form-group
+                .form-row
+                  .col-md-6
+                    %label{:for => "val-jobtitle"}
+                      %b Job Title
+                    %input#val-jobtitle.form-control{:placeholder => "#{@job_title}", :disabled => "disabled"}/
+                  .col-md-6
+                    %label{:for => "val-contact"}
+                      %b Contact Number
+                    %input#val-contact.form-control{:placeholder => "#{@phone}", :disabled => "disabled"}/
+              %a.btn.btn-primary{:href => edit_profile_information_path(email: "#{@emailadd}")} Update Account
+              %a.button.btn.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal", :href => delete_user_path(emailadd: "#{@emailadd}")}Delete Account
             .text-center
       / /.container-fluid
       / /.content-wrapper

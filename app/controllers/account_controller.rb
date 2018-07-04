@@ -4,7 +4,8 @@ class AccountController < ApplicationController
   def profile_information
     @current_user = User.find_by(emailadd: session[:current_user_emailadd])
     @emailadd = session[:current_user_emailadd]
-    if(current_user.nil?)
+    
+	if(current_user.nil?)
       @password = @current_user.password
       @first_name = @current_user.first_name
       @last_name = @current_user.last_name
@@ -14,23 +15,16 @@ class AccountController < ApplicationController
   end
 
   def edit_profile_information
-    @current_user = User.find_by(emailadd: session[:current_user_emailadd])
-	@emailadd = session[:current_user_emailadd]
-
-	@password = session[:current_user_password]
-  	@first_name = @current_user.first_name
-	@last_name = @current_user.last_name
-	@job_title = @current_user.job_title
-	@phone = @current_user.phone
-
-	flash[:notice] = "NO CHANGES!"
+    @current_user = User.find_by(emailadd: params[:email])
+	@email_add = params[:email_add]
   end
 
   def update_profile_information
-    @current_user = User.find_by(emailadd: session[:current_user_emaidadd])
-	@current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
-	flash[:notice] = "SUCCESSFULLY UPDATED!"
-	redirect_to "/profile_information"
+    current_user = User.find_by(emailadd: params[:emailadd])
+	current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
+	
+	flash[:notice] = "Profile successfully updated!"
+	redirect_to '/profile_information'
   end
 
   def create_account
