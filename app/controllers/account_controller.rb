@@ -4,52 +4,36 @@ class AccountController < ApplicationController
 	skip_before_action :verify_authenticity_token
 
 
-
 	def profile_information
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-		@emailadd = session[:current_user_emailadd]
-
-		if(@emailadd.nil?)
-			@emailadd = @current_user.id_token
-			@first_name = @current_user.name
-
-		else
-			@emailadd = session[:current_user_emailadd]
-  		@first_name = @current_user.first_name
-  		@last_name = @current_user.last_name
-  		@password = @current_user.password
-  		@job_title = @current_user.job_title
-  		@phone = @current_user.phone
-
+    @emailadd = session[:current_user_emailadd]
+		if(current_user.nil?)
+ 		  @password = @current_user.password
+		  @first_name = @current_user.first_name
+		  @last_name = @current_user.last_name
+		  @job_title =@current_user.job_title
+		  @phone = @current_user.phone
 		end
-
 	end
-
-
 
 	def edit_profile_information
 
 		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
 		@emailadd = session[:current_user_emailadd]
 
-		if(@emailadd.nil?)
-			@emailadd = @current_user.id_token
-		else
-		  @password = session[:current_user_password]
-		  @emailadd = session[:current_user_emailadd]
-	  	@first_name = @current_user.first_name
-		  @last_name = @current_user.last_name
-		  @job_title = @current_user.job_title
-		  @phone = @current_user.phone
-		end
+	  @password = session[:current_user_password]
+  	@first_name = @current_user.first_name
+	  @last_name = @current_user.last_name
+	  @job_title = @current_user.job_title
+	  @phone = @current_user.phone
 
 		flash[:notice] = "NO CHANGES!"
 	end
 
 
 	def update_profile_information
-		@current_user = User.find_by(emailadd: session[:current_user_id_token])
-		@current_user.update(emailadd: session[:current_user_id_token],first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
+		@current_user = User.find_by(emailadd: session[:current_user_emaidadd])
+		@current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
 		flash[:notice] = "SUCCESSFULLY UPDATED!"
 		redirect_to "/profile_information"
 	end

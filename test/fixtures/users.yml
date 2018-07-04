@@ -3,27 +3,21 @@
 one:
   provider: MyString
   uid: MyString
-  name: MyString
-  oauth_token: MyString
-  id_token: MyString
-  oauth_expires_at: 2018-07-03 13:55:15
-  emailadd: MyText
-  password: MyText
-  first_name: MyText
-  last_name: MyText
-  job_title: MyText
-  phone: MyText
+  fullname: MyString
+  emailadd: MyString
+  first_name: MyString
+  last_name: MyString
+  password: MyString
+  job_title: MyString
+  phone: MyString
 
 two:
   provider: MyString
   uid: MyString
-  name: MyString
-  oauth_token: MyString
-  id_token: MyString
-  oauth_expires_at: 2018-07-03 13:55:15
-  emailadd: MyText
-  password: MyText
-  first_name: MyText
-  last_name: MyText
-  job_title: MyText
-  phone: MyText
+  fullname: MyString
+  emailadd: MyString
+  first_name: MyString
+  last_name: MyString
+  password: MyString
+  job_title: MyString
+  phone: MyString

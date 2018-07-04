@@ -19,6 +19,9 @@
       .card.card-login.mx-auto.mt-5
         .card-header Login
         .card-body
+          - if flash[:success]
+            .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %b.notice= flash[:success]
           - if flash[:warning]
             .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
               %b.notice= flash[:warning]
