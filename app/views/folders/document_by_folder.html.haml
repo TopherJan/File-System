@@ -71,6 +71,10 @@
             %i.fa.fa-list-alt
             Documents
           .card-body
+            - if flash[:danger]
+              .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:danger]
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                 %thead{:align => "center"}
@@ -102,7 +106,7 @@
                       %td
                         %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
                         %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                        %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                         #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                           .modal-dialog{:role => "document"}
                             .modal-content

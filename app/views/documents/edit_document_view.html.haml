@@ -70,8 +70,8 @@
             .form-validation
               %form.form-valide{:action => "update_document", :method => "post", :name =>"editDocument"}
                 .form-group
-                  %b DOCUMENT INFORMATION
-                  %br/
+                  %h4
+                    %b DOCUMENT INFORMATION
                   .form-group
                     %div
                       %input#val-doc_id.form-control{:name => "document_id", :type => "hidden", :value=> "#{@doc_id}"}/
@@ -86,7 +86,7 @@
                         %label{:for => "val-doctype"}
                           Document Type
                           %span.text-danger *
-                        %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
+                        %select#val-doctype.form-control{:name => "document_type", :required => 'required'}
                           %option{:value => "#{@doc.doc_type}"} #{@doc.doc_type}
                           - @doc_type.each do |t|
                             %option{:value => t.name}
@@ -103,11 +103,9 @@
                       %span.text-danger *
                     %div
                       %input#val-location.form-control{:name => "document_location", :value => "#{@doc.location}", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label.form-control-label{:for => "uploadfiles"} Upload Files
-                    %input#uploadfiles.form-control-file{:multiple => "multiple", :name => "uploadfiles", :type => "file"}/
                 .form-group
-                  %b AUTHOR INFORMATION
+                  %h4
+                    %b AUTHOR INFORMATION
                   %br/
                   .form-group
                     .form-row

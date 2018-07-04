@@ -69,6 +69,10 @@
             %i.fa.fa-paste
             Events
           .card-body
+            - if flash[:notice]
+              .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:notice]
             .form-group
               .form-row
                 .col-md-6

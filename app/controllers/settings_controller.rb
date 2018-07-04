@@ -4,14 +4,13 @@ class SettingsController < ApplicationController
   end
 
   def add_doctype
-    @typename = 'Name of the document type'
-	
     if params[:doctype] != nil
 	  @doc_type = Doctype.new(doctype_params)
 	  
 	  if !(@doc_type.save)
-	     @typename = 'Name has already been taken. Please enter a unique name!'
+	    flash[:danger] = 'Name has already been taken. Please enter a unique name!'
 	  else
+	    flash[:notice] = 'The document type was successfully added!'
 	    redirect_to '/settings'
 	  end
 	end
@@ -21,6 +20,7 @@ class SettingsController < ApplicationController
     @doc = Doctype.find(params[:id])
 	Doctype.delete(@doc)
 	
+	flash[:danger] = 'The document type was successfully deleted!'
 	redirect_to '/settings'
   end
 
@@ -33,6 +33,7 @@ class SettingsController < ApplicationController
     doc = Doctype.find(params[:doctype_id])
 	doc.update(name: params[:doctype_name])
 	
+	flash[:notice] = 'The document type was successfully updated!'
 	redirect_to '/settings'
   end
   

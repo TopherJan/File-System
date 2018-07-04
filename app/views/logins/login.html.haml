@@ -19,9 +19,14 @@
       .card.card-login.mx-auto.mt-5
         .card-header Login
         .card-body
-          - if flash[:warning]
-            .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-              %b.notice= flash[:warning]
+          - if flash[:danger]
+            .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+              %b.notice= flash[:danger]
+          - if flash[:success]
+            .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+              %b.notice= flash[:success]
 
           %form{:action => "log", :method => "get", :name => "log_user"}
             .form-group

@@ -56,10 +56,10 @@
               Logout
     .content-wrapper
       .container-fluid
-        - if flash[:notice]
+        - if flash[:login]
           .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
             %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-            %b.notice= flash[:notice]
+            %b.notice= flash[:login]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -71,14 +71,21 @@
             %i.fa.fa-list-alt
             Documents
           .card-body
+            - if flash[:notice]
+              .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:notice]
+            - if flash[:danger]
+              .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:danger]
             .table-responsive
-              %table#dataTable.table.table-striped.table-bordered{:cellspacing => "0", :width => "100%"}
+              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                 %thead{:align => "center"}
                   %tr
                     %th Name
                     %th Author
                     %th Description
-                    %th Location
                     %th Date Modified
                     %th Status
                     %th Actions
@@ -96,7 +103,6 @@
                       %td= document.name
                       %td= document.author_name
                       %td= document.description
-                      %td= document.location
                       %td= document.date_modified
                       %td= document.status
                       %td

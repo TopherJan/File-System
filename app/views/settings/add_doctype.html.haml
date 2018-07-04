@@ -67,6 +67,10 @@
             %i.fa.fa-list-alt
             Add Document
           .card-body
+            - if flash[:danger]
+              .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:danger]
             .form-validation
               %form.form-valide{:action => "", :method => "get", :name =>"addDocumentType"}
                 .form-group
@@ -76,7 +80,7 @@
                     %label{:for => "val-doctypename"}
                       Name
                       %span.text-danger *
-                    %input#val-doctypename.form-control{:name => "doctype[name]", :placeholder => "#{@typename}", :type => "text", :required => 'required'}/
+                    %input#val-doctypename.form-control{:name => "doctype[name]", :placeholder => "Name of the document type", :type => "text", :required => 'required'}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => "/settings"} Back

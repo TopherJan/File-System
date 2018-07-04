@@ -24,10 +24,10 @@ def log_user
 
 
 		if @user.empty?
-			flash[:warning] = "USER DOES NOT EXIST! TRY AGAIN!"
+			flash[:danger] = "User does not exist! Try again!"
 			redirect_to '/'
 		else
-			flash[:notice] = "LOGIN SUCCESSFUL!"
+			flash[:notice] = "Successfully logged into the system!"
 			session[:current_user_emailadd] = @emailadd
 			session[:current_user_password] = @password
 			redirect_to controller: "documents", action: "view_documents"
@@ -44,10 +44,12 @@ def log_user
     session[:user_id] = nil
     redirect_to log_user_path
   end
+  
   def logout
     session[:user_id] = nil
-		reset_session
-		redirect_to '/'
-	end
+	reset_session
+	flash[:notice] = "Logged out successfully!"
+	redirect_to '/'
+ end
 
 end

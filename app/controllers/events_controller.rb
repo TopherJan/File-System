@@ -23,6 +23,7 @@ class EventsController < ApplicationController
 		doc = Document.find(params[:doc_id])
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
         
+		flash[:notice] = "The event was successfully added!"
 		redirect_to view_event_path(id: params[:doc_id])
 	  end
 	end

@@ -19,6 +19,10 @@
       .card.card-register.mx-auto.mt-5
         .card-header Register an Account
         .card-body
+          - if flash[:error]
+            .alert.alert-danger.alert-dismissible.show.fade{"data-auto-dismiss" => "1000", :role => "alert"}
+              %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+              %b.notice= flash[:error]
           .form-validation
             %form.form-valide{:action => "redirect_acct", :method => "post", :name => "create_account"}
               .form-group
@@ -28,43 +32,43 @@
                       First name
                       %span.text-danger *
                     %div
-                      %input#firstname.form-control{:name => "first_name", :placeholder => "Enter first name", :type => "text", :value => "#{@first_name}"}/
+                      %input#firstname.form-control{:required =>"required", :name => "first_name", :placeholder => "Enter first name", :type => "text", :value => "#{@first_name}"}/
                   .col-md-6
                     %label{:for => "last_name"}
                       Last name
                       %span.text-danger *
                     %div
-                      %input#lastname.form-control{:name => "last_name", :placeholder => "Enter last name", :type => "text", :value => "#{@last_name}"}/
+                      %input#lastname.form-control{:required =>"required", :name => "last_name", :placeholder => "Enter last name", :type => "text", :value => "#{@last_name}"}/
               .form-group
                 %label{:for => "emailadd"}
                   Email address
                   %span.text-danger *
                 %div
-                  %input#email.form-control{:name => "emailadd", :placeholder => "example@up.edu.ph", :type => "text", :value => "#{@emailadd}"}/
+                  %input#email.form-control{:required =>"required", :name => "emailadd", :placeholder => "#{@email_placeholder}", :type => "text", :value => "#{@emailadd}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "password"}
                       Password
                       %span.text-danger *
-                    %input#password.form-control{:name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
+                    %input#password.form-control{:required =>"required", :name => "password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
                   .col-md-6
                     %label{:for => "confirm-password"}
                       Confirm password
                       %span.text-danger *
-                    %input#confirm-password.form-control{:name => "confirm-password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
+                    %input#confirm-password.form-control{:required =>"required", :name => "confirm-password", :placeholder => "*****", :type => "password", :value => "#{@password}"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "jobtitle"}
                       Job Title
                       %span.text-danger *
-                    %input#jobtitle.form-control{:name => "job_title", :placeholder => "Job Title", :type => "text", :value => "#{@job_title}"}/
+                    %input#jobtitle.form-control{:required =>"required", :name => "job_title", :placeholder => "Job Title", :type => "text", :value => "#{@job_title}"}/
                   .col-md-6
                     %label{:for => "phone"}
                       Contact Number
                       %span.text-danger *
-                    %input#phone.form-control{:name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
+                    %input#phone.form-control{:required =>"required", :name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
               %button.btn.btn-primary.btn-block{:type => "submit"} Register
           .text-center
             %a.d-block.small.mt-3{:href => "/"} Login Page
@@ -75,5 +79,3 @@
     / Core plugin JavaScript
     %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
     / Form validation
-    %script{:src => "js/lib/form-validation/jquery.validate.min.js"}
-    %script{:src => "js/lib/form-validation/jquery.validate-init.js?v=1"}

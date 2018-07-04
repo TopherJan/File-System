@@ -6,8 +6,7 @@ class DocumentsController < ApplicationController
 	if params[:document] != nil
 	  @documents = Document.new(user_params)
 	  
-	  if @documents.save!      
-        flash[:success] = "Document added!"
+	  if @documents.save!
 		@doc = @documents.id
         session[:doc_id] = @doc
 	    add_author
@@ -20,7 +19,6 @@ class DocumentsController < ApplicationController
 	@doc = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	@doc_type = Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{@doc.doc_type}'")
-	
   end
   
   def update_document
@@ -28,6 +26,8 @@ class DocumentsController < ApplicationController
 	doc.update(name: params[:document_name], doc_type: params[:document_type], description: params[:document_description], location: params[:document_location])
 	author = Author.find(params[:document_id])
 	author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])
+	
+	flash[:notice] = "The document was successfully updated!"
 	redirect_to '/view_documents'
   end
   
@@ -41,6 +41,7 @@ class DocumentsController < ApplicationController
 	  doc.update(author_name: author.name)
 	end
 	
+	flash[:notice] = "The document was successfully added!"
 	redirect_to '/view_documents'
   end
   
@@ -52,32 +53,21 @@ class DocumentsController < ApplicationController
     @doc = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	event = Event.where(:doc_id => params[:id])
+	attachment = Attachment.where(:doc_id => params[:id])
+	
 	
 	Document.delete(@doc)
 	Author.delete(@author)
 	Event.delete(event)
+	Attachment.delete(attachment)
 	
-	redirect_to '/view_documents'
-  end
-  
-  def folders
-    @folders = Document.select(:doc_type).distinct
-  end
-  
-  def folder_year
-    @doc_type = params[:doc_type]
-	@doc_id = Document.select(:id).distinct.where(doc_type: params[:doc_type])
-	@doc_year = Event.find_by_sql("SELECT DISTINCT strftime('%Y', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{@doc_type}'")
-  end
-  
-  def document_by_folder
-    @doc_type = params[:doc_type]
-	@date_given = params[:date_given]
-	@documents = Document.where("date_modified >= ? and date_modified < ? and doc_type = ?", Time.mktime("#{@date_given}",1), Time.mktime("#{@date_given}",12), "#{@doc_type}")
+	session[:return_to] ||= request.referer
+	flash[:danger] = "The document was successfully deleted!"
+	redirect_to session.delete(:return_to)
   end
   
   def user_params
-    params.require(:document).permit(:name, :description, :location, :doc_type, attachments_attributes: [:attachment, :doc_id])
+    params.require(:document).permit(:name, :description, :location, :doc_type)
   end
   
   def author_params
