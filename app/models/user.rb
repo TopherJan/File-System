@@ -10,6 +10,5 @@ class User < ApplicationRecord
       user.save!
     end
   end
-  validates :id_token, uniqueness: true
   validates :emailadd, uniqueness: true
 end

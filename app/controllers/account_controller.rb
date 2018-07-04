@@ -48,8 +48,8 @@ class AccountController < ApplicationController
 
 
 	def update_profile_information
-		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-		@current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
+		@current_user = User.find_by(emailadd: session[:current_user_id_token])
+		@current_user.update(emailadd: session[:current_user_id_token],first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
 		flash[:notice] = "SUCCESSFULLY UPDATED!"
 		redirect_to "/profile_information"
 	end
@@ -65,10 +65,9 @@ class AccountController < ApplicationController
 	end
 
 	def redirect_account
-		@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-		@emailadd = session[:current_user_emailadd]
+	  @current_user = User.find_by(emailadd: session[:current_user_emailadd])
+	  @emailadd = session[:current_user_emailadd]
 
-		if(@emailadd.nil?)
 	  	@first_name = params[:first_name]
 	  	@last_name = params[:last_name]
 	  	@emailadd = params[:emailadd]
@@ -76,12 +75,10 @@ class AccountController < ApplicationController
 	  	@job_title = params[:job_title]
 	  	@phone = params[:phone]
 
-    end
-		@user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
-
-		flash[:success] = "SUCCESSFULLY REGISTERED!"
-		redirect_to '/'
-
+	  
+	  @user = User.create!(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
+      flash[:success] = "SUCCESSFULLY REGISTERED!"
+	  redirect_to '/'
 	end
 
 	def delete_user
