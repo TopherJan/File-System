@@ -1,6 +1,5 @@
 class LoginsController < ApplicationController
-
-
+attr_accessor :user, :dash
   def login
 
   end
@@ -23,6 +22,7 @@ def log_user
 		@user = User.where("emailadd = ? AND password = ?", @emailadd, @password)
 
 
+
 		if @user.empty?
 			flash[:danger] = "User does not exist! Try again!"
 			redirect_to '/'
@@ -31,13 +31,17 @@ def log_user
 			session[:current_user_emailadd] = @emailadd
 			session[:current_user_password] = @password
 			redirect_to controller: "documents", action: "view_documents"
+
 		end
+
 	end
 
   def create
     user = User.from_omniauth(request.env["omniauth.auth"])
     session[:user_id] = user.id
-    redirect_to view_documents_path
+    session[:user_password] = user.password
+    flash[:success] = "SUCCESSFULLY REGISTERED!"
+    redirect_to root_path
   end
 
   def destroy
