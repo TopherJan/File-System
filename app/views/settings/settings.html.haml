@@ -56,49 +56,70 @@
               Logout
     .content-wrapper
       .container-fluid
+        - if flash[:notice]
+          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            %b.notice= flash[:notice]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
-          %li.breadcrumb-item
-            %a{:href => "/view_documents"} View Documents
-          %li.breadcrumb-item
-            %a{:href => ""} View Events
-          %li.breadcrumb-item.active View Files
+          %li.breadcrumb-item.active Settings
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-copy
-            Files
+            %i.fa.fa-gear
+            Settings
           .card-body
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
-                  %tr
-                    %th Name
-                    %th Download Link
-                    %th Options
-                %tbody
-                  - @attachments.each do |attachment|
-                    %tr
-                      %td= attachment.attachment_in_database
-                      %td= link_to "Download File", attachment.attachment_url
-                      %td
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                          .modal-dialog{:role => "document"}
-                            .modal-content
-                              .modal-header
-                                %h5#deleteModalLabel.modal-title Are you sure you want to delete the file?
-                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                  %span{"aria-hidden" => "true"} ×
-                              .modal-body Select "Delete" below if you want to delete the file.
-                              .modal-footer
-                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                %a.btn.btn-danger{:href => delete_file_path(id: attachment.id)} Delete
-            %br/
-            %a.btn.btn-primary{:href => upload_file_path(id: "#{@doc_id}")} Upload File
-            %a.btn.btn-secondary{:href => view_event_path(id: "#{@doc_id}")} Back
+            .form-row
+              .col-lg-6
+                .card
+                  .card-header
+                    %strong.card-title Document Types
+                  .card-body
+                    %table.table
+                      %thead
+                        %tr{:align => "center"}
+                          %th #
+                          %th Name
+                          %th Options
+                      %tbody{:align => "center"}
+                        - @doc_type.each do |type|
+                          %tr
+                            %td= type.id
+                            %td= type.name
+                            %td
+                              %a.btn-sm.btn-primary{:href => edit_doctype_path(id: type.id)} Edit
+                              %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
+                                .modal-dialog{:role => "document"}
+                                  .modal-content
+                                    .modal-header
+                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
+                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                        %span{"aria-hidden" => "true"} ×
+                                    .modal-body Select "Delete" below if you want to delete the document.
+                                    .modal-footer
+                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                                      %a.btn.btn-danger{:href => delete_doctype_path(id: type.id)} Delete  
+                                      %br/
+                    %a.btn.btn-primary.float-right{:href => "/add_doctype"} Add Document Type
+              .col-lg-6
+                .card
+                  .card-header
+                    %strong.card-title Departments
+                  .card-body
+                    %table.table
+                      %thead
+                        %tr
+                          %th #
+                          %th Name
+                          %th Options
+                      %tbody
+                        %tr
+                    %a.btn.btn-primary.float-right{:href => "/add_document"} Add Department
+            %br
+            %a.btn.btn-secondary.float-right{:href => "/dashboard"} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
@@ -120,6 +141,7 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
+      / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

@@ -1,7 +1,9 @@
 class DocumentsController < ApplicationController
 
   def add_document
-    if params[:document] != nil
+    @doc_type = Doctype.all
+    
+	if params[:document] != nil
 	  @documents = Document.new(user_params)
 	  
 	  if @documents.save!      
@@ -17,6 +19,8 @@ class DocumentsController < ApplicationController
 	@doc_id = params[:id]
 	@doc = Document.find(params[:id])
 	@author = Author.find(params[:id])
+	@doc_type = Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{@doc.doc_type}'")
+	
   end
   
   def update_document

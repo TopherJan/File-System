@@ -41,5 +41,10 @@ Rails.application.routes.draw do
   get 'delete_user' => 'account#delete_user'
   get '/folder_year' => 'documents#folder_year'
   get '/document_by_folder' => 'documents#document_by_folder'
+  get '/settings' => 'settings#settings'
+  get '/add_doctype' => 'settings#add_doctype'
+  get '/delete_doctype' => 'settings#delete_doctype'
+  get '/edit_doctype' => 'settings#edit_doctype'
+  post '/update_doctype' => 'settings#update_doctype'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

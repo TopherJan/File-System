@@ -59,88 +59,30 @@
           %li.breadcrumb-item
             %a{:href => "/dashboard"} Dashboard
           %li.breadcrumb-item
-            %a{:href => "/view_documents"} View Documents
-          %li.breadcrumb-item.active Edit Document
+            %a{:href => "/settings"} Settings
+          %li.breadcrumb-item.active Add Document Type
         / Example DataTables Card
         .card.mb-3
           .card-header
             %i.fa.fa-list-alt
-            Edit Document
+            Add Document
           .card-body
             .form-validation
-              %form.form-valide{:action => "update_document", :method => "post", :name =>"editDocument"}
+              %form.form-valide{:action => "update_doctype", :method => "post", :name =>"editDoctype"}
                 .form-group
-                  %b DOCUMENT INFORMATION
-                  %br/
+                  %h4
+                    %b DOCUMENT TYPE INFORMATION
                   .form-group
                     %div
-                      %input#val-doc_id.form-control{:name => "document_id", :type => "hidden", :value=> "#{@doc_id}"}/
+                      %input#val-doc_id.form-control{:name => "doctype_id", :type => "hidden", :value=> "#{@doc_id}"}/
                   .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-docname"}
-                          Document Name
-                          %span.text-danger *
-                        %input#val-docname.form-control{:name => "document_name", :value => "#{@doc.name}", :type => "text", :required => 'required'}/
-                      .col-md-6
-                        %label{:for => "val-doctype"}
-                          Document Type
-                          %span.text-danger *
-                        %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
-                          %option{:value => "#{@doc.doc_type}"} #{@doc.doc_type}
-                          - @doc_type.each do |t|
-                            %option{:value => t.name}
-                              %td= t.name
-                  .form-group
-                    %label{:for => "val-description"}
-                      Description
+                    %label{:for => "val-docname"}
+                      Name
                       %span.text-danger *
-                    %div
-                      %input#val-description.form-control{:name => "document_description", :value => "#{@doc.description}", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label{:for => "val-location"}
-                      Location
-                      %span.text-danger *
-                    %div
-                      %input#val-location.form-control{:name => "document_location", :value => "#{@doc.location}", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label.form-control-label{:for => "uploadfiles"} Upload Files
-                    %input#uploadfiles.form-control-file{:multiple => "multiple", :name => "uploadfiles", :type => "file"}/
-                .form-group
-                  %b AUTHOR INFORMATION
-                  %br/
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-authorname"}
-                          Name
-                          %span.text-danger *
-                        %input#val-authorname.form-control{:name => "author_name", :value => "#{@author.name}", :type => "text", :required => 'required'}/
-                      .col-md-6
-                        %label{:for => "val-contactnum"}
-                          Contact Number
-                          %span.text-danger *
-                        %input#val-contactnum.form-control{:name => "author_contact", :value => "#{@author.contact}", :type => "text", :required => 'required'}/
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-department"}
-                          Department
-                        %input#val-department.form-control{:name => "author_department", :value => "#{@author.department}", :type => "text"}/
-                      .col-md-6
-                        %label{:for => "val-agency"}
-                          Agency
-                          %span.text-danger *
-                        %input#val-agency.form-control{:name => "author_agency", :value => "#{@author.agency}", :type => "text", :required => 'required'}/
-                  .form-group
-                    %label{:for => "val-address"}
-                      Address
-                      %span.text-danger *
-                    %div
-                      %input#val-address.form-control{:name => "author_address", :value => "#{@author.address}", :type => "text", :required => 'required'}/
+                    %input#val-docname.form-control{:name => "doctype_name", :type => "text", :required => 'required', :value=> "#{@doctype.name}"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Update
-                  %a.btn.btn-secondary{:href => "/view_documents"} Back
+                  %a.btn.btn-secondary{:href => "/settings"} Back
         / /.container-fluid
         / /.content-wrapper
         %footer.sticky-footer
@@ -162,18 +104,6 @@
               .modal-footer
                 %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
                 %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
-
-        #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
-          .modal-dialog{:role => "document"}
-            .modal-content
-              .modal-header
-                %h5#exampleModalLabel.modal-title Are you sure you want to delete?
-                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                  %span{"aria-hidden" => "true"} ×
-              .modal-body Select "Delete" below if you want to delete the document.
-              .modal-footer
-                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                %a.btn.btn-danger{:href => ""} Logout
         / Bootstrap core JavaScript
         %script{:src => "vendor/jquery/jquery.min.js"}
         %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

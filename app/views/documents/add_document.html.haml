@@ -35,6 +35,10 @@
             %a.nav-link{:href => "/folders"}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
+            %a.nav-link{:href => "/settings"}
+              %i.fa.fa-fw.fa-gear
+              %span.nav-link-text Settings
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
             %a.nav-link{:href => "/profile_information"}
               %i.fa.fa-fw.fa-user
@@ -80,15 +84,9 @@
                           Document Type
                           %span.text-danger *
                         %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
-                          %option{:value => "Memo"} Memo
-                          %option{:value => "Endorsement"} Endorsement
-                          %option{:value => "Request"} Request
-                          %option{:value => "Recommendation"} Recommendation
-                          %option{:value => "Letter"} Letter
-                          %option{:value => "Travel Order"} Travel Order
-                          %option{:value => "Voucher"} Voucher
-                          %option{:value => "Incoming"} Incoming
-                          %option{:value => "Outgoing"} Outgoing
+                          - @doc_type.each do |t|
+                            %option{:value => t.name}
+                              %td= t.name
                   .form-group
                     %label{:for => "val-description"}
                       Description
