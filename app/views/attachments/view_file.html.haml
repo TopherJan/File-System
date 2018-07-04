@@ -73,18 +73,20 @@
           .card-body
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
+                %thead{:align => "center"}
                   %tr
                     %th Name
+                    %th Date Uploaded
                     %th Download Link
                     %th Options
-                %tbody
+                %tbody{:align => "center"}
                   - @attachments.each do |attachment|
                     %tr
                       %td= attachment.attachment_in_database
+                      %td= attachment.created_at
                       %td= link_to "Download File", attachment.attachment_url
                       %td
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                        %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                         #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                           .modal-dialog{:role => "document"}
                             .modal-content

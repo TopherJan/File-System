@@ -4,10 +4,16 @@ class SettingsController < ApplicationController
   end
 
   def add_doctype
-
-    if params[:doc_type_name] != nil
-	  @doctype = Doctype.create!(name: params[:doc_type_name])
-      redirect_to '/settings'
+    @typename = 'Name of the document type'
+	
+    if params[:doctype] != nil
+	  @doc_type = Doctype.new(doctype_params)
+	  
+	  if !(@doc_type.save)
+	     @typename = 'Name has already been taken. Please enter a unique name!'
+	  else
+	    redirect_to '/settings'
+	  end
 	end
   end
   
@@ -28,5 +34,9 @@ class SettingsController < ApplicationController
 	doc.update(name: params[:doctype_name])
 	
 	redirect_to '/settings'
+  end
+  
+  def doctype_params
+    params.require(:doctype).permit(:name)
   end
 end

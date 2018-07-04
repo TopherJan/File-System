@@ -73,10 +73,10 @@
                   %h4
                     %b DOCUMENT TYPE INFORMATION
                   .form-group
-                    %label{:for => "val-docname"}
+                    %label{:for => "val-doctypename"}
                       Name
                       %span.text-danger *
-                    %input#val-docname.form-control{:name => "doc_type_name", :placeholder => "Name of the Document Type", :type => "text", :required => 'required'}/
+                    %input#val-doctypename.form-control{:name => "doctype[name]", :placeholder => "#{@typename}", :type => "text", :required => 'required'}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => "/settings"} Back

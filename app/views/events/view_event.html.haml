@@ -112,7 +112,7 @@
                   %a.btn.btn-primary.float-right{:href => view_file_path(:id => "#{@doc_id}")} View Files
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
+                %thead{:align => "center"}
                   %tr
                     %th Date
                     %th Type
@@ -125,7 +125,7 @@
                   <th>Remarks</th>
                   </tr>
                   </tfoot>
-                %tbody
+                %tbody{:align => "center"}
                   - @events.each do |event|
                     %tr
                       %td= event.event_date

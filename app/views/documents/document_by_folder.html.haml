@@ -73,7 +73,7 @@
           .card-body
             .table-responsive
               %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
+                %thead{:align => "center"}
                   %tr
                     %th Name
                     %th Author
@@ -90,7 +90,7 @@
                   <th>Remarks</th>
                   </tr>
                   </tfoot>
-                %tbody
+                %tbody{:align => "center"}
                   - @documents.each do |document|
                     %tr
                       %td= document.name

@@ -73,7 +73,7 @@
           .card-body
             .table-responsive
               %table#dataTable.table.table-striped.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead
+                %thead{:align => "center"}
                   %tr
                     %th Name
                     %th Author
@@ -90,7 +90,7 @@
                   <th>Remarks</th>
                   </tr>
                   </tfoot>
-                %tbody
+                %tbody{:align => "center"}
                   - @documents.each do |document|
                     %tr
                       %td= document.name
@@ -102,7 +102,7 @@
                       %td
                         %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
                         %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
-                        %a.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                        %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                         #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                           .modal-dialog{:role => "document"}
                             .modal-content
