@@ -76,7 +76,7 @@
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:notice]
             .form-row
-              .col-lg-4
+              .col-lg-6
                 .card
                   .card-header
                     %strong.card-title Document Types
@@ -106,31 +106,54 @@
                                       %a.btn.btn-danger{:href => delete_doctype_path(id: type.id)} Delete  
                                       %br/
                     %a.btn-sm.btn-primary.float-right{:href => "/add_doctype"} Add Document Type
-              .col-lg-4
+              .col-lg-6
                 .card
                   .card-header
-                    %strong.card-title Departments
+                    %strong.card-title Job Titles
+                  .card-body
+                    %table.table
+                      %thead
+                        %tr{:align => "center"}
+                          %th Name
+                          %th Options
+                      %tbody{:align => "center"}
+                        %tr
+                    %a.btn-sm.btn-primary.float-right{:href => "/add_doctype"} Add Job Title
+            %br/
+            .form-row  
+              .col
+                .card
+                  .card-header
+                    %strong.card-title Users
                   .card-body
                     %table.table
                       %thead
                         %tr
                           %th Name
+                          %th Email Address
+                          %th Job Title
                           %th Options
                       %tbody
-                        %tr
-                    %a.btn-sm.btn-primary.float-right{:href => ""} Add Department
-              .col-lg-4
-                .card
-                  .card-header
-                    %strong.card-title User
-                  .card-body
-                    %table.table
-                      %thead
-                        %tr
-                          %th Name
-                          %th Options
-                      %tbody
-                        %tr
+                        - @users.each do |user|
+                          %tr
+                            %td= user.first_name
+                            %td= user.emailadd
+                            %td= user.job_title
+                            %td
+                              %a.btn-sm.btn-primary{:href => ""} Edit
+                              %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
+                                .modal-dialog{:role => "document"}
+                                  .modal-content
+                                    .modal-header
+                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
+                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                        %span{"aria-hidden" => "true"} ×
+                                    .modal-body Select "Delete" below if you want to delete the user.
+                                    .modal-footer
+                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                                      %a.btn.btn-danger{:href => ""} Delete  
+                                      %br/
                     %a.btn-sm.btn-primary.float-right{:href => ""} Add User
             %br
             %a.btn.btn-secondary.float-right{:href => "/dashboard"} Back

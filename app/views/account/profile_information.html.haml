@@ -58,7 +58,6 @@
           .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
             %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
             %b.notice= flash[:notice]
-
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -75,21 +74,21 @@
                   .col-md-6
                     %label{:for => "val-firstname"}
                       %b First Name
-                    %input#val-firstname.form-control{:placeholder => "#{@first_name}", :disabled => "disabled"}/
+                    %input#val-firstname.form-control{:value => "#{@first_name}", :disabled => "disabled"}/
                   .col-md-6
                     %label{:for => "val-lastname"}
                       %b Last Name
-                    %input#val-lastname.form-control{:placeholder => "#{@last_name}", :disabled => "disabled"}/
+                    %input#val-lastname.form-control{:value => "#{@last_name}", :disabled => "disabled"}/
               .form-group
                 %label{:for => "val-email"}
                   %b Email Address
-                %input#val-email.form-control{:placeholder => "#{@emailadd}", :disabled => "disabled"}/
+                %input#val-email.form-control{:value => "#{@emailadd}", :disabled => "disabled"}/
               .form-group
                 .form-row
                   .col-md-6
                     %label{:for => "val-jobtitle"}
                       %b Job Title
-                    %input#val-jobtitle.form-control{:placeholder => "#{@job_title}", :disabled => "disabled"}/
+                    %input#val-jobtitle.form-control{:value => "#{@job_title}", :disabled => "disabled"}/
                   .col-md-6
                     %label{:for => "val-contact"}
                       %b Contact Number

@@ -69,40 +69,55 @@
               %form.form-valide{:action => "update_profile_information", :method => "post"}
                 .form-group
                   .form-row
-                    .col-md-6
-                      %label{:for => "firstname"}
-                        %b First Name
-                        %span.text-danger *
-                      %div
-                        %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required"}/
-                    .col-md-6
-                      %label{:for => "lastname"}
-                        %b Last Name
-                        %span.text-danger *
-                      %div
-                        %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required"}/
+                    - if current_user
+                      .col-md-6
+                        %label{:for => "firstname"}
+                          %b First Name
+                          %span.text-danger *
+                        %div
+                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required", :disabled => "#disabled"}/
+                      .col-md-6
+                        %label{:for => "lastname"}
+                          %b Last Name
+                          %span.text-danger *
+                        %div
+                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required", :disabled => "disabled"}/
+                    - else
+                      .col-md-6
+                        %label{:for => "firstname"}
+                          %b First Name
+                          %span.text-danger *
+                        %div
+                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required"}/
+                      .col-md-6
+                        %label{:for => "lastname"}
+                          %b Last Name
+                          %span.text-danger *
+                        %div
+                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required"}/
                 .form-group
                   %label{:for => "emailadd"}
                     %b Email Address
                     %span.text-danger *
                   %div
-                    %input#val-emailadd.form-control{:type => "text", :value => "#{@current_user.emailadd}", :readonly => "readonly"}/
+                    %input#val-emailadd.form-control{:type => "text", :value => "#{@emailadd}", :readonly => "readonly"}/
                 .form-group
-                  %input#val-emailadd.form-control{:name => "emailadd", :type => "hidden", :value => "#{@current_user.emailadd}"}/
+                  %input#val-emailadd.form-control{:name => "emailadd", :type => "hidden", :value => "#{@emailadd}"}/
                 .form-group
                   .form-row
-                    .col-md-6
-                      %label{:for => "password"}
-                        %b Password
-                        %span.text-danger *
-                      %div
-                        %input#val-password.form-control{:name => "password", :type => "password", :value => "#{@current_user.password}", :required => "required"}/
-                    .col-md-6
-                      %label{:for => "confirm-password"}
-                        %b Confirm Password
-                        %span.text-danger *
-                      %div
-                        %input#val-confirmpass.form-control{:name => "password", :type => "password", :value => "#{@current_user.password}", :required => "required"}/
+                    - if !current_user
+                      .col-md-6
+                        %label{:for => "password"}
+                          %b Password
+                          %span.text-danger *
+                        %div
+                          %input#val-password.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
+                      .col-md-6
+                        %label{:for => "confirm-password"}
+                          %b Confirm Password
+                          %span.text-danger *
+                        %div
+                          %input#val-confirmpass.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
                 .form-group
                   .form-row
                     .col-md-6
@@ -110,16 +125,16 @@
                         %b Job Title
                         %span.text-danger *
                       %div
-                        %input#val-jobtitle.form-control{:name => "job_title", :type => "text", :value => "#{@current_user.job_title}", :required => "required"}/
+                        %input#val-jobtitle.form-control{:name => "job_title", :type => "text", :value => "#{@job_title}", :required => "required"}/
                     .col-md-6
                       %label{:for => "phone"}
                         %b Contact Number
                         %span.text-danger *
                       %div
-                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@current_user.phone}", :required => "required"}/
+                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@phone}", :required => "required"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} SAVE
-                  %a.btn.btn-secondary{:href => "/profile_information"} CANCEL
+                  %a.btn.btn-secondary{:href => '/profile_information'} CANCEL
             .text-center
       / /.container-fluid
       / /.content-wrapper

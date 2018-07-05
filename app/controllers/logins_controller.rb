@@ -1,46 +1,39 @@
 class LoginsController < ApplicationController
 attr_accessor :user, :dash
+
   def login
 
   end
 
-def dashboard
+  def dashboard
+    @countUser = User.count
+    @countDocument = Document.count
+    @countAttachment = Attachment.count
+    @countEventToday = Event.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+    @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+    @countTransactions = @countEventToday.count + @countDocumentToday.count
+  end
 
-   @countUser = User.count
-   @countDocument = Document.count
-   @countAttachment = Attachment.count
-   @countEventToday = Event.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
-   @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
-   @countTransactions = @countEventToday.count + @countDocumentToday.count
+  def log_user
+	@emailadd = params[:emailadd]
+	@password = params[:password]
 
-end
+	@user = User.where("emailadd = ? AND password = ?", @emailadd, @password)
 
-def log_user
-		@emailadd = params[:emailadd]
-		@password = params[:password]
-
-		@user = User.where("emailadd = ? AND password = ?", @emailadd, @password)
-
-
-
-		if @user.empty?
-			flash[:danger] = "User does not exist! Try again!"
-			redirect_to '/'
-		else
-			flash[:notice] = "Successfully logged into the system!"
-			session[:current_user_emailadd] = @emailadd
-			session[:current_user_password] = @password
-			redirect_to controller: "documents", action: "view_documents"
-
-		end
-
-	end
+    if @user.empty?
+	  flash[:danger] = "User does not exist! Try again!"
+	  redirect_to '/'
+	else
+	  flash[:notice] = "Successfully logged into the system!"
+	  session[:current_user_emailadd] = @emailadd
+	  session[:current_user_password] = @password
+	  redirect_to controller: "documents", action: "view_documents"
+    end
+  end
 
   def create
     user = User.from_omniauth(request.env["omniauth.auth"])
-    session[:user_id] = user.id
-    session[:user_password] = user.password
-    flash[:success] = "SUCCESSFULLY REGISTERED!"
+    flash[:login] = "Successfully logged in!"
     redirect_to view_documents_path
   end
 
@@ -54,6 +47,6 @@ def log_user
 	reset_session
 	flash[:notice] = "Logged out successfully!"
 	redirect_to '/'
- end
-
+  end
+  
 end

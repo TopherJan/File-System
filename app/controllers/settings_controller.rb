@@ -1,6 +1,8 @@
 class SettingsController < ApplicationController
   def settings
+    @emailadd = params[:emailadd]
     @doc_type = Doctype.all
+    @users = User.all
   end
 
   def add_doctype

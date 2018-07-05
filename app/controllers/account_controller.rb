@@ -2,21 +2,44 @@ class AccountController < ApplicationController
  skip_before_action :verify_authenticity_token
 
   def profile_information
+    current_user
     @current_user = User.find_by(emailadd: session[:current_user_emailadd])
     @emailadd = session[:current_user_emailadd]
-    
-	if(current_user.nil?)
-      @password = @current_user.password
+	
+	if !(@emailadd.nil?)
+	  @password = @current_user.password
       @first_name = @current_user.first_name
       @last_name = @current_user.last_name
       @job_title =@current_user.job_title
       @phone = @current_user.phone
-    end
+    else
+	  @emailadd = current_user.emailadd
+	  @first_name = current_user.first_name
+      @last_name = current_user.last_name
+	  @job_title = current_user.phone
+	  @phone = current_user.job_title
+	end
   end
 
   def edit_profile_information
-    @current_user = User.find_by(emailadd: params[:email])
-	@email_add = params[:email_add]
+    current_user
+    @current_user = User.find_by(emailadd: session[:current_user_emailadd])
+    @emailadd = session[:current_user_emailadd]
+	
+	if !(@emailadd.nil?)
+	  @password = @current_user.password
+      @first_name = @current_user.first_name
+      @last_name = @current_user.last_name
+      @job_title =@current_user.job_title
+      @phone = @current_user.phone
+    else
+	  @emailadd = current_user.emailadd
+	  @first_name = current_user.first_name
+      @last_name = current_user.last_name
+	  @job_title = current_user.phone
+	  @phone = current_user.job_title
+	end
+	flash[:notice] = "No changes were made!"
   end
 
   def update_profile_information
@@ -59,13 +82,14 @@ class AccountController < ApplicationController
   end
 
   def delete_user
-   @current_user = User.find_by(emailadd: session[:current_user_emailadd])
-	@emailadd = session[:current_user_emailadd]
-    @user = User.find_by(:emailadd => @emailadd)
-	User.delete(@emailadd)
+    current_user
+    @user = User.find_by(emailadd: session[:current_user_emailadd])
+	@google_user = User.find_by(emailadd: current_user.emailadd)
+	
 	User.delete(@user)
+	User.delete(@google_user)
 
-    flash[:success] = "Account was deleted successfully!"
+    flash[:danger] = "Account was deleted successfully!"
     redirect_to '/'
   end
 end
