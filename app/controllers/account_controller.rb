@@ -27,12 +27,14 @@ class AccountController < ApplicationController
     @emailadd = session[:current_user_emailadd]
 	
 	if !(@emailadd.nil?)
+	  @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where name != '#{@current_user.job_title}'")
 	  @password = @current_user.password
       @first_name = @current_user.first_name
       @last_name = @current_user.last_name
       @job_title =@current_user.job_title
       @phone = @current_user.phone
     else
+	  @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where job_title != ?", current_user.job_title)
 	  @emailadd = current_user.emailadd
 	  @first_name = current_user.first_name
       @last_name = current_user.last_name

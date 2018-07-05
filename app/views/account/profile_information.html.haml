@@ -54,10 +54,6 @@
               Logout
     .content-wrapper
       .container-fluid
-        - if flash[:notice]
-          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-            %b.notice= flash[:notice]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
@@ -68,6 +64,10 @@
             %i.fa.fa-user
             Account Details
           .card-body
+            - if flash[:notice]
+              .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:notice]
             .form-validation
               .form-group
                 .form-row
