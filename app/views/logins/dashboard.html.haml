@@ -19,30 +19,31 @@
   %body#page-top.fixed-nav.sticky-footer.bg-dark
     / Navigation
     %nav#mainNav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-      %a.navbar-brand{:href => "/dashboard"}
+      %a.navbar-brand{:href => dashboard_path(emailadd: "#{@emailadd}")}
         %strong Physical Document Tracking System
       %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
         %span.navbar-toggler-icon
       #navbarResponsive.collapse.navbar-collapse
         %ul#exampleAccordion.navbar-nav.navbar-sidenav
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
-            %a.nav-link{:href => "/dashboard"}
+            %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => "/view_documents"}
+            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => "/folders"}
+            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
-            %a.nav-link{:href => "/settings"}
-              %i.fa.fa-fw.fa-gear
-              %span.nav-link-text Settings
+          - if @isAdmin || @isSecretary
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
+              %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
+                %i.fa.fa-fw.fa-gear
+                %span.nav-link-text Settings
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
-            %a.nav-link{:href => "/profile_information"}
+            %a.nav-link{:href => profile_information_path(emailadd: "#{@user.emailadd}")}
               %i.fa.fa-fw.fa-user
               %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
@@ -55,12 +56,18 @@
               %i.fa.fa-fw.fa-sign-out>
               Logout
     .content-wrapper
+      - if flash[:login]
+        .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+          %b.notice= flash[:login]
+      - if flash[:danger]
+        .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+          %b.notice= flash[:danger]
       .container-fluid
         / Breadcrumbs
         %ol.breadcrumb
-          %li.breadcrumb-item
-            %a{:href => "#"} Dashboard
-          %li.breadcrumb-item.active My Dashboard
+          %li.breadcrumb-item.active Dashboard
         / Icon Cards
         .row
           .col-xl-3.col-sm-6.mb-3
@@ -91,257 +98,31 @@
                   %i.fa.fa-fw.fa-gears
                 .mr-5
                   %b TOTAL TRANSACTIONS: #{@countTransactions}
-        / Area Chart Example
-        .card.mb-3
-          .card-header
-            %i.fa.fa-area-chart
-            Area Chart Example
-          .card-body
-            %canvas#myAreaChart{:height => "30", :width => "100%"}
-        .row
-          .col-lg-8
-            / Example Bar Chart Card
-            .card.mb-3
-              .card-header
-                %i.fa.fa-bar-chart
-                Bar Chart Example
-              .card-body
-                .row
-                  .col-sm-8.my-auto
-                    %canvas#myBarChart{:height => "50", :width => "100"}
-                  .col-sm-4.text-center.my-auto
-                    .h4.mb-0.text-primary $34,693
-                    .small.text-muted YTD Revenue
-                    %hr/
-                    .h4.mb-0.text-warning $18,474
-                    .small.text-muted YTD Expenses
-                    %hr/
-                    .h4.mb-0.text-success $16,219
-                    .small.text-muted YTD Margin
-            / Card Columns Example Social Feed
-            .mb-0.mt-4
-              %i.fa.fa-newspaper-o
-              News Feed
-            %hr.mt-2/
-            .card-columns
-              / Example Social Card
-              .card.mb-3
-                %a{:href => "#"}
-                  %img.card-img-top.img-fluid.w-100{:alt => "", :src => "https://unsplash.it/700/450?image=610"}/
-                .card-body
-                  %h6.card-title.mb-1
-                    %a{:href => "#"} David Miller
-                  %p.card-text.small
-                    These waves are looking pretty good today!
-                    %a{:href => "#"} #surfsup
-                %hr.my-0/
-                .card-body.py-2.small
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-thumbs-up>
-                    Like
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-comment>
-                    Comment
-                  %a.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-share>
-                    Share
-                %hr.my-0/
-                .card-body.small.bg-faded
-                  .media
-                    %img.d-flex.mr-3{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %h6.mt-0.mb-1>
-                        %a{:href => "#"} John Smith
-                      Very nice! I wish I was there! That looks amazing!
-                      %ul.list-inline.mb-0
-                        %li.list-inline-item
-                          %a{:href => "#"} Like
-                        %li.list-inline-item ·
-                        %li.list-inline-item
-                          %a{:href => "#"} Reply
-                      .media.mt-3
-                        %a.d-flex.pr-3{:href => "#"}
-                          %img{:alt => "", :src => "http://placehold.it/45x45"}/
-                        .media-body
-                          %h6.mt-0.mb-1>
-                            %a{:href => "#"} David Miller
-                          Next time for sure!
-                          %ul.list-inline.mb-0
-                            %li.list-inline-item
-                              %a{:href => "#"} Like
-                            %li.list-inline-item ·
-                            %li.list-inline-item
-                              %a{:href => "#"} Reply
-                .card-footer.small.text-muted Posted 32 mins ago
-              / Example Social Card
-              .card.mb-3
-                %a{:href => "#"}
-                  %img.card-img-top.img-fluid.w-100{:alt => "", :src => "https://unsplash.it/700/450?image=180"}/
-                .card-body
-                  %h6.card-title.mb-1
-                    %a{:href => "#"} John Smith
-                  %p.card-text.small
-                    Another day at the office...
-                    %a{:href => "#"} #workinghardorhardlyworking
-                %hr.my-0/
-                .card-body.py-2.small
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-thumbs-up>
-                    Like
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-comment>
-                    Comment
-                  %a.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-share>
-                    Share
-                %hr.my-0/
-                .card-body.small.bg-faded
-                  .media
-                    %img.d-flex.mr-3{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %h6.mt-0.mb-1>
-                        %a{:href => "#"} Jessy Lucas
-                      Where did you get that camera?! I want one!
-                      %ul.list-inline.mb-0
-                        %li.list-inline-item
-                          %a{:href => "#"} Like
-                        %li.list-inline-item ·
-                        %li.list-inline-item
-                          %a{:href => "#"} Reply
-                .card-footer.small.text-muted Posted 46 mins ago
-              / Example Social Card
-              .card.mb-3
-                %a{:href => "#"}
-                  %img.card-img-top.img-fluid.w-100{:alt => "", :src => "https://unsplash.it/700/450?image=281"}/
-                .card-body
-                  %h6.card-title.mb-1
-                    %a{:href => "#"} Jeffery Wellings
-                  %p.card-text.small
-                    Nice shot from the skate park!
-                    %a{:href => "#"} #kickflip
-                    %a{:href => "#"} #holdmybeer
-                    %a{:href => "#"} #igotthis
-                %hr.my-0/
-                .card-body.py-2.small
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-thumbs-up>
-                    Like
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-comment>
-                    Comment
-                  %a.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-share>
-                    Share
-                .card-footer.small.text-muted Posted 1 hr ago
-              / Example Social Card
-              .card.mb-3
-                %a{:href => "#"}
-                  %img.card-img-top.img-fluid.w-100{:alt => "", :src => "https://unsplash.it/700/450?image=185"}/
-                .card-body
-                  %h6.card-title.mb-1
-                    %a{:href => "#"} David Miller
-                  %p.card-text.small
-                    It's hot, and I might be lost...
-                    %a{:href => "#"} #desert
-                    %a{:href => "#"} #water
-                    %a{:href => "#"} #anyonehavesomewater
-                    %a{:href => "#"} #noreally
-                    %a{:href => "#"} #thirsty
-                    %a{:href => "#"} #dehydration
-                %hr.my-0/
-                .card-body.py-2.small
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-thumbs-up>
-                    Like
-                  %a.mr-3.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-comment>
-                    Comment
-                  %a.d-inline-block{:href => "#"}
-                    %i.fa.fa-fw.fa-share>
-                    Share
-                %hr.my-0/
-                .card-body.small.bg-faded
-                  .media
-                    %img.d-flex.mr-3{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %h6.mt-0.mb-1>
-                        %a{:href => "#"} John Smith
-                      The oasis is a mile that way, or is that just a mirage?
-                      %ul.list-inline.mb-0
-                        %li.list-inline-item
-                          %a{:href => "#"} Like
-                        %li.list-inline-item ·
-                        %li.list-inline-item
-                          %a{:href => "#"} Reply
-                      .media.mt-3
-                        %a.d-flex.pr-3{:href => "#"}
-                          %img{:alt => "", :src => "http://placehold.it/45x45"}/
-                        .media-body
-                          %h6.mt-0.mb-1
-                            %a{:href => "#"} David Miller
-                          = succeed "I'm" do
-                            %img.img-fluid.w-100.mb-1{:alt => "", :src => "https://unsplash.it/700/450?image=789"}/
-                          %ul.list-inline.mb-0
-                            %li.list-inline-item
-                              %a{:href => "#"} Like
-                            %li.list-inline-item ·
-                            %li.list-inline-item
-                              %a{:href => "#"} Reply
-                .card-footer.small.text-muted Posted yesterday
-            / /Card Columns
-          .col-lg-4
-            / Example Pie Chart Card
-            .card.mb-3
-              .card-header
-                %i.fa.fa-pie-chart
-                Pie Chart Example
-              .card-body
-                %canvas#myPieChart{:height => "100", :width => "100%"}
-            / Example Notifications Card
-            .card.mb-3
-              .card-header
-                %i.fa.fa-bell-o
-                Feed Example
-              .list-group.list-group-flush.small
-                %a.list-group-item.list-group-item-action{:href => "#"}
-                  .media
-                    %img.d-flex.mr-3.rounded-circle{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %strong> David Miller
-                      posted a new article to
-                      = succeed "." do
-                        %strong David Miller Website
-                      .text-muted.smaller Today at 5:43 PM - 5m ago
-                %a.list-group-item.list-group-item-action{:href => "#"}
-                  .media
-                    %img.d-flex.mr-3.rounded-circle{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %strong> Samantha King
-                      sent you a new message!
-                      .text-muted.smaller Today at 4:37 PM - 1hr ago
-                %a.list-group-item.list-group-item-action{:href => "#"}
-                  .media
-                    %img.d-flex.mr-3.rounded-circle{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %strong> Jeffery Wellings
-                      added a new photo to the album
-                      = succeed "." do
-                        %strong Beach
-                      .text-muted.smaller Today at 4:31 PM - 1hr ago
-                %a.list-group-item.list-group-item-action{:href => "#"}
-                  .media
-                    %img.d-flex.mr-3.rounded-circle{:alt => "", :src => "http://placehold.it/45x45"}/
-                    .media-body
-                      %i.fa.fa-code-fork
-                      = succeed "forked" do
-                        %strong Monica Dennis
-                      = succeed "repository" do
-                        %strong startbootstrap-sb-admin
-                      = succeed "." do
-                        %strong GitHub
-                      .text-muted.smaller Today at 3:54 PM - 2hrs ago
-                %a.list-group-item.list-group-item-action{:href => "#"} View all activity...
-
+        - if @isAdmin
+          .card.mb-3
+            .card-header
+              %i.fa.fa-list-alt
+              Documents
+            .card-body
+              .table-responsive
+                %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                  %thead{:align => "center"}
+                    %tr
+                      %th Name
+                      %th Email
+                      %th Job Title
+                      %th Contact #
+                      %th Options
+                  %tbody{:align => "center"}
+                    - @requests.each do |request|
+                      %tr
+                        %td= request.first_name + " " + request.last_name
+                        %td= request.emailadd
+                        %td= request.job_title
+                        %td= request.phone
+                        %td
+                          %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
+                          %a.btn-sm.btn-danger{:href => ""} Deny
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

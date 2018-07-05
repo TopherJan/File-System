@@ -17,30 +17,31 @@
   %body#page-top.fixed-nav.sticky-footer.bg-dark
     / Navigation
     %nav#mainNav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-      %a.navbar-brand{:href => "/dashboard"}
+      %a.navbar-brand{:href => dashboard_path(emailadd: "#{@emailadd}")}
         %strong Physical Document Tracking System
       %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
         %span.navbar-toggler-icon
       #navbarResponsive.collapse.navbar-collapse
         %ul#exampleAccordion.navbar-nav.navbar-sidenav
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
-            %a.nav-link{:href => "/dashboard"}
+            %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => "/view_documents"}
+            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => "/folders"}
+            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
-            %a.nav-link{:href => "/settings"}
-              %i.fa.fa-fw.fa-gear
-              %span.nav-link-text Settings
+          - if @isAdmin || @isSecretary
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
+              %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
+                %i.fa.fa-fw.fa-gear
+                %span.nav-link-text Settings
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
-            %a.nav-link{:href => "/profile_information"}
+            %a.nav-link{:href => profile_information_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-user
               %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
@@ -57,7 +58,7 @@
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
-            %a{:href => "/dashboard"} Dashboard
+            %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
           %li.breadcrumb-item.active Account
         .card.mb-3
           .card-header
@@ -93,7 +94,7 @@
                     %label{:for => "val-contact"}
                       %b Contact Number
                     %input#val-contact.form-control{:placeholder => "#{@phone}", :disabled => "disabled"}/
-              %a.btn.btn-primary{:href => edit_profile_information_path(email: "#{@emailadd}")} Update Account
+              %a.btn.btn-primary{:href => edit_profile_information_path(emailadd: "#{@emailadd}")} Update Account
               %a.button.btn.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal", :href => delete_user_path(emailadd: "#{@emailadd}")}Delete Account
             .text-center
       / /.container-fluid

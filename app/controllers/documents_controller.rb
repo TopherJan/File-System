@@ -1,20 +1,83 @@
 class DocumentsController < ApplicationController
 
+  def view_documents
+    @emailadd = params[:emailadd]
+	
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
+    @documents = Document.all
+  end
+
   def add_document
     @doc_type = Doctype.all
-    
+	
+	@emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
 	if params[:document] != nil
 	  @documents = Document.new(user_params)
 	  
 	  if @documents.save!
-		@doc = @documents.id
+	    @doc = @documents.id
         session[:doc_id] = @doc
-	    add_author
+	    
+		if params[:author] != nil
+	      @authors = Author.new(author_params)
+	      @authors.save
+	  
+	      author = Author.find(session[:doc_id])
+	      doc = Document.find(session[:doc_id])
+	      doc.update(author_name: author.name)
+	    end
+	
+	    flash[:notice] = "The document was successfully added!"
+	    redirect_to view_documents_path(emailadd: params[:emailadd])
 	  end
 	end
   end
   
   def edit_document_view
+    @emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
+	session[:emailadd] = params[:emailadd]
 	@doc_id = params[:id]
 	@doc = Document.find(params[:id])
 	@author = Author.find(params[:id])
@@ -28,33 +91,15 @@ class DocumentsController < ApplicationController
 	author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])
 	
 	flash[:notice] = "The document was successfully updated!"
-	redirect_to '/view_documents'
-  end
-  
-  def add_author
-    if params[:author] != nil
-	  @authors = Author.new(author_params)
-	  @authors.save
-	  
-	  author = Author.find(session[:doc_id])
-	  doc = Document.find(session[:doc_id])
-	  doc.update(author_name: author.name)
-	end
-	
-	flash[:notice] = "The document was successfully added!"
-	redirect_to '/view_documents'
-  end
-  
-  def view_documents
-    @documents = Document.all
+	redirect_to view_documents_path(emailadd: params[:emailadd])
   end
   
   def delete_document
+    @emailadd = params[:emailadd]
     @doc = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	event = Event.where(:doc_id => params[:id])
 	attachment = Attachment.where(:doc_id => params[:id])
-	
 	
 	Document.delete(@doc)
 	Author.delete(@author)

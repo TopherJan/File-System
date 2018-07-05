@@ -1,6 +1,22 @@
 class EventsController < ApplicationController
   
   def view_event
+    @emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
 	@doc_id = params[:id]
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
@@ -10,6 +26,22 @@ class EventsController < ApplicationController
   end
   
   def add_event
+    @emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
     @doc_id = params[:id]
 	
 	if params[:event] != nil
@@ -24,7 +56,7 @@ class EventsController < ApplicationController
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
         
 		flash[:notice] = "The event was successfully added!"
-		redirect_to view_event_path(id: params[:doc_id])
+		redirect_to view_event_path(id: params[:doc_id], emailadd: params[:emailadd])
 	  end
 	end
   end

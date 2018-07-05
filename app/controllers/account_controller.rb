@@ -3,28 +3,34 @@ class AccountController < ApplicationController
 
   def profile_information
     current_user
-    @current_user = User.find_by(emailadd: session[:current_user_emailadd])
-    @emailadd = session[:current_user_emailadd]
-	
+    @current_user = User.find_by(emailadd: params[:emailadd])
+    @emailadd = params[:emailadd]
+
 	if !(@emailadd.nil?)
 	  @password = @current_user.password
       @first_name = @current_user.first_name
       @last_name = @current_user.last_name
-      @job_title =@current_user.job_title
+      @job_title = @current_user.job_title
       @phone = @current_user.phone
-    else
-	  @emailadd = current_user.emailadd
-	  @first_name = current_user.first_name
-      @last_name = current_user.last_name
-	  @job_title = current_user.phone
-	  @phone = current_user.job_title
+	  
+	  @isAdmin = false;
+	  @isSecretary = false;
+	  @isOthers = false;
+	
+	  if(@job_title == "Admin")
+	    @isAdmin = true
+	  elsif(@job_title == "Secretary")
+	    @isSecretary = true
+	  else
+	    @isOthers = true
+	  end
 	end
   end
 
   def edit_profile_information
     current_user
-    @current_user = User.find_by(emailadd: session[:current_user_emailadd])
-    @emailadd = session[:current_user_emailadd]
+    @current_user = User.find_by(emailadd: params[:emailadd])
+    @emailadd = params[:emailadd]
 	
 	if !(@emailadd.nil?)
 	  @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where name != '#{@current_user.job_title}'")
@@ -33,13 +39,18 @@ class AccountController < ApplicationController
       @last_name = @current_user.last_name
       @job_title =@current_user.job_title
       @phone = @current_user.phone
-    else
-	  @jobtitle = Jobtitle.all
-	  @emailadd = current_user.emailadd
-	  @first_name = current_user.first_name
-      @last_name = current_user.last_name
-	  @job_title = current_user.job_title
-	  @phone = current_user.phone
+	  
+	  @isAdmin = false;
+	  @isSecretary = false;
+	  @isOthers = false;
+	
+	  if(@job_title == "Admin")
+	    @isAdmin = true
+	  elsif(@job_title == "Secretary")
+	    @isSecretary = true
+	  else
+	    @isOthers = true
+	  end
 	end
 	
 	flash[:notice] = "No changes were made!"
@@ -50,7 +61,7 @@ class AccountController < ApplicationController
 	current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
 	
 	flash[:notice] = "Profile successfully updated!"
-	redirect_to '/profile_information'
+	redirect_to profile_information_path(emailadd: params[:emailadd])
   end
 
   def create_account
@@ -58,8 +69,8 @@ class AccountController < ApplicationController
   end
 
   def redirect_account
-    @current_user = User.find_by(emailadd: session[:current_user_emailadd])
-    @emailadd = session[:current_user_emailadd]
+    #@current_user = User.find_by(emailadd: session[:current_user_emailadd])
+    #@emailadd = session[:current_user_emailadd]
 
     @first_name = params[:first_name]
     @last_name = params[:last_name]
@@ -68,13 +79,13 @@ class AccountController < ApplicationController
     @job_title = params[:job_title]
     @phone = params[:phone]
   
-	@user = User.new(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
+	@request = Request.new(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
       
-    if !(@user.save)
+    if !(@request.save)
       flash[:error] = "Email already taken!"
 	  redirect_to '/create_account'
     else
-      flash[:success] = "Account successfully registered!"
+      flash[:success] = "Account registration sent to Admin!"
       redirect_to '/'
     end 
   end

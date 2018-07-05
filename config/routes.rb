@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/forgot' => 'logins#forget'
   get '/log' => 'logins#log_user'
   get '/dashboard' => 'logins#dashboard'
+  get '/accept_request' => 'logins#accept_request'
   
   get '/delete_user' => 'account#delete_user'
   get '/create_account' => 'account#create_account'

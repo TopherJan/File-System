@@ -1,10 +1,6 @@
 class LoginsController < ApplicationController
 attr_accessor :user, :dash
 
-  def login
-
-  end
-
   def dashboard
     @countUser = User.count
     @countDocument = Document.count
@@ -12,22 +8,49 @@ attr_accessor :user, :dash
     @countEventToday = Event.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countTransactions = @countEventToday.count + @countDocumentToday.count
+	@requests = Request.all
+	
+	@emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+  end
+  
+  def accept_request
+    @request = Request.find_by(emailadd: params[:emailadd])
+	@new_user = User.new(first_name: "#{@request.first_name}",last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
+	
+	if(@new_user.save)
+	  flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
+	  Request.delete(@request)
+	else
+	  flash[:danger] = "The email already exists! Delete #{@request.emailadd} request now!"
+	end
   end
 
   def log_user
 	@emailadd = params[:emailadd]
 	@password = params[:password]
+	
+	@user = User.find_by(emailadd: "#{@emailadd}", password: "#{@password}")
 
-	@user = User.where("emailadd = ? AND password = ?", @emailadd, @password)
-
-    if @user.empty?
+    if @user.nil?
 	  flash[:danger] = "User does not exist! Try again!"
 	  redirect_to '/'
 	else
-	  flash[:notice] = "Successfully logged into the system!"
-	  session[:current_user_emailadd] = @emailadd
-	  session[:current_user_password] = @password
-	  redirect_to controller: "documents", action: "view_documents"
+	  flash[:login] = "Successfully logged into the system!"
+	  redirect_to dashboard_path(emailadd: params[:emailadd])
     end
   end
 

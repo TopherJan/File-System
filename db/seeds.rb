@@ -23,3 +23,5 @@ Doctype.create!(name: 'Request')
 Doctype.create!(name: 'Recommendation')
 Doctype.create!(name: 'Travel Order')
 Doctype.create!(name: 'Voucher')
+
+User.create!(first_name: 'Christopher Jan', last_name: 'Rinos', emailadd: 'cerinos@up.edu.ph', password: 'admin', job_title: 'Admin', phone: '09278781163')

@@ -19,30 +19,31 @@
   %body#page-top.fixed-nav.sticky-footer.bg-dark
     / Navigation
     %nav#mainNav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-      %a.navbar-brand{:href => "/dashboard"}
+      %a.navbar-brand{:href => dashboard_path(emailadd: "#{@emailadd}")}
         %strong Physical Document Tracking System
       %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
         %span.navbar-toggler-icon
       #navbarResponsive.collapse.navbar-collapse
         %ul#exampleAccordion.navbar-nav.navbar-sidenav
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
-            %a.nav-link{:href => "/dashboard"}
+            %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => "/view_documents"}
+            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => "/folders"}
+            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
-            %a.nav-link{:href => "/settings"}
-              %i.fa.fa-fw.fa-gear
-              %span.nav-link-text Settings
+          - if @isAdmin || @isSecretary
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
+              %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
+                %i.fa.fa-fw.fa-gear
+                %span.nav-link-text Settings
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
-            %a.nav-link{:href => "/profile_information"}
+            %a.nav-link{:href => profile_information_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-user
               %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
@@ -59,7 +60,7 @@
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
-            %a{:href => "/dashboard"} Dashboard
+            %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
           %li.breadcrumb-item.active Settings
         / Example DataTables Card
         .card.mb-3
@@ -79,8 +80,31 @@
               .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:change]
-            .form-row
-              .col-lg-6
+            - if @isAdmin
+              .form-group  
+                .col
+                  .card
+                    .card-header
+                      %strong.card-title Users
+                    .card-body
+                      %table.table
+                        %thead
+                          %tr
+                            %th Name
+                            %th Email Address
+                            %th Job Title
+                            %th Options
+                        %tbody
+                          - @users.each do |user|
+                            %tr
+                              %td= user.first_name
+                              %td= user.emailadd
+                              %td= user.job_title
+                              %td
+                                %a.btn-sm.btn-success{:href => ""} Edit
+                                %a.btn-sm.btn-danger{:href => ""} Delete
+            .form-group
+              .col
                 .card
                   .card-header
                     %strong.card-title Document Types
@@ -88,29 +112,20 @@
                     %table.table
                       %thead
                         %tr{:align => "center"}
+                          %th ID
                           %th Name
                           %th Options
                       %tbody{:align => "center"}
                         - @doc_type.each do |type|
                           %tr
+                            %td= type.id
                             %td= type.name
                             %td
-                              %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id)} Edit
-                              %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                                .modal-dialog{:role => "document"}
-                                  .modal-content
-                                    .modal-header
-                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                        %span{"aria-hidden" => "true"} ×
-                                    .modal-body Select "Delete" below if you want to delete the document type.
-                                    .modal-footer
-                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                      %a.btn.btn-danger{:href => delete_doctype_path(id: type.id)} Delete  
-                                      %br/
-                    %a.btn-sm.btn-primary.float-right{:href => "/add_doctype"} Add Document Type
-              .col-lg-6
+                              %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                              %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Delete
+                    %a.btn.btn-primary{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+            .form-group
+              .col
                 .card
                   .card-header
                     %strong.card-title Job Titles
@@ -125,59 +140,9 @@
                           %tr
                             %td= job.name
                             %td
-                              %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id)} Edit
-                              %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                                .modal-dialog{:role => "document"}
-                                  .modal-content
-                                    .modal-header
-                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                        %span{"aria-hidden" => "true"} ×
-                                    .modal-body Select "Delete" below if you want to delete the document type.
-                                    .modal-footer
-                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                      %a.btn.btn-danger{:href => delete_jobtitle_path(id: job.id)} Delete  
-                                      %br/
-                    %a.btn-sm.btn-primary.float-right{:href => "/add_jobtitle"} Add Job Title
-            %br/
-            .form-row  
-              .col
-                .card
-                  .card-header
-                    %strong.card-title Users
-                  .card-body
-                    %table.table
-                      %thead
-                        %tr
-                          %th Name
-                          %th Email Address
-                          %th Job Title
-                          %th Options
-                      %tbody
-                        - @users.each do |user|
-                          %tr
-                            %td= user.first_name
-                            %td= user.emailadd
-                            %td= user.job_title
-                            %td
-                              %a.btn-sm.btn-success{:href => ""} Edit
-                              %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                                .modal-dialog{:role => "document"}
-                                  .modal-content
-                                    .modal-header
-                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                        %span{"aria-hidden" => "true"} ×
-                                    .modal-body Select "Delete" below if you want to delete the user.
-                                    .modal-footer
-                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                      %a.btn.btn-danger{:href => ""} Delete  
-                                      %br/
-                    %a.btn-sm.btn-primary.float-right{:href => ""} Add User
-            %br
-            %a.btn.btn-secondary.float-right{:href => "/dashboard"} Back
+                              %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                              %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
+                    %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

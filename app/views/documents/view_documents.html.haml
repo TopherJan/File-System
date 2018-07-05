@@ -19,30 +19,31 @@
   %body#page-top.fixed-nav.sticky-footer.bg-dark
     / Navigation
     %nav#mainNav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-      %a.navbar-brand{:href => "/dashboard"}
+      %a.navbar-brand{:href => dashboard_path(emailadd: "#{@emailadd}")}
         %strong Physical Document Tracking System
       %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
         %span.navbar-toggler-icon
       #navbarResponsive.collapse.navbar-collapse
         %ul#exampleAccordion.navbar-nav.navbar-sidenav
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Dashboard"}
-            %a.nav-link{:href => "/dashboard"}
+            %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => "/view_documents"}
+            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-file-text
               %span.nav-link-text View Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => "/folders"}
+            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
               %span.nav-link-text Folders
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
-            %a.nav-link{:href => "/settings"}
-              %i.fa.fa-fw.fa-gear
-              %span.nav-link-text Settings
+          - if @isAdmin || @isSecretary
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
+              %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
+                %i.fa.fa-fw.fa-gear
+                %span.nav-link-text Settings
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Account"}
-            %a.nav-link{:href => "/profile_information"}
+            %a.nav-link{:href => profile_information_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-user
               %span.nav-link-text Account
         %ul.navbar-nav.sidenav-toggler
@@ -56,14 +57,10 @@
               Logout
     .content-wrapper
       .container-fluid
-        - if flash[:login]
-          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-            %b.notice= flash[:login]
         / Breadcrumbs
         %ol.breadcrumb
           %li.breadcrumb-item
-            %a{:href => "/dashboard"} Dashboard
+            %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
           %li.breadcrumb-item.active View Documents
         / Example DataTables Card
         .card.mb-3
@@ -88,15 +85,8 @@
                     %th Description
                     %th Date Modified
                     %th Status
-                    %th Actions
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
+                    - if !@isOthers
+                      %th Actions
                 %tbody{:align => "center"}
                   - @documents.each do |document|
                     %tr
@@ -105,25 +95,16 @@
                       %td= document.description
                       %td= document.date_modified
                       %td= document.status
-                      %td
-                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
-                        %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
-                        %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                        #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                          .modal-dialog{:role => "document"}
-                            .modal-content
-                              .modal-header
-                                %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                  %span{"aria-hidden" => "true"} ×
-                              .modal-body Select "Delete" below if you want to delete the document.
-                              .modal-footer
-                                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
-                                %br/
+                      - if !@isOthers
+                        %td
+                          %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                          %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
+                          %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}")} Delete
+                          %br/
             %br
-            %a.btn.btn-primary{:href => "/add_document"} Add Document
-            %a.btn.btn-secondary{:href => "/dashboard"} Back
+            - if !@isOthers
+              %a.btn.btn-primary{:href => add_document_path(emailadd: "#{@emailadd}")} Add Document
+              %a.btn.btn-secondary{:href => dashboard_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
