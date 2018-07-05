@@ -60,29 +60,28 @@
             %a{:href => "/dashboard"} Dashboard
           %li.breadcrumb-item
             %a{:href => "/settings"} Settings
-          %li.breadcrumb-item.active Add Document Type
+          %li.breadcrumb-item.active Edit Job Title
         / Example DataTables Card
         .card.mb-3
           .card-header
             %i.fa.fa-list-alt
-            Add Document
+            Edit Job Title
           .card-body
-            - if flash[:taken]
-              .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                %b.notice= flash[:taken]
             .form-validation
-              %form.form-valide{:action => "add_doctype", :method => "get", :name =>"addDocumentType"}
+              %form.form-valide{:action => "update_jobtitle", :method => "post", :name =>"editJobtitle"}
                 .form-group
                   %h4
-                    %b DOCUMENT TYPE INFORMATION
+                    %b JOB TITLE INFORMATION
                   .form-group
-                    %label{:for => "val-doctypename"}
+                    %div
+                      %input#val-jobtitle_id.form-control{:name => "jobtitle_id", :type => "hidden", :value=> "#{@job_id}"}/
+                  .form-group
+                    %label{:for => "val-jobname"}
                       Name
                       %span.text-danger *
-                    %input#val-doctypename.form-control{:name => "doctype[name]", :placeholder => "Name of the document type", :type => "text", :required => 'required'}/
+                    %input#val-jobname.form-control{:name => "jobtitle_name", :type => "text", :required => 'required', :value=> "#{@jobtitle.name}"}/
                 %div
-                  %button.btn.btn-primary{:type => "submit"} Add
+                  %button.btn.btn-primary{:type => "submit"} Update
                   %a.btn.btn-secondary{:href => "/settings"} Back
         / /.container-fluid
         / /.content-wrapper

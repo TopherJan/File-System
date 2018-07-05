@@ -39,6 +39,7 @@ class AccountController < ApplicationController
 	  @job_title = current_user.phone
 	  @phone = current_user.job_title
 	end
+	
 	flash[:notice] = "No changes were made!"
   end
 
@@ -51,12 +52,7 @@ class AccountController < ApplicationController
   end
 
   def create_account
-    @emailadd
-    @first_name
-    @last_name
-    @password
-    @job_title
-    @phone
+   @job_title = Jobtitle.all
   end
 
   def redirect_account

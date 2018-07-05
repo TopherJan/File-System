@@ -61,9 +61,12 @@
                 .form-row
                   .col-md-6
                     %label{:for => "jobtitle"}
-                      Job Title
+                      Document Type
                       %span.text-danger *
-                    %input#jobtitle.form-control{:required =>"required", :name => "job_title", :placeholder => "Job Title", :type => "text", :value => "#{@job_title}"}/
+                    %select#jobtitle.form-control{:name => "job_title", :required => 'required'}
+                      - @job_title.each do |job|
+                        %option{:value => job.name}
+                          %td= job.name
                   .col-md-6
                     %label{:for => "phone"}
                       Contact Number

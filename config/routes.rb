@@ -45,7 +45,11 @@ Rails.application.routes.draw do
   get '/add_doctype' => 'settings#add_doctype'
   get '/delete_doctype' => 'settings#delete_doctype'
   get '/edit_doctype' => 'settings#edit_doctype'
+  get '/add_jobtitle' => 'settings#add_jobtitle'
+  get '/delete_jobtitle' => 'settings#delete_jobtitle'
+  get '/edit_jobtitle' => 'settings#edit_jobtitle'
   post '/update_doctype' => 'settings#update_doctype'
+  post '/update_jobtitle' => 'settings#update_jobtitle'
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -75,6 +75,10 @@
               .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:notice]
+            - if flash[:change]
+              .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:change]
             .form-row
               .col-lg-6
                 .card
@@ -91,7 +95,7 @@
                           %tr
                             %td= type.name
                             %td
-                              %a.btn-sm.btn-primary{:href => edit_doctype_path(id: type.id)} Edit
+                              %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id)} Edit
                               %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                               #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                                 .modal-dialog{:role => "document"}
@@ -117,8 +121,25 @@
                           %th Name
                           %th Options
                       %tbody{:align => "center"}
-                        %tr
-                    %a.btn-sm.btn-primary.float-right{:href => "/add_doctype"} Add Job Title
+                        - @jobtitle.each do |job|
+                          %tr
+                            %td= job.name
+                            %td
+                              %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id)} Edit
+                              %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
+                              #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
+                                .modal-dialog{:role => "document"}
+                                  .modal-content
+                                    .modal-header
+                                      %h5#deleteModalLabel.modal-title Are you sure you want to delete?
+                                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                                        %span{"aria-hidden" => "true"} ×
+                                    .modal-body Select "Delete" below if you want to delete the document type.
+                                    .modal-footer
+                                      %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                                      %a.btn.btn-danger{:href => delete_jobtitle_path(id: job.id)} Delete  
+                                      %br/
+                    %a.btn-sm.btn-primary.float-right{:href => "/add_jobtitle"} Add Job Title
             %br/
             .form-row  
               .col
@@ -140,7 +161,7 @@
                             %td= user.emailadd
                             %td= user.job_title
                             %td
-                              %a.btn-sm.btn-primary{:href => ""} Edit
+                              %a.btn-sm.btn-success{:href => ""} Edit
                               %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                               #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                                 .modal-dialog{:role => "document"}
