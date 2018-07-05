@@ -33,6 +33,7 @@ attr_accessor :user, :dash
 
   def create
     user = User.from_omniauth(request.env["omniauth.auth"])
+	session[:user_id] = user.id
     flash[:login] = "Successfully logged in!"
     redirect_to view_documents_path
   end

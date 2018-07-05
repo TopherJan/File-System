@@ -34,12 +34,12 @@ class AccountController < ApplicationController
       @job_title =@current_user.job_title
       @phone = @current_user.phone
     else
-	  @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where job_title != ?", current_user.job_title)
+	  @jobtitle = Jobtitle.all
 	  @emailadd = current_user.emailadd
 	  @first_name = current_user.first_name
       @last_name = current_user.last_name
-	  @job_title = current_user.phone
-	  @phone = current_user.job_title
+	  @job_title = current_user.job_title
+	  @phone = current_user.phone
 	end
 	
 	flash[:notice] = "No changes were made!"
