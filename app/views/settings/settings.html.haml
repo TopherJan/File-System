@@ -108,7 +108,7 @@
                 .col
                   .card
                     .card-header
-                      %strong.card-title Document Types
+                      %strong.card-title Job Titles
                     .card-body
                       %table.table
                         %thead
@@ -116,18 +116,18 @@
                             %th Name
                             %th Options
                         %tbody{:align => "center"}
-                          - @doc_type.each do |type|
+                          - @jobtitle.each do |job|
                             %tr
-                              %td= type.name
+                              %td= job.name
                               %td
-                                %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Delete
-                      %a.btn.btn-primary{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                                %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
+                      %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
             .form-group
               .col
                 .card
                   .card-header
-                    %strong.card-title Job Titles
+                    %strong.card-title Document Types
                   .card-body
                     %table.table
                       %thead
@@ -135,13 +135,13 @@
                           %th Name
                           %th Options
                       %tbody{:align => "center"}
-                        - @jobtitle.each do |job|
+                        - @doc_type.each do |type|
                           %tr
-                            %td= job.name
+                            %td= type.name
                             %td
-                              %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                              %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
-                    %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
+                              %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                              %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Delete
+                    %a.btn.btn-primary{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
