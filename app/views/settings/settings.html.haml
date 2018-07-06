@@ -104,6 +104,25 @@
                                 %td
                                   %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
                                   %a.btn-sm.btn-danger{:href => delete_users_path(id: user.id, emailadd: "#{@emailadd}")} Delete
+              .form-group
+                .col
+                  .card
+                    .card-header
+                      %strong.card-title Job Titles
+                    .card-body
+                      %table.table
+                        %thead
+                          %tr{:align => "center"}
+                            %th Name
+                            %th Options
+                        %tbody{:align => "center"}
+                          - @jobtitle.each do |job|
+                            %tr
+                              %td= job.name
+                              %td
+                                %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
+                      %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
             .form-group
               .col
                 .card
@@ -125,25 +144,6 @@
                               %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
                               %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Delete
                     %a.btn.btn-primary{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
-            .form-group
-              .col
-                .card
-                  .card-header
-                    %strong.card-title Job Titles
-                  .card-body
-                    %table.table
-                      %thead
-                        %tr{:align => "center"}
-                          %th Name
-                          %th Options
-                      %tbody{:align => "center"}
-                        - @jobtitle.each do |job|
-                          %tr
-                            %td= job.name
-                            %td
-                              %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                              %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
-                    %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer
