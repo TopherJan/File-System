@@ -12,9 +12,12 @@ Event.destroy_all
 Attachment.destroy_all
 Author.destroy_all
 Document.destroy_all
+Request.destroy_all
 
+Jobtitle.create!(name: 'Admin')
 Jobtitle.create!(name: 'Dean')
-Jobtitle.create!(name: 'Associate Dean')
+Jobtitle.create!(name: 'Secretary')
+Jobtitle.create!(name: 'Faculty')
 
 Doctype.create!(name: 'Letter')
 Doctype.create!(name: 'Memo')

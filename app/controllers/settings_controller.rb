@@ -153,6 +153,47 @@ class SettingsController < ApplicationController
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
   
+   def edit_users
+    @emailadd = params[:emailadd]
+	@current_user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@current_user.job_title}"
+
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
+	session[:emailadd] = @emailadd
+	@user_edit = User.find(params[:id])
+    @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where name != '#{@user_edit.job_title}'")
+  end
+  
+  def update_users
+    @emailadd = params[:emailadd]
+	
+    current_user = User.find_by(emailadd: params[:user_emailadd])
+	current_user.update(job_title: params[:job_title])
+	
+	flash[:notice] = "Profile successfully updated!"
+	redirect_to settings_path(emailadd: params[:emailadd])
+  end
+  
+  def delete_users
+    @emailadd = params[:emailadd]
+    @user = User.find(params[:id])
+	User.delete(@user)
+	
+	flash[:danger] = "The user was successfully deleted!"
+	redirect_to settings_path(emailadd: params[:emailadd])
+  end
+  
   def doctype_params
     params.require(:doctype).permit(:name)
   end

@@ -64,6 +64,10 @@
         .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
           %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
           %b.notice= flash[:danger]
+      - if flash[:notice]
+        .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+          %b.notice= flash[:notice]
       .container-fluid
         / Breadcrumbs
         %ol.breadcrumb
@@ -102,7 +106,7 @@
           .card.mb-3
             .card-header
               %i.fa.fa-list-alt
-              Documents
+              Account Registration Requests
             .card-body
               .table-responsive
                 %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -122,7 +126,72 @@
                         %td= request.phone
                         %td
                           %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
-                          %a.btn-sm.btn-danger{:href => ""} Deny
+                          %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :data-confirm => "Are you sure you want to delete this request?"} Deny
+        .card.mb-3
+          .card-header
+            %i.fa.fa-document
+            All Existing Documents
+          .card-body
+            .table-responsive
+              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                %thead{:align => "center"}
+                  %tr
+                    %th Name
+                    %th Author
+                /
+                  <tfoot>
+                  <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Remarks</th>
+                  </tr>
+                  </tfoot>
+                %tbody{:align => "center"}
+                  - @documents.each do |document|
+                    %tr
+                      %td= document.name
+                      %td= document.author_name
+            %br/
+        - if !@isOthers
+          .row
+            - if @isAdmin
+              .col-lg-8
+                .card.mb-3
+                  .card-header
+                    %i.fa.fa-user
+                    All Existing Users
+                  .card-body
+                    .table-responsive
+                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                        %thead{:align => "center"}
+                          %tr
+                            %th Email Address
+                            %th Full Name
+                            %th Job Title
+                        %tbody{:align => "center"}
+                          - @users.each do |user|
+                            %tr
+                              %td= user.emailadd
+                              %td= user.first_name + " " + user.last_name
+                              %td= user.job_title
+            .col-lg-4
+              / Example Pie Chart Card
+              .card.mb-3
+                .card-header
+                  %i.fa.fa-file
+                  All Existing Files
+                .card-body
+                  .table-responsive
+                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                      %thead{:align => "center"}
+                        %tr
+                          %th Name of File
+                          %th
+                      %tbody{:align => "center"}
+                        - @attachments.each do |attachment|
+                          %tr
+                            %td= attachment.attachment_in_database
+                            %td= link_to "Download", attachment.attachment_url  
       / /.container-fluid
       / /.content-wrapper
       %footer.sticky-footer

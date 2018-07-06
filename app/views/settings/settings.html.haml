@@ -100,9 +100,10 @@
                               %td= user.first_name
                               %td= user.emailadd
                               %td= user.job_title
-                              %td
-                                %a.btn-sm.btn-success{:href => ""} Edit
-                                %a.btn-sm.btn-danger{:href => ""} Delete
+                              - if user.job_title != "Admin"
+                                %td
+                                  %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
+                                  %a.btn-sm.btn-danger{:href => delete_users_path(id: user.id, emailadd: "#{@emailadd}")} Delete
             .form-group
               .col
                 .card

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/log' => 'logins#log_user'
   get '/dashboard' => 'logins#dashboard'
   get '/accept_request' => 'logins#accept_request'
+  get '/delete_request' => 'logins#delete_request'
   
   get '/delete_user' => 'account#delete_user'
   get '/create_account' => 'account#create_account'
@@ -49,6 +50,9 @@ Rails.application.routes.draw do
   get '/add_jobtitle' => 'settings#add_jobtitle'
   get '/delete_jobtitle' => 'settings#delete_jobtitle'
   get '/edit_jobtitle' => 'settings#edit_jobtitle'
+  get '/edit_users' => 'settings#edit_users'
+  get '/delete_users' => 'settings#delete_users'
+  post '/update_users' => 'settings#update_users'
   post '/update_doctype' => 'settings#update_doctype'
   post '/update_jobtitle' => 'settings#update_jobtitle'
   

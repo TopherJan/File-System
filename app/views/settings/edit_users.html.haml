@@ -67,86 +67,49 @@
             Account
           .card-body
             .form-validation
-              %form.form-valide{:action => "update_profile_information", :method => "post"}
+              %form.form-valide{:action => "update_users", :method => "post"}
                 .form-group
                   .form-row
-                    - if current_user
-                      .col-md-6
-                        %label{:for => "firstname"}
-                          %b First Name
-                          %span.text-danger *
-                        %div
-                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required", :disabled => "#disabled"}/
-                      .col-md-6
-                        %label{:for => "lastname"}
-                          %b Last Name
-                          %span.text-danger *
-                        %div
-                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required", :disabled => "disabled"}/
-                    - else
-                      .col-md-6
-                        %label{:for => "firstname"}
-                          %b First Name
-                          %span.text-danger *
-                        %div
-                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required"}/
-                      .col-md-6
-                        %label{:for => "lastname"}
-                          %b Last Name
-                          %span.text-danger *
-                        %div
-                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required"}/
+                    .col-md-6
+                      %label{:for => "firstname"}
+                        %b First Name
+                        %span.text-danger *
+                      %div
+                        %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@user_edit.first_name}", :disabled => "disabled"}/
+                    .col-md-6
+                      %label{:for => "lastname"}
+                        %b Last Name
+                        %span.text-danger *
+                      %div
+                        %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@user_edit.last_name}", :disabled => "disabled"}/
                 .form-group
                   %label{:for => "emailadd"}
                     %b Email Address
                     %span.text-danger *
                   %div
-                    %input#val-emailadd.form-control{:type => "text", :value => "#{@emailadd}", :readonly => "readonly"}/
-                .form-group
-                  %input#val-emailadd.form-control{:name => "emailadd", :type => "hidden", :value => "#{@emailadd}"}/
-                .form-group
-                  .form-row
-                    - if !current_user
-                      .col-md-6
-                        %label{:for => "password"}
-                          %b Password
-                          %span.text-danger *
-                        %div
-                          %input#val-password.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
-                      .col-md-6
-                        %label{:for => "confirm-password"}
-                          %b Confirm Password
-                          %span.text-danger *
-                        %div
-                          %input#val-confirmpass.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
-                          %input#val-jobtitle.form-control{:name => "job_title", :type => "hidden", :value => "#{@job_title}"}/
+                    %input#val-emailadd.form-control{:type => "text", :value => "#{@user_edit.emailadd}", :readonly => "readonly"}/
+                    %input#val-emailadd.form-control{:type => "hidden", :value => "#{@user_edit.emailadd}", :name => "user_emailadd"}/
+                    %input#val-emailadd.form-control{:type => "hidden", :value => "#{@emailadd}", :name => "emailadd"}/
                 .form-group
                   .form-row
                     .col-md-6
                       %label{:for => "jobtitle"}
                         Job Title
                         %span.text-danger *
-                      - if @isAdmin
-                        %select#jobtitle.form-control{:name => "job_title", :required => 'required'}
-                          %option{:value => "#{@job_title}"} #{@job_title}
-                          - @jobtitle.each do |t|
-                            %option{:value => t.name}
-                              %td= t.name
-                      - else
-                        %select#jobtitle.form-control{:name => "job_title", :required => 'required', :disabled => 'disabled'}
-                          %option{:value => "#{@job_title}"} #{@job_title}
-                          - @jobtitle.each do |t|
-                            %option{:value => t.name}
-                              %td= t.name
+                      %select#jobtitle.form-control{:name => "job_title", :required => 'required'}
+                        %option{:value => "#{@user_edit.job_title}"} #{@user_edit.job_title}
+                        - @jobtitle.each do |t|
+                          %option{:value => t.name}
+                            %td= t.name
                     .col-md-6
                       %label{:for => "phone"}
                         %b Contact Number
                         %span.text-danger *
                       %div
-                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@phone}", :required => "required"}/
+                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@user_edit.phone}", :disabled => "disabled"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} SAVE
-                  %a.btn.btn-secondary{:href => profile_information_path(emailadd: "#{@emailadd}")} CANCEL
+                  %a.btn.btn-secondary{:href => settings_path(emailadd: "#{@emailadd}")} CANCEL
             .text-center
       / /.container-fluid
       / /.content-wrapper

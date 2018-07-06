@@ -2,11 +2,37 @@ class FoldersController < ApplicationController
 
   def folders
 	@emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
     @folders = Document.select(:doc_type).distinct
   end
   
   def folder_year
     @emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
     @doc_type = params[:doc_type]
 	@doc_id = Document.select(:id).distinct.where(doc_type: params[:doc_type])
 	@doc_year = Event.find_by_sql("SELECT DISTINCT strftime('%Y', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{@doc_type}'")

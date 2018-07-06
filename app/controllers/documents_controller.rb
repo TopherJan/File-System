@@ -43,15 +43,12 @@ class DocumentsController < ApplicationController
 	  @documents = Document.new(user_params)
 	  
 	  if @documents.save!
-	    @doc = @documents.id
-        session[:doc_id] = @doc
-	    
 		if params[:author] != nil
 	      @authors = Author.new(author_params)
 	      @authors.save
 	  
-	      author = Author.find(session[:doc_id])
-	      doc = Document.find(session[:doc_id])
+	      author = Author.find(@documents.id)
+	      doc = Document.find(@documents.id)
 	      doc.update(author_name: author.name)
 	    end
 	
@@ -85,10 +82,10 @@ class DocumentsController < ApplicationController
   end
   
   def update_document
-    doc = Document.find(params[:document_id])
-	doc.update(name: params[:document_name], doc_type: params[:document_type], description: params[:document_description], location: params[:document_location])
-	author = Author.find(params[:document_id])
+    author = Author.find(params[:document_id])
 	author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])
+    doc = Document.find(params[:document_id])
+	doc.update(name: params[:document_name], doc_type: params[:document_type], description: params[:document_description], location: params[:document_location], author_name: params[:author_name])
 	
 	flash[:notice] = "The document was successfully updated!"
 	redirect_to view_documents_path(emailadd: params[:emailadd])

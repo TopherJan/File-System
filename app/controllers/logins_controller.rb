@@ -9,11 +9,14 @@ attr_accessor :user, :dash
     @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countTransactions = @countEventToday.count + @countDocumentToday.count
 	@requests = Request.all
+	@documents =  Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+	@users = User.all
+	@attachments = Attachment.all
 	
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
+	session[:emailadd] = @emailadd
 	@isAdmin = false;
 	@isSecretary = false;
 	@isOthers = false;
@@ -29,14 +32,25 @@ attr_accessor :user, :dash
   
   def accept_request
     @request = Request.find_by(emailadd: params[:emailadd])
-	@new_user = User.new(first_name: "#{@request.first_name}",last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
+	
+	@new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
 	
 	if(@new_user.save)
-	  flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
 	  Request.delete(@request)
+	  flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
+	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	else
 	  flash[:danger] = "The email already exists! Delete #{@request.emailadd} request now!"
+	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	end
+  end
+  
+  def delete_request
+    @request = Request.find_by(emailadd: params[:emailadd])
+	Request.delete(@request)
+	
+	flash[:danger] = "The account request from #{@request.emailadd} was denied!"
+	redirect_to dashboard_path(emailadd: session[:emailadd])
   end
 
   def log_user
