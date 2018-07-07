@@ -9,7 +9,7 @@
 @-ms-viewport {
   width: device-width; }
 body {
-  -ms-overflow-style: scrollbar; }
+  overflow:hidden; }
 
 @media screen and (max-width: 480px) {
   html, body {
@@ -31,7 +31,7 @@ body {
     -moz-transition: none !important;
     -webkit-transition: none !important;
     -ms-transition: none !important;
-    transition: none !important; 
+    transition: none !important;
 	}
 
 html, body, div, span, applet, object,
@@ -961,11 +961,11 @@ ul.actions {
   list-style: none;
   margin-left: -1rem;
   padding-left: 0;
-  
+
   }
   ul.actions li {
     padding: 0 0 0 1rem;
-    vertical-align: middle; 
+    vertical-align: middle;
 	}
   ul.actions.special {
     -moz-justify-content: center;
@@ -1973,7 +1973,7 @@ ul.icons {
     #banner > .inner > :last-child {
       margin-bottom: 0; }
   #banner h1 {
-    font-size: 4rem;
+    font-size: 5rem;
     margin-bottom: 1rem; }
   #banner p {
     font-size: 1.5rem; }
@@ -2255,7 +2255,7 @@ ul.icons {
     #footer input[type="button"].primary,
     #footer button.primary,
     #footer .button.primary {
-	  text-align: center;	
+	  text-align: center;
       box-shadow: none;
       background-color: #ce1b28;
       color: #ffffff !important; }

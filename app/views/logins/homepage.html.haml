@@ -18,27 +18,20 @@
     %header#header
       %a.logo{:href => "/"}
       %nav
-        %a{:href => "#menu"} Menu
-    / Nav
-    %nav#menu
-      %ul.links
-        %li
-          %a{:href => "/"} Home
-        %li
-          %a{:href => "/login"} Log-in
-        %li
-          %a{:href => "/create_account"} Sign-up
+        %a{:href => "/login"} Log-in
+        %a{:href => "/create_account"} Sign-up
     / Banner
     %section#banner
       .inner
-        %h1 Physical Document Tracking System
+        %h1
+          %b Physical Document Tracking System
         %p University of the Philippines - Visayas Tacloban College
-      %video{:autoplay => "", :loop => "", :muted => "", :playsinline => "", :src => "banner.mp4"}
+      %video{:autoplay => "", :loop => "", :muted => "", :playsinline => "", :src => "/images/banner.mp4"}
     / Footer
     %footer#footer
       .inner
         .copyright
-          © 2018
+          © Pards Duo, 2018
           %div
             Faith Cerena  &amp;
             Christopher Jan E. Riños

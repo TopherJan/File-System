@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   resources :documents
   resources :events
+  
   root 'logins#homepage'
 
   get 'auth/:provider/callback', to: 'logins#create'
-  get 'auth/failure', to: redirect('/')
+  get 'auth/failure', to: redirect('/login')
   get '/log_user', to: 'logins#logout', as: 'logout'
 
   get '/login' => 'logins#login'
