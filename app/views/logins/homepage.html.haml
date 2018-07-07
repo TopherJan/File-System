@@ -1,0 +1,50 @@
+!!!
+/
+  Industrious by TEMPLATED
+  templated.co @templatedco
+  Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %link{:href => "favicon.ico", :rel => "shortcut icon"}/
+    %title PDTS
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, user-scalable=no", :name => "viewport"}/
+    %meta{:content => "", :name => "description"}/
+    %meta{:content => "", :name => "keywords"}/
+    %link{:href => "assets/css/main.css", :rel => "stylesheet"}/
+  %body.is-preload
+    / Header
+    %header#header
+      %a.logo{:href => "/"}
+      %nav
+        %a{:href => "#menu"} Menu
+    / Nav
+    %nav#menu
+      %ul.links
+        %li
+          %a{:href => "/"} Home
+        %li
+          %a{:href => "/login"} Log-in
+        %li
+          %a{:href => "/create_account"} Sign-up
+    / Banner
+    %section#banner
+      .inner
+        %h1 Physical Document Tracking System
+        %p University of the Philippines - Visayas Tacloban College
+      %video{:autoplay => "", :loop => "", :muted => "", :playsinline => "", :src => "banner.mp4"}
+    / Footer
+    %footer#footer
+      .inner
+        .copyright
+          © 2018
+          %div
+            Faith Cerena  &amp;
+            Christopher Jan E. Riños
+    / Scripts
+    %script{:src => "assets/js/jquery.min.js"}
+    %script{:src => "assets/js/browser.min.js"}
+    %script{:src => "assets/js/breakpoints.min.js"}
+    %script{:src => "assets/js/util.js"}
+    %script{:src => "assets/js/main.js"}
