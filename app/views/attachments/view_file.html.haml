@@ -95,7 +95,12 @@
                       %td= attachment.created_at
                       %td= link_to "Download File", attachment.attachment_url
                       %td
-                        %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}")} Delete
+                        %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
+                        :javascript
+                          function confirm_delete() {
+                            return confirm('Are you sure you want to delete the file?');
+                          }
+
             %br/
             %a.btn.btn-primary{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
             %a.btn.btn-secondary{:href => view_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Back

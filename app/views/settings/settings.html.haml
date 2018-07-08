@@ -103,7 +103,11 @@
                               - if user.job_title != "Admin"
                                 %td
                                   %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href => delete_users_path(id: user.id, emailadd: "#{@emailadd}")} Delete
+                                  %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
+                                  :javascript
+                                    function confirm_delete() {
+                                      return confirm('Are you sure you want to delete the user?');
+                                    }
               .form-group
                 .col
                   .card
@@ -121,7 +125,11 @@
                               %td= job.name
                               %td
                                 %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Delete
+                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
+                                :javascript
+                                  function confirm_delete() {
+                                    return confirm('Are you sure you want to delete the job title?');
+                                  }
                       %a.btn.btn-primary{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
             .form-group
               .col
@@ -140,7 +148,11 @@
                             %td= type.name
                             %td
                               %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                              %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Delete
+                              %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                              :javascript
+                                function confirm_delete() {
+                                  return confirm('Are you sure you want to delete the document type?');
+                                }
                     %a.btn.btn-primary{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
       / /.container-fluid
       / /.content-wrapper

@@ -99,8 +99,11 @@
                         %td
                           %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
                           %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
-                          %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}")} Delete
-                          %br/
+                          %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document?')"} Delete
+                          :javascript
+                            function confirm_delete() {
+                              return confirm('Are you sure you want to delete the document?');
+                            }
             %br
             - if !@isOthers
               %a.btn.btn-primary{:href => add_document_path(emailadd: "#{@emailadd}")} Add Document
