@@ -29,10 +29,15 @@
             %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+            %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseComponents"}
               %i.fa.fa-fw.fa-file-text
-              %span.nav-link-text View Documents
+              %span.nav-link-text Documents
+            %ul#collapseComponents.sidenav-second-level.collapse
+              %li
+                %a{:href => view_documents_path(emailadd: "#{@emailadd}")} View Documents
+              %li
+                %a{:href => add_document_path(emailadd: "#{@emailadd}")} Add Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
@@ -73,7 +78,7 @@
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:notice]
             - if @isAdmin
-              .form-group  
+              .form-group
                 .col
                   .card
                     .card-header

@@ -29,10 +29,15 @@
             %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+            %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseComponents"}
               %i.fa.fa-fw.fa-file-text
-              %span.nav-link-text View Documents
+              %span.nav-link-text Documents
+            %ul#collapseComponents.sidenav-second-level.collapse
+              %li
+                %a{:href => view_documents_path(emailadd: "#{@emailadd}")} View Documents
+              %li
+                %a{:href => add_document_path(emailadd: "#{@emailadd}")} Add Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
@@ -112,7 +117,7 @@
                                 .modal-body Select "Delete" below if you want to delete the document.
                                 .modal-footer
                                   %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                  %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete  
+                                  %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete
                                   %br/
             %br
             %a.btn.btn-secondary.float-right{:href => folder_year_path(doc_type: "#{@doc_type}", emailadd: "#{@emailadd}")} Back
@@ -133,7 +138,7 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/"} Logout
-      / Delete Modal    
+      / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
