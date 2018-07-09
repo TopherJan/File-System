@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get '/view_event' => 'events#view_event'
   get '/add_event' => 'events#add_event'
   get '/submit_event' => 'events#submit_event'
+  get '/forward' => 'events#forward'
 
   get '/add_document' => 'documents#add_document'
   get '/update_document' => 'documents#update_document'

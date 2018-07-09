@@ -21,6 +21,28 @@ class EventsController < ApplicationController
 	@author = Author.find(params[:id])
 	@events = Event.where(:doc_id => params[:id]).order(:event_date)
     @doc = Document.where(@doc_id)
+	@attachments = Attachment.where(doc_id: params[:id])
+  end
+  
+  def forward
+    @emailadd = params[:emailadd]
+	@user = User.find_by(emailadd: params[:emailadd])
+	@job_title = "#{@user.job_title}"
+	@all_user = User.find_by_sql("SELECT * FROM users where emailadd != '#{@user.emailadd}'")
+	
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	else
+	  @isOthers = true
+	end
+	
+	@doc_id = params[:id]
+	@document = Document.find(params[:id])
+	@author = Author.find(params[:id])
+	@events = Event.where(:doc_id => params[:id]).order(:event_date)
+    @doc = Document.where(@doc_id)
   end
   
   def add_event

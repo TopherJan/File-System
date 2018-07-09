@@ -61,94 +61,82 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
-          %li.breadcrumb-item.active Settings
+          %li.breadcrumb-item
+            %a{:href => view_documents_path(emailadd: "#{@emailadd}")} View Documents
+          %li.breadcrumb-item
+            %a{:href => view_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} #{@document.name}
+          %li.breadcrumb-item.active Forward
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %i.fa.fa-gear
-            Settings
+          .card-body
+            .form-group
+              .form-row
+                .col-md-6
+                  %b Name of Document:
+                  #{@document.name}
+                  %br/
+                .col-md-6
+                  %b Author:
+                  #{@author.name}
+                  %br/
+              .form-row
+                .col-md-6
+                  %b Type of Document:
+                  #{@document.doc_type}
+                  %br/
+                .col-md-6
+                  %b Contact Number:
+                  #{@author.contact}
+                  %br/
+              .form-row
+                .col-md-6
+                  %b Location:
+                  #{@document.location}
+                  %br/
+                .col-md-6
+                  %b Agency:
+                  #{@author.agency}
+                  %br/
+              .form-row
+                .col-md-6
+                  %b Description:
+                  #{@document.description}
+                  %br/
+                .col-md-6
+                  %b Address:
+                  #{@author.address}
+                  %br/
+        .card.mb-3
+          .card-header
+            %i.fa.fa-share-square
+            Forward
           .card-body
             - if flash[:notice]
               .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:notice]
-            .col-lg-12
-              %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
-                %li.nav-item
-                  %a.nav-link.active{"data-toggle" => "tab", :href => "#user", :role => "tab"} Users
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
-              .tab-content
-                #user.tab-pane.active{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr
-                            %th Name
-                            %th Email Address
-                            %th Job Title
-                            %th Options
-                        %tbody
-                          - @users.each do |user|
-                            %tr
-                              %td= user.first_name
-                              %td= user.emailadd
-                              %td= user.job_title
-                              - if user.job_title != "Admin"
-                                %td
-                                  %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
-                                  :javascript
-                                    function confirm_delete() {
-                                      return confirm('Are you sure you want to delete the user?');
-                                    }
-                #jobtitle.tab-pane{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                      %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr{:align => "center"}
-                            %th Name
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @jobtitle.each do |job|
-                            %tr
-                              %td= job.name
-                              %td
-                                %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
-                                :javascript
-                                  function confirm_delete() {
-                                    return confirm('Are you sure you want to delete the job title?');
-                                  }
-                #doctype.tab-pane{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                      %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr{:align => "center"}
-                            %th Name
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @doc_type.each do |type|
-                            %tr
-                              %td= type.name
-                              %td
-                                %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
-                                :javascript
-                                  function confirm_delete() {
-                                    return confirm('Are you sure you want to delete the document type?');
-                                  }
-                
+            .table-responsive
+              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                %thead{:align => "center"}
+                  %tr
+                    %th Name
+                    %th Email
+                    %th Job Title
+                    %th Options
+                %tbody{:align => "center"}
+                  - @all_user.each do |user|
+                    %tr
+                      %td= user.first_name + " " + user.last_name
+                      %td= user.emailadd
+                      %td= user.job_title
+                      %td
+                        %a.btn.btn-success{:href => "", :onclick => "return confirm('Are you sure you want to delete the file??')"} Send
+                        :javascript
+                          function confirm_delete() {
+                            return confirm('Are you sure you want to delete the file?');
+                          }
+      %a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
@@ -166,7 +154,6 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
-      / Delete Modal
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

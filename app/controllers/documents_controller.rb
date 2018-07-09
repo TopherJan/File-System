@@ -36,12 +36,15 @@ class DocumentsController < ApplicationController
 	if params[:document] != nil
 	  @documents = Document.new(user_params)
 	  if @documents.save!
+	    @doc_id = @documents.id
 		if params[:author] != nil
 	      @authors = Author.new(author_params)
 	      @authors.save
-	      author = Author.find(@documents.id)
-	      doc = Document.find(@documents.id)
-	      doc.update(author_name: author.name)
+		  
+		  @events = Event.new(doc_id: "#{@documents.id}", event_type: params[:event_type], event_date: params[:event_date], remarks: params[:event_remarks])
+		  @events.save
+		  doc = Document.find(@documents.id)
+	      doc.update(author_name: "#{@authors.name}", date_modified: "#{@events.event_date}", status: "#{@events.event_type}")
 	    end
 	
 	    flash[:notice] = "The document was successfully added!"
@@ -104,10 +107,5 @@ class DocumentsController < ApplicationController
   def author_params
 	params.require(:author).permit(:name, :contact, :department, :agency, :address)
   end
-  
-  def event_params
-	params.require(:event).permit(:doc_id, :event_date, :event_type, :remarks)
-  end
-  
 end
 	
