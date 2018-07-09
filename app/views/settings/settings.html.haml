@@ -127,6 +127,27 @@
                                       function confirm_delete() {
                                         return confirm('Are you sure you want to delete the user?');
                                       }
+                  #doctype.tab-pane{:role => "tabpanel"}
+                    .card.mb-3
+                      .card-header
+                        %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                      .card-body
+                        %table.table
+                          %thead
+                            %tr{:align => "center"}
+                              %th Name
+                              %th Options
+                          %tbody{:align => "center"}
+                            - @doc_type.each do |type|
+                              %tr
+                                %td= type.name
+                                %td
+                                  %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                  %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                  :javascript
+                                    function confirm_delete() {
+                                      return confirm('Are you sure you want to delete the document type?');
+                                    }
                 - else
                   #doctype.tab-pane.active{:role => "tabpanel"}
                     .card.mb-3
