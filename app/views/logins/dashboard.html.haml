@@ -56,10 +56,6 @@
               %i.fa.fa-fw.fa-sign-out>
               Logout
     .content-wrapper
-      - if flash[:login]
-        .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-          %b.notice= flash[:login]
       - if flash[:danger]
         .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
           %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
@@ -142,16 +138,8 @@
                   %tr
                     %th Name
                     %th Author
-                /
-                  <tfoot>
-                  <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Remarks</th>
-                  </tr>
-                  </tfoot>
                 %tbody{:align => "center"}
-                  - @documents.each do |document|
+                  - @countDocumentToday.each do |document|
                     %tr
                       %td= document.name
                       %td= document.author_name

@@ -68,18 +68,10 @@
             %i.fa.fa-gear
             Settings
           .card-body
-            - if flash[:danger]
-              .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                %b.notice= flash[:danger]
             - if flash[:notice]
               .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
                 %b.notice= flash[:notice]
-            - if flash[:change]
-              .alert.alert-warning.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                %b.notice= flash[:change]
             - if @isAdmin
               .form-group  
                 .col

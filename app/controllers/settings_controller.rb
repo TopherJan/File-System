@@ -1,14 +1,13 @@
 class SettingsController < ApplicationController
-  
+
+@isAdmin = false;
+@isSecretary = false;
+@isOthers = false;
+	
   def settings
     @emailadd = params[:emailadd]
-	
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -27,9 +26,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -55,7 +51,7 @@ class SettingsController < ApplicationController
     @doc = Doctype.find(params[:id])
 	Doctype.delete(@doc)
 	
-	flash[:danger] = "The document type was successfully deleted!"
+	flash[:notice] = "The document type was successfully deleted!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
@@ -63,9 +59,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -91,9 +84,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -120,7 +110,7 @@ class SettingsController < ApplicationController
     @job = Jobtitle.find(params[:id])
 	Jobtitle.delete(@job)
 	
-	flash[:danger] = "The job title was successfully deleted!"
+	flash[:notice] = "The job title was successfully deleted!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
   
@@ -128,9 +118,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -157,10 +144,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
 	@current_user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@current_user.job_title}"
-
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -190,7 +173,7 @@ class SettingsController < ApplicationController
     @user = User.find(params[:id])
 	User.delete(@user)
 	
-	flash[:danger] = "The user was successfully deleted!"
+	flash[:notice] = "The user was successfully deleted!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
   

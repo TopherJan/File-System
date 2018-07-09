@@ -1,13 +1,12 @@
 class EventsController < ApplicationController
+  @isAdmin = false;
+  @isSecretary = false;
+  @isOthers = false;  
   
   def view_event
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -20,7 +19,6 @@ class EventsController < ApplicationController
 	@doc_id = params[:id]
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
-	
 	@events = Event.where(:doc_id => params[:id]).order(:event_date)
     @doc = Document.where(@doc_id)
   end
@@ -28,11 +26,8 @@ class EventsController < ApplicationController
   def add_event
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
+	@doc_id = params[:id]
 	@job_title = "#{@user.job_title}"
-	
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -41,8 +36,6 @@ class EventsController < ApplicationController
 	else
 	  @isOthers = true
 	end
-	
-    @doc_id = params[:id]
 	
 	if params[:event] != nil
 	  @events = Event.new(event_params)

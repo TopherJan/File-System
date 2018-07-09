@@ -1,5 +1,8 @@
 class LoginsController < ApplicationController
-attr_accessor :user, :dash
+  attr_accessor :user, :dash
+  @isAdmin = false;
+  @isSecretary = false;
+  @isOthers = false;
 
   def dashboard
     @countUser = User.count
@@ -9,7 +12,6 @@ attr_accessor :user, :dash
     @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countTransactions = @countEventToday.count + @countDocumentToday.count
 	@requests = Request.all
-	@documents =  Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
 	@users = User.all
 	@attachments = Attachment.all
 
@@ -17,9 +19,6 @@ attr_accessor :user, :dash
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	session[:emailadd] = @emailadd
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -32,7 +31,6 @@ attr_accessor :user, :dash
 
   def accept_request
     @request = Request.find_by(emailadd: params[:emailadd])
-
 	@new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
 
 	if(@new_user.save)
@@ -56,14 +54,13 @@ attr_accessor :user, :dash
   def log_user
 	@emailadd = params[:emailadd]
 	@password = params[:password]
-
 	@user = User.find_by(emailadd: "#{@emailadd}", password: "#{@password}")
 
     if @user.nil?
 	  flash[:danger] = "User does not exist! Try again!"
 	  redirect_to '/login'
 	else
-	  flash[:login] = "Successfully logged into the system!"
+	  flash[:notice] = "Successfully logged into the system!"
 	  redirect_to dashboard_path(emailadd: params[:emailadd])
     end
   end

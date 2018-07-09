@@ -1,14 +1,12 @@
 class DocumentsController < ApplicationController
+  @isAdmin = false;
+  @isSecretary = false;
+  @isOthers = false;
 
   def view_documents
     @emailadd = params[:emailadd]
-	
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -23,13 +21,9 @@ class DocumentsController < ApplicationController
 
   def add_document
     @doc_type = Doctype.all
-	
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -41,12 +35,10 @@ class DocumentsController < ApplicationController
 	
 	if params[:document] != nil
 	  @documents = Document.new(user_params)
-	  
 	  if @documents.save!
 		if params[:author] != nil
 	      @authors = Author.new(author_params)
 	      @authors.save
-	  
 	      author = Author.find(@documents.id)
 	      doc = Document.find(@documents.id)
 	      doc.update(author_name: author.name)
@@ -62,9 +54,6 @@ class DocumentsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -104,7 +93,7 @@ class DocumentsController < ApplicationController
 	Attachment.delete(attachment)
 	
 	session[:return_to] ||= request.referer
-	flash[:danger] = "The document was successfully deleted!"
+	flash[:notice] = "The document was successfully deleted!"
 	redirect_to session.delete(:return_to)
   end
   

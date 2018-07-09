@@ -1,12 +1,12 @@
 class FoldersController < ApplicationController
+  @isAdmin = false;
+  @isSecretary = false;
+  @isOthers = false;
 
   def folders
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -22,9 +22,6 @@ class FoldersController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -33,6 +30,7 @@ class FoldersController < ApplicationController
 	else
 	  @isOthers = true
 	end
+	
     @doc_type = params[:doc_type]
 	@doc_id = Document.select(:id).distinct.where(doc_type: params[:doc_type])
 	@doc_year = Event.find_by_sql("SELECT DISTINCT strftime('%Y', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{@doc_type}'")
@@ -44,10 +42,6 @@ class FoldersController < ApplicationController
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true

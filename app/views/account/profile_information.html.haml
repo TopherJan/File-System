@@ -95,7 +95,11 @@
                       %b Contact Number
                     %input#val-contact.form-control{:placeholder => "#{@phone}", :disabled => "disabled"}/
               %a.btn.btn-primary{:href => edit_profile_information_path(emailadd: "#{@emailadd}")} Update Account
-              %a.button.btn.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal", :href => delete_user_path(emailadd: "#{@emailadd}")}Delete Account
+              %a.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete your account?')"} Delete Account
+              :javascript
+                function confirm_delete() {
+                  return confirm('Are you sure you want to delete your account?');
+                }
             .text-center
       / /.container-fluid
       / /.content-wrapper
@@ -118,18 +122,6 @@
             .modal-footer
               %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
               %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
-      / Delete Modal
-      #deleteModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
-        .modal-dialog{:role => "document"}
-          .modal-content
-            .modal-header
-              %h5#exampleModalLabel.modal-title Are you sure?
-              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                %span{"aria-hidden" => "true"} ×
-            .modal-body Select "CONFIRM" if you want to delete your account.
-            .modal-footer
-              %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} CANCEL
-              %a.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}")} CONFIRM
       / Bootstrap core JavaScript
       %script{:src => "vendor/jquery/jquery.min.js"}
       %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}

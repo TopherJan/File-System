@@ -1,8 +1,10 @@
 class AccountController < ApplicationController
- skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
+  @isAdmin = false;
+  @isSecretary = false;
+  @isOthers = false;
 
   def profile_information
-    current_user
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
 
@@ -12,10 +14,6 @@ class AccountController < ApplicationController
       @last_name = @current_user.last_name
       @job_title = @current_user.job_title
       @phone = @current_user.phone
-	  
-	  @isAdmin = false;
-	  @isSecretary = false;
-	  @isOthers = false;
 	
 	  if(@job_title == "Admin")
 	    @isAdmin = true
@@ -28,7 +26,6 @@ class AccountController < ApplicationController
   end
 
   def edit_profile_information
-    current_user
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
 	
@@ -39,10 +36,6 @@ class AccountController < ApplicationController
       @last_name = @current_user.last_name
       @job_title =@current_user.job_title
       @phone = @current_user.phone
-	  
-	  @isAdmin = false;
-	  @isSecretary = false;
-	  @isOthers = false;
 	
 	  if(@job_title == "Admin")
 	    @isAdmin = true
@@ -69,9 +62,6 @@ class AccountController < ApplicationController
   end
 
   def redirect_account
-    #@current_user = User.find_by(emailadd: session[:current_user_emailadd])
-    #@emailadd = session[:current_user_emailadd]
-
     @first_name = params[:first_name]
     @last_name = params[:last_name]
     @emailadd = params[:emailadd]
@@ -86,7 +76,7 @@ class AccountController < ApplicationController
 	  redirect_to '/create_account'
     else
       flash[:success] = "Account registration sent to Admin!"
-      redirect_to '/'
+      redirect_to login_path
     end 
   end
 
@@ -98,7 +88,7 @@ class AccountController < ApplicationController
 	User.delete(@user)
 	User.delete(@google_user)
 
-    flash[:danger] = "Account was deleted successfully!"
+    flash[:success] = "Account was deleted successfully!"
     redirect_to '/'
   end
 end
