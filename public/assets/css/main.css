@@ -9,7 +9,7 @@
 @-ms-viewport {
   width: device-width; }
 body {
-  overflow:hidden; }
+ overflow: hidden; }
 
 @media screen and (max-width: 480px) {
   html, body {
@@ -31,7 +31,7 @@ body {
     -moz-transition: none !important;
     -webkit-transition: none !important;
     -ms-transition: none !important;
-    transition: none !important;
+    transition: none !important; 
 	}
 
 html, body, div, span, applet, object,
@@ -148,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none; }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
   line-height: 1.2; }
 
 h2 {
@@ -961,11 +961,11 @@ ul.actions {
   list-style: none;
   margin-left: -1rem;
   padding-left: 0;
-
+  
   }
   ul.actions li {
     padding: 0 0 0 1rem;
-    vertical-align: middle;
+    vertical-align: middle; 
 	}
   ul.actions.special {
     -moz-justify-content: center;
@@ -1822,8 +1822,8 @@ ul.icons {
   background-size: cover;
   border-top: 0;
   display: -ms-flexbox;
-  height: 42rem !important;
-  min-height: 42rem;
+  height: 35rem !important;
+  min-height: 35rem;
   overflow: hidden;
   position: relative;
   text-align: center;
@@ -2213,7 +2213,7 @@ ul.icons {
 #footer {
   background-color: #111111;
   color: rgba(255, 255, 255, 0.5);
-  padding: 2rem 0 1rem 0 ; }
+  padding: 1rem 0 8rem 0 ; }
   #footer input, #footer select, #footer textarea {
     color: #ffffff; }
   #footer a {
@@ -2255,7 +2255,7 @@ ul.icons {
     #footer input[type="button"].primary,
     #footer button.primary,
     #footer .button.primary {
-	  text-align: center;
+	  text-align: center;	
       box-shadow: none;
       background-color: #ce1b28;
       color: #ffffff !important; }
