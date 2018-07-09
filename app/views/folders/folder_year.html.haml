@@ -36,10 +36,17 @@
                 %a{:href => view_documents_path(emailadd: "#{@emailadd}")} View Documents
               %li
                 %a{:href => add_document_path(emailadd: "#{@emailadd}")} Add Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
-              %i.fa.fa-fw.fa-folder
-              %span.nav-link-text Folders
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+              %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
+                %i.fa.fa-fw.fa-folder
+                %span.nav-link-text Folders
+              %ul#collapseFolders.sidenav-second-level.collapse
+                %li
+                  - @folders.each do |folder|
+                    %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type, emailadd: "#{@emailadd}")}
+                      %i.fa.fa-fw.fa-folder-open
+                      %span.nav-link-text
+                      %td= folder.doc_type
           - if @isAdmin || @isSecretary
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
@@ -79,8 +86,6 @@
                   %i.fa.fa-fw.fa-folder-open
                   %span.nav-link-text
                   %td= document.dates
-            %div
-              %a.btn.btn-secondary.float-right{:href => folders_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button

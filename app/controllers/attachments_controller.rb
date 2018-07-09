@@ -2,14 +2,14 @@ class AttachmentsController < ApplicationController
   @isAdmin = false;
   @isSecretary = false;
   @isOthers = false;
-  
+
   def view_file
     @emailadd = params[:emailadd]
     @doc_id = params[:id]
     @attachments = Attachment.where(doc_id: params[:id])
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
+
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
@@ -25,7 +25,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	
+
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
@@ -50,7 +50,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
 	@doc_id = "#{@attachment.doc_id}"
     @attachment.destroy
-	
+
 	flash[:notice] = "The file was successfuly deleted!"
     redirect_to view_file_path(id: "#{@doc_id}", emailadd: params[:emailadd])
   end
