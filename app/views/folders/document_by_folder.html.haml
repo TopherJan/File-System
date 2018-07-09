@@ -115,8 +115,8 @@
                       %td= document.status
                       - if !@isOthers
                         %td
-                          %a.btn-sm.btn-primary{:href => view_event_path(id: document.id)} View
-                          %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id)} Edit
+                          %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                          %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
                           %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
                           #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
                             .modal-dialog{:role => "document"}
