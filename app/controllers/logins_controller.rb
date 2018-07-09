@@ -14,7 +14,7 @@ class LoginsController < ApplicationController
 	@requests = Request.all
 	@users = User.all
 	@attachments = Attachment.all
-
+@folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"

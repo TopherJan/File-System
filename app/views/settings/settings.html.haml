@@ -29,14 +29,30 @@
             %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+            %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseComponents"}
               %i.fa.fa-fw.fa-file-text
-              %span.nav-link-text View Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
-              %i.fa.fa-fw.fa-folder
-              %span.nav-link-text Folders
+              %span.nav-link-text Documents
+            %ul#collapseComponents.sidenav-second-level.collapse
+              %li
+                %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+                  %i.fa.fa-fw.fa-eye
+                  %span.nav-link-text View Documents
+              %li
+                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                  %i.fa.fa-fw.fa-pencil
+                  %span.nav-link-text Add Documents
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+              %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
+                %i.fa.fa-fw.fa-folder
+                %span.nav-link-text Folders
+              %ul#collapseFolders.sidenav-second-level.collapse
+                %li
+                  - @folders.each do |folder|
+                    %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type, emailadd: "#{@emailadd}")}
+                      %i.fa.fa-fw.fa-folder-open
+                      %span.nav-link-text
+                      %td= folder.doc_type
           - if @isAdmin || @isSecretary
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
@@ -74,37 +90,64 @@
                 %b.notice= flash[:notice]
             .col-lg-12
               %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
-                %li.nav-item
-                  %a.nav-link.active{"data-toggle" => "tab", :href => "#user", :role => "tab"} Users
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
+                - if @isAdmin
+                  %li.nav-item
+                    %a.nav-link.active{"data-toggle" => "tab", :href => "#user", :role => "tab"} Users
+                  %li.nav-item
+                    %a.nav-link{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
+                  %li.nav-item
+                    %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
+                - else
+                  %li.nav-item
+                    %a.nav-link.active{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
               .tab-content
-                #user.tab-pane.active{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr
-                            %th Name
-                            %th Email Address
-                            %th Job Title
-                            %th Options
-                        %tbody
-                          - @users.each do |user|
+                - if @isAdmin
+                  #user.tab-pane.active{:role => "tabpanel"}
+                    .card.mb-3
+                      .card-header
+                      .card-body
+                        %table.table
+                          %thead
                             %tr
-                              %td= user.first_name
-                              %td= user.emailadd
-                              %td= user.job_title
-                              - if user.job_title != "Admin"
+                              %th Name
+                              %th Email Address
+                              %th Job Title
+                              %th Options
+                          %tbody
+                            - @users.each do |user|
+                              %tr
+                                %td= user.first_name
+                                %td= user.emailadd
+                                %td= user.job_title
+                                - if user.job_title != "Admin"
+                                  %td
+                                    %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
+                                    %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
+                                    :javascript
+                                      function confirm_delete() {
+                                        return confirm('Are you sure you want to delete the user?');
+                                      }
+                - else
+                  #doctype.tab-pane.active{:role => "tabpanel"}
+                    .card.mb-3
+                      .card-header
+                        %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                      .card-body
+                        %table.table
+                          %thead
+                            %tr{:align => "center"}
+                              %th Name
+                              %th Options
+                          %tbody{:align => "center"}
+                            - @doc_type.each do |type|
+                              %tr
+                                %td= type.name
                                 %td
-                                  %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
+                                  %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                  %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
                                   :javascript
                                     function confirm_delete() {
-                                      return confirm('Are you sure you want to delete the user?');
+                                      return confirm('Are you sure you want to delete the document type?');
                                     }
                 #jobtitle.tab-pane{:role => "tabpanel"}
                   .card.mb-3
@@ -126,27 +169,6 @@
                                 :javascript
                                   function confirm_delete() {
                                     return confirm('Are you sure you want to delete the job title?');
-                                  }
-                #doctype.tab-pane{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                      %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr{:align => "center"}
-                            %th Name
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @doc_type.each do |type|
-                            %tr
-                              %td= type.name
-                              %td
-                                %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
-                                :javascript
-                                  function confirm_delete() {
-                                    return confirm('Are you sure you want to delete the document type?');
                                   }
                 
       / /.container-fluid
