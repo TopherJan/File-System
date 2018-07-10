@@ -67,10 +67,47 @@
             %a#sidenavToggler.nav-link.text-center
               %i.fa.fa-fw.fa-angle-left
         %ul.navbar-nav.ml-auto
+          %li.nav-item.dropdown
+            %a#alertsDropdown.nav-link.dropdown-toggle.mr-lg-2{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+              %i.fa.fa-fw.fa-bell
+              %span.d-lg-none
+                Alerts
+                %span.badge.badge-pill.badge-warning 6 New
+              %span.indicator.text-warning.d-none.d-lg-block
+                %i.fa.fa-fw.fa-circle
+            .dropdown-menu{"aria-labelledby" => "alertsDropdown"}
+              %h6.dropdown-header New Alerts:
+              .dropdown-divider
+              %a.dropdown-item{:href => "#"}
+                %span.text-success
+                  %strong
+                    %i.fa.fa-long-arrow-up.fa-fw>
+                    Status Update
+                %span.small.float-right.text-muted 11:21 AM
+                .dropdown-message.small This is an automated server response message. All systems are online.
+              .dropdown-divider
+              %a.dropdown-item{:href => "#"}
+                %span.text-danger
+                  %strong
+                    %i.fa.fa-long-arrow-down.fa-fw>
+                    Status Update
+                %span.small.float-right.text-muted 11:21 AM
+                .dropdown-message.small This is an automated server response message. All systems are online.
+              .dropdown-divider
+              %a.dropdown-item{:href => "#"}
+                %span.text-success
+                  %strong
+                    %i.fa.fa-long-arrow-up.fa-fw>
+                    Status Update
+                %span.small.float-right.text-muted 11:21 AM
+                .dropdown-message.small This is an automated server response message. All systems are online.
+              .dropdown-divider
+              %a.dropdown-item.small{:href => "#"} View all alerts
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
               %i.fa.fa-fw.fa-sign-out>
               Logout
+
     .content-wrapper
       - if flash[:danger]
         .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
@@ -114,92 +151,90 @@
                   %i.fa.fa-fw.fa-gears
                 .mr-5
                   %b TOTAL TRANSACTIONS: #{@countTransactions}
+
+
+
         - if @isAdmin
           .card.mb-3
-            .card-header
-              %i.fa.fa-list-alt
-              Account Registration Requests
-            .card-body
-              .table-responsive
-                %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                  %thead{:align => "center"}
-                    %tr
-                      %th Name
-                      %th Email
-                      %th Job Title
-                      %th Contact #
-                      %th Options
-                  %tbody{:align => "center"}
-                    - @requests.each do |request|
-                      %tr
-                        %td= request.first_name + " " + request.last_name
-                        %td= request.emailadd
-                        %td= request.job_title
-                        %td= request.phone
-                        %td
-                          %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
-                          %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
-                          :javascript
-                            function confirm_delete() {
-                              return confirm('Are you sure you want to reject the request?');
-                            }
-        .card.mb-3
-          .card-header
-            %i.fa.fa-file
-            All Existing Documents
-          .card-body
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead{:align => "center"}
-                  %tr
-                    %th Name
-                    %th Author
-                %tbody{:align => "center"}
-                  - @countDocumentToday.each do |document|
-                    %tr
-                      %td= document.name
-                      %td= document.author_name
-            %br/
-        - if !@isOthers
-          .row
-            - if @isAdmin
-              .col-lg-8
-                .card.mb-3
-                  .card-header
-                    %i.fa.fa-user
-                    All Existing Users
-                  .card-body
-                    .table-responsive
-                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                        %thead{:align => "center"}
-                          %tr
-                            %th Email Address
-                            %th Full Name
-                            %th Job Title
-                        %tbody{:align => "center"}
-                          - @users.each do |user|
-                            %tr
-                              %td= user.emailadd
-                              %td= user.first_name + " " + user.last_name
-                              %td= user.job_title
-            .col-lg-4
-              / Example Pie Chart Card
-              .card.mb-3
-                .card-header
-                  %i.fa.fa-paperclip
-                  All Existing Files
+            %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
+              %li.nav-item
+                %a.nav-link.active{"data-toggle" => "tab", :href => "#reqs", :role => "tab"} All Pending Requests
+              %li.nav-item
+                %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
+              %li.nav-item
+                %a.nav-link{"data-toggle" => "tab", :href => "#accts", :role => "tab"} All Existing Users
+              %li.nav-item
+                %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} All Existing Attachments
+            .tab-content
+              #reqs.tab-pane.active{:role => "tabpanel"}
                 .card-body
                   .table-responsive
                     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                       %thead{:align => "center"}
                         %tr
-                          %th Name of File
-                          %th
+                          %th Name
+                          %th Email
+                          %th Job Title
+                          %th Contact #
+                          %th Options
                       %tbody{:align => "center"}
-                        - @attachments.each do |attachment|
+                        - @requests.each do |request|
                           %tr
-                            %td= attachment.attachment_in_database
-                            %td= link_to "Download", attachment.attachment_url
+                            %td= request.first_name + " " + request.last_name
+                            %td= request.emailadd
+                            %td= request.job_title
+                            %td= request.phone
+                            %td
+                              %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
+                              %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
+                              :javascript
+                                function confirm_delete() {
+                                  return confirm('Are you sure you want to reject the request?');
+                                }
+              #docs.tab-pane{:role => "tabpanel"}
+                .card-body
+                  .table-responsive
+                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                      %thead{:align => "center"}
+                        %tr
+                        %th Name
+                        %th Author
+                      %tbody{:align => "center"}
+                        - @countDocumentToday.each do |document|
+                          %tr
+                          %td= document.name
+                          %td= document.author_name
+
+              #accts.tab-pane{:role => "tabpanel"}
+                .card-body
+                  .table-responsive
+                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                      %thead{:align => "center"}
+                      %tr
+                        %th Email Address
+                        %th Full Name
+                        %th Job Title
+                      %tbody{:align => "center"}
+                      - @users.each do |user|
+                        %tr
+                          %td= user.emailadd
+                          %td= user.first_name + " " + user.last_name
+                          %td= user.job_title
+
+              #files.tab-pane{:role => "tabpanel"}
+                .card-body
+                  .table-responsive
+                  %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                    %thead{:align => "center"}
+                      %tr
+                        %th Name of File
+                        %th
+                      %tbody{:align => "center"}
+                      - @attachments.each do |attachment|
+                        %tr
+                          %td= attachment.attachment_in_database
+                          %td= link_to "Download", attachment.attachment_url
+
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button

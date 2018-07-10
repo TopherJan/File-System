@@ -77,6 +77,10 @@
             %i.fa.fa-copy
             Add Files
           .card-body
+            - if flash[:file]
+              .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                %b.notice= flash[:file]
             %h4
               %b FILE UPLOAD
             .form-validation
@@ -94,7 +98,7 @@
                   = f.file_field :attachment
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
-                  %a.btn.btn-secondary{:href => view_file_path(id: "#{@doc_id}",emailadd: "#{@emailadd}")} Back
+                  %a.btn.btn-secondary{:href => view_event_path(id: "#{@doc_id}",emailadd: "#{@emailadd}")} Back
                   %br/
         / /.container-fluid
         / /.content-wrapper
