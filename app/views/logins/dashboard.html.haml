@@ -154,57 +154,76 @@
 
 
 
-        - if @isAdmin
+        .card-body
           .card.mb-3
             %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
-              %li.nav-item
-                %a.nav-link.active{"data-toggle" => "tab", :href => "#reqs", :role => "tab"} All Pending Requests
-              %li.nav-item
-                %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
-              %li.nav-item
-                %a.nav-link{"data-toggle" => "tab", :href => "#accts", :role => "tab"} All Existing Users
-              %li.nav-item
-                %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} All Existing Attachments
+              - if @isAdmin
+                %li.nav-item
+                  %a.nav-link.active{"data-toggle" => "tab", :href => "#reqs", :role => "tab"} All Pending Requests
+                %li.nav-item
+                  %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
+                %li.nav-item
+                  %a.nav-link{"data-toggle" => "tab", :href => "#accts", :role => "tab"} All Existing Users
+                %li.nav-item
+                  %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} All Existing Attachments
+              - else
+                %li.nav-item
+                  %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
             .tab-content
-              #reqs.tab-pane.active{:role => "tabpanel"}
-                .card-body
-                  .table-responsive
-                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                      %thead{:align => "center"}
-                        %tr
+              - if @isAdmin
+                #reqs.tab-pane.active{:role => "tabpanel"}
+                  .card-body
+                    .table-responsive
+                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                        %thead{:align => "center"}
+                          %tr
+                            %th Name
+                            %th Email
+                            %th Job Title
+                            %th Contact #
+                            %th Options
+                        %tbody{:align => "center"}
+                          - @requests.each do |request|
+                            %tr
+                              %td= request.first_name + " " + request.last_name
+                              %td= request.emailadd
+                              %td= request.job_title
+                              %td= request.phone
+                              %td
+                                %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
+                                %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
+                                :javascript
+                                  function confirm_delete() {
+                                    return confirm('Are you sure you want to reject the request?');
+                                  }
+              - if @isAdmin
+                #docs.tab-pane{:role => "tabpanel"}
+                  .card-body
+                    .table-responsive
+                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                        %thead{:align => "center"}
+                          %tr
                           %th Name
-                          %th Email
-                          %th Job Title
-                          %th Contact #
-                          %th Options
-                      %tbody{:align => "center"}
-                        - @requests.each do |request|
+                          %th Author
+                        %tbody{:align => "center"}
+                          - @countDocumentToday.each do |document|
+                            %tr
+                            %td= document.name
+                            %td= document.author_name
+              - else
+                #docs.tab-pane.active{:role => "tabpanel"}
+                  .card-body
+                    .table-responsive
+                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                        %thead{:align => "center"}
                           %tr
-                            %td= request.first_name + " " + request.last_name
-                            %td= request.emailadd
-                            %td= request.job_title
-                            %td= request.phone
-                            %td
-                              %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
-                              %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
-                              :javascript
-                                function confirm_delete() {
-                                  return confirm('Are you sure you want to reject the request?');
-                                }
-              #docs.tab-pane{:role => "tabpanel"}
-                .card-body
-                  .table-responsive
-                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                      %thead{:align => "center"}
-                        %tr
-                        %th Name
-                        %th Author
-                      %tbody{:align => "center"}
-                        - @countDocumentToday.each do |document|
-                          %tr
-                          %td= document.name
-                          %td= document.author_name
-
+                          %th Name
+                          %th Author
+                        %tbody{:align => "center"}
+                          - @countDocumentToday.each do |document|
+                            %tr
+                            %td= document.name
+                            %td= document.author_name
               #accts.tab-pane{:role => "tabpanel"}
                 .card-body
                   .table-responsive
