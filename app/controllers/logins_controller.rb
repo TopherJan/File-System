@@ -19,8 +19,6 @@ class LoginsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	session[:emailadd] = @emailadd
-	forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
-	@received = Document.where(:id => forwards)
 	
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -28,15 +26,20 @@ class LoginsController < ApplicationController
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	  @documents = Document.all
+	  forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
+	  @received = Document.where(:id => forwards)
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all
+	  forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
+	  @received = Document.where(:id => forwards)
 	else
 	  @isOthers = true
 	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @documents = Document.where(:id => doc)
 	  @folders = Document.select(:doc_type).where(:id => doc).distinct
-	  
+	  forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
+	  @received = Document.where(:id => forwards)
 	end
   end
   
@@ -44,10 +47,10 @@ class LoginsController < ApplicationController
     forward = Forward.find_by(doc_id: params[:doc_id], user_id: params[:user_id])
 	forward.update(:received => true)
 	@user = User.find(params[:user_id])
-	@events = Event.new(event_date: Time.zone.now, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
 	if @events.save
 	  doc = Document.find(params[:doc_id])
-	  doc.update(date_modified: Time.zone.now, status: 'Acknowledged')
+	  doc.update(date_modified: DateTime.now.to_date, status: 'Acknowledged')
 
 	  flash[:receive] = "The document has been received!"
 	  redirect_to dashboard_path(emailadd: session[:emailadd])
