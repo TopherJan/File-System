@@ -35,9 +35,14 @@
               %span.nav-link-text Documents
             %ul#collapseComponents.sidenav-second-level.collapse
               %li
-                %a{:href => view_documents_path(emailadd: "#{@emailadd}")} View Documents
-              %li
-                %a{:href => add_document_path(emailadd: "#{@emailadd}")} Add Documents
+                %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+                  %i.fa.fa-fw.fa-eye
+                  %span.nav-link-text View Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
           %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
             %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-folder
@@ -88,19 +93,21 @@
                     %th Name
                     %th Date Uploaded
                     %th Download Link
-                    %th Options
+                    - if !@isOthers
+                      %th Options
                 %tbody{:align => "center"}
                   - @attachments.each do |attachment|
                     %tr
                       %td= attachment.attachment_in_database
                       %td= attachment.created_at
                       %td= link_to "Download File", attachment.attachment_url
-                      %td
-                        %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
-                        :javascript
-                          function confirm_delete() {
-                            return confirm('Are you sure you want to delete the file?');
-                          }
+                      - if !@isOthers
+                        %td
+                          %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
+                          :javascript
+                            function confirm_delete() {
+                              return confirm('Are you sure you want to delete the file?');
+                            }
 
             %br/
             %a.btn.btn-primary{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File

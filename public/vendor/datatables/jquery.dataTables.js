@@ -9933,7 +9933,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aaSorting": [[0,'asc']],
+		"aaSorting": [[3,'desc'][0, 'desc']],
 	
 	
 		/**

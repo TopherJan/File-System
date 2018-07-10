@@ -38,10 +38,11 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              %li
-                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
-                  %i.fa.fa-fw.fa-pencil
-                  %span.nav-link-text Add Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
               %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
                 %i.fa.fa-fw.fa-folder
@@ -97,8 +98,7 @@
                     %th Description
                     %th Date Modified
                     %th Status
-                    - if !@isOthers
-                      %th Actions
+                    %th Actions
                 %tbody{:align => "center"}
                   - @documents.each do |document|
                     %tr
@@ -107,9 +107,9 @@
                       %td= document.description
                       %td= document.date_modified
                       %td= document.status
-                      - if !@isOthers
-                        %td
-                          %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                      %td
+                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                        - if !@isOthers
                           %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
                           %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document?')"} Delete
                           :javascript

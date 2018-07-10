@@ -29,14 +29,31 @@
             %a.nav-link{:href => dashboard_path(emailadd: "#{@emailadd}")}
               %i.fa.fa-fw.fa-dashboard
               %span.nav-link-text Dashboard
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "View Documents"}
-            %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+            %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseComponents"}
               %i.fa.fa-fw.fa-file-text
-              %span.nav-link-text View Documents
-          %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Folders"}
-            %a.nav-link{:href => folders_path(emailadd: "#{@emailadd}")}
-              %i.fa.fa-fw.fa-folder
-              %span.nav-link-text Folders
+              %span.nav-link-text Documents
+            %ul#collapseComponents.sidenav-second-level.collapse
+              %li
+                %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
+                  %i.fa.fa-fw.fa-eye
+                  %span.nav-link-text View Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
+            %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
+              %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
+                %i.fa.fa-fw.fa-folder
+                %span.nav-link-text Folders
+              %ul#collapseFolders.sidenav-second-level.collapse
+                %li
+                  - @folders.each do |folder|
+                    %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type, emailadd: "#{@emailadd}")}
+                      %i.fa.fa-fw.fa-folder-open
+                      %span.nav-link-text
+                      %td= folder.doc_type
           - if @isAdmin || @isSecretary
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
@@ -123,15 +140,32 @@
                     %th Name
                     %th Email
                     %th Job Title
+                    %th Status
                     %th Options
                 %tbody{:align => "center"}
-                  - @all_user.each do |user|
+                  - @sent.zip(@status).each do |user,status|
+                    %tr
+                      %td= user.first_name + " " + user.last_name
+                      %td= user.emailadd
+                      %td= user.job_title
+                      - if status.received
+                        %td
+                          %b RECEIVED
+                      - else
+                        %td
+                          %b FORWARDED
+                      %td
+                        %h4
+                          %a.fa.fa-check-square-o
+                  - @users.each do |user|
                     %tr
                       %td= user.first_name + " " + user.last_name
                       %td= user.emailadd
                       %td= user.job_title
                       %td
-                        %a.btn.btn-success{:href => ""} Send
+                      %td
+                        %a.btn.btn-success{:href => send_document_path(doc_id: "#{@doc_id}", emailadd: "#{@emailadd}", user_id: user.id), :onclick => "myFunction()"} Send
+
       %a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper

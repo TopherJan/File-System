@@ -18,10 +18,14 @@ class AccountController < ApplicationController
 
 	  if(@job_title == "Admin")
 	    @isAdmin = true
-	  elsif(@job_title == "Secretary")
+      elsif(@job_title == "Secretary")
 	    @isSecretary = true
+	  elsif(@job_title == "Dean")
+	    @isOthers = true
 	  else
 	    @isOthers = true
+	    doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
+	    @folders = Document.select(:doc_type).where(:id => doc).distinct
 	  end
 	end
   end
@@ -41,10 +45,14 @@ class AccountController < ApplicationController
 
 	  if(@job_title == "Admin")
 	    @isAdmin = true
-	  elsif(@job_title == "Secretary")
+      elsif(@job_title == "Secretary")
 	    @isSecretary = true
+	  elsif(@job_title == "Dean")
+	    @isOthers = true
 	  else
 	    @isOthers = true
+	    doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	    @folders = Document.select(:doc_type).where(:id => doc).distinct
 	  end
 	end
 

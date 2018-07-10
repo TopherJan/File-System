@@ -37,10 +37,11 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              %li
-                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
-                  %i.fa.fa-fw.fa-pencil
-                  %span.nav-link-text Add Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
               %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
                 %i.fa.fa-fw.fa-folder

@@ -5,7 +5,7 @@ class SettingsController < ApplicationController
 @isOthers = false;
 
   def settings
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
@@ -14,8 +14,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     @doc_type = Doctype.all
@@ -24,7 +28,7 @@ class SettingsController < ApplicationController
   end
 
   def add_doctype
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
@@ -33,8 +37,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     if params[:doctype] != nil
@@ -58,7 +66,7 @@ class SettingsController < ApplicationController
   end
 
   def edit_doctype
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
@@ -67,8 +75,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     @doc_id = params[:id]
@@ -76,7 +88,7 @@ class SettingsController < ApplicationController
   end
 
   def update_doctype
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     doc = Doctype.find(params[:doctype_id])
 	doc.update(name: params[:doctype_name])
 
@@ -85,7 +97,7 @@ class SettingsController < ApplicationController
   end
 
   def add_jobtitle
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
@@ -94,8 +106,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     if params[:name] != nil
@@ -120,7 +136,7 @@ class SettingsController < ApplicationController
   end
 
   def edit_jobtitle
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
@@ -129,8 +145,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     @job_id = params[:id]
@@ -138,7 +158,7 @@ class SettingsController < ApplicationController
   end
 
   def update_jobtitle
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     job = Jobtitle.find(params[:jobtitle_id])
 	job.update(name: params[:jobtitle_name])
@@ -148,7 +168,7 @@ class SettingsController < ApplicationController
   end
 
    def edit_users
-		 @folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@current_user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@current_user.job_title}"
@@ -157,8 +177,12 @@ class SettingsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
 	session[:emailadd] = @emailadd
@@ -167,7 +191,7 @@ class SettingsController < ApplicationController
   end
 
   def update_users
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 
     current_user = User.find_by(emailadd: params[:user_emailadd])

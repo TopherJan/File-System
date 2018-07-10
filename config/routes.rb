@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/dashboard' => 'logins#dashboard'
   get '/accept_request' => 'logins#accept_request'
   get '/delete_request' => 'logins#delete_request'
+  get '/receive_document' => 'logins#receive_document'
 
   get '/delete_user' => 'account#delete_user'
   get '/create_account' => 'account#create_account'
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
   get '/add_event' => 'events#add_event'
   get '/submit_event' => 'events#submit_event'
   get '/forward' => 'events#forward'
+  get '/send_document' => 'events#send_document'
 
   get '/add_document' => 'documents#add_document'
   get '/update_document' => 'documents#update_document'

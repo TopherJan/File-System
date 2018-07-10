@@ -14,21 +14,46 @@ class LoginsController < ApplicationController
 	@requests = Request.all
 	@users = User.all
 	@attachments = Attachment.all
-@folders = Document.select(:doc_type).distinct
+    @folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	session[:emailadd] = @emailadd
-
+	forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
+	@received = Document.where(:id => forwards)
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
+	  @documents = Document.all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	  @documents = Document.all
+	elsif(@job_title == "Dean")
+	  @isOthers = true
+	  @documents = Document.all
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @documents = Document.where(:id => doc)
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	  
 	end
   end
+  
+  def receive_document
+    forward = Forward.find_by(doc_id: params[:doc_id], user_id: params[:user_id])
+	forward.update(:received => true)
+	@user = User.find(params[:user_id])
+	@events = Event.new(event_date: Time.zone.now, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	if @events.save
+	  doc = Document.find(params[:doc_id])
+	  doc.update(date_modified: Time.zone.now, status: 'Acknowledged')
 
+	  flash[:receive] = "The document has been received!"
+	  redirect_to dashboard_path(emailadd: session[:emailadd])
+	end
+  end
+  
   def accept_request
     @request = Request.find_by(emailadd: params[:emailadd])
 	@new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")

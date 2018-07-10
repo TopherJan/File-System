@@ -20,6 +20,7 @@ class AttachmentsController < ApplicationController
   end
 
   def upload_file
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@doc_id = params[:id]
     @attachment = Attachment.new
@@ -30,8 +31,12 @@ class AttachmentsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
   end
 

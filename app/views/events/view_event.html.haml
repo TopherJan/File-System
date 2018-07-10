@@ -38,10 +38,11 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              %li
-                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
-                  %i.fa.fa-fw.fa-pencil
-                  %span.nav-link-text Add Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
               %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
                 %i.fa.fa-fw.fa-folder
@@ -83,7 +84,8 @@
         / Example DataTables Card
         .card.mb-3
           .card-header
-            %a.btn.btn-success.float-right{:href => forward_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Forward
+            - if !@isOthers
+              %a.btn.btn-success.float-right{:href => forward_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Forward
           .card-body
             .form-group
               .form-row
@@ -134,7 +136,8 @@
               .card-header
                 %i.fa.fa-paste
                 Events
-                %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
+                - if !@isOthers
+                  %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
               .card-body
                 - if flash[:notice]
                   .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
@@ -158,7 +161,8 @@
               .card-header
                 %i.fa.fa-copy
                 Files
-                %a.btn.btn-primary.float-right{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
+                - if !@isOthers
+                  %a.btn.btn-primary.float-right{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
               .card-body
                 - if flash[:file]
                   .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
@@ -171,19 +175,21 @@
                         %th Name
                         %th Date Uploaded
                         %th Download Link
-                        %th Options
+                        - if !@isOthers
+                          %th Options
                     %tbody{:align => "center"}
                       - @attachments.each do |attachment|
                         %tr
                           %td= attachment.attachment_in_database
                           %td= attachment.created_at
                           %td= link_to "Download File", attachment.attachment_url
-                          %td
-                            %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
-                            :javascript
-                              function confirm_delete() {
-                                return confirm('Are you sure you want to delete the file?');
-                              }
+                          - if !@isOthers
+                            %td
+                              %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
+                              :javascript
+                                function confirm_delete() {
+                                  return confirm('Are you sure you want to delete the file?');
+                                }
       
       /%a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid

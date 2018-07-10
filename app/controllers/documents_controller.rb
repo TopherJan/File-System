@@ -4,20 +4,25 @@ class DocumentsController < ApplicationController
   @isOthers = false;
 
   def view_documents
-    @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-
+	@folders = Document.select(:doc_type).distinct
 	if(@job_title == "Admin")
 	  @isAdmin = true
+	  @documents = Document.order(date_modified: :desc).all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	  @documents = Document.all.order(:date_modified)
+	elsif(@job_title == "Dean")
+	  @isOthers = true
+	  @documents = Document.all.order(:date_modified)
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @documents = Document.where(:id => doc).order(:date_modified)
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
-
-    @documents = Document.all
   end
 
   def add_document
@@ -31,8 +36,12 @@ class DocumentsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
 	if params[:document] != nil

@@ -38,10 +38,11 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              %li
-                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
-                  %i.fa.fa-fw.fa-pencil
-                  %span.nav-link-text Add Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
               %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
                 %i.fa.fa-fw.fa-folder
@@ -102,8 +103,7 @@
                     %th Location
                     %th Date Modified
                     %th Status
-                    - if !@isOthers
-                      %th Actions
+                    %th Actions
                 %tbody{:align => "center"}
                   - @documents.each do |document|
                     %tr
@@ -113,23 +113,15 @@
                       %td= document.location
                       %td= document.date_modified
                       %td= document.status
-                      - if !@isOthers
-                        %td
-                          %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                      %td
+                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
+                        - if !@isOthers
                           %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
-                          %btn.btn-sm.btn-danger{"data-target" => "#deleteModal", "data-toggle" => "modal"} Delete
-                          #deleteModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "deleteModalLabel", :role => "dialog", :tabindex => "-1"}
-                            .modal-dialog{:role => "document"}
-                              .modal-content
-                                .modal-header
-                                  %h5#deleteModalLabel.modal-title Are you sure you want to delete?
-                                  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                                    %span{"aria-hidden" => "true"} ×
-                                .modal-body Select "Delete" below if you want to delete the document.
-                                .modal-footer
-                                  %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-                                  %a.btn.btn-danger{:href => delete_document_path(id: document.id)} Delete
-                                  %br/
+                          %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document?')"} Delete
+                          :javascript
+                            function confirm_delete() {
+                              return confirm('Are you sure you want to delete the document?');
+                            }
             %br
             %a.btn.btn-secondary.float-right{:href => folder_year_path(doc_type: "#{@doc_type}", emailadd: "#{@emailadd}")} Back
       / /.container-fluid

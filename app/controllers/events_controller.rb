@@ -13,8 +13,12 @@ class EventsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
 	@doc_id = params[:id]
@@ -26,22 +30,48 @@ class EventsController < ApplicationController
   end
   
   def forward
+    @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-	@all_user = User.find_by_sql("SELECT * FROM users where emailadd != '#{@user.emailadd}'")
 	
+	forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
+	@users = User.where.not(:id => "#{@user.id}").where.not(:id => forw)
+	@sent = User.where.not(:id => "#{@user.id}").where(:id => forw)
+
+	@status = Forward.where(user_id: @sent.ids).where(doc_id: params[:id])
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 	
 	@doc_id = params[:id]
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
+  end
+  
+  def send_document
+    @emailadd = params[:emailadd]
+	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], received: false)
+	@user = User.find(params[:user_id])
+	
+	if @forward.save
+	  @events = Event.new(event_date: Time.zone.now, event_type: 'Forwarded', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	  if @events.save
+		doc = Document.find(params[:doc_id])
+	    doc.update(date_modified: Time.zone.now, status: 'Forwarded')
+
+        flash[:notice] = "The document was successfully sent to #{@user.emailadd}!"
+	    redirect_to forward_path(id: params[:doc_id], emailadd: "#{@emailadd}")
+	  end
+	end
   end
 
   def add_event
@@ -55,8 +85,12 @@ class EventsController < ApplicationController
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
 	if params[:event] != nil

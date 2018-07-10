@@ -4,18 +4,24 @@ class FoldersController < ApplicationController
   @isOthers = false;
 
   def folders
+    @folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
+	  @documents = Document.all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
-	else
+	  @documents = Document.all
+	elsif(@job_title == "Dean")
 	  @isOthers = true
+	  @documents = Document.all
+	else
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+      @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
-    @folders = Document.select(:doc_type).distinct
   end
 
   def folder_year
@@ -23,13 +29,17 @@ class FoldersController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
-
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
 	else
 	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
 	end
 
     @doc_type = params[:doc_type]
@@ -47,9 +57,16 @@ class FoldersController < ApplicationController
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
+	  @documents = Document.all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
+	  @documents = Document.all
+	elsif(@job_title == "Dean")
+	  @isOthers = true
+	  @documents = Document.all
 	else
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+      @folders = Document.select(:doc_type).where(:id => doc).distinct
 	  @isOthers = true
 	end
 

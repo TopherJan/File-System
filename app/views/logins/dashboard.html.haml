@@ -38,10 +38,11 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              %li
-                %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
-                  %i.fa.fa-fw.fa-pencil
-                  %span.nav-link-text Add Documents
+              - if !@isOthers
+                %li
+                  %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
+                    %i.fa.fa-fw.fa-pencil
+                    %span.nav-link-text Add Documents
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Components"}
               %a.nav-link.nav-link-collapse.collapsed{"data-parent" => "#exampleAccordion", "data-toggle" => "collapse", :href => "#collapseFolders"}
                 %i.fa.fa-fw.fa-folder
@@ -114,6 +115,32 @@
                   %i.fa.fa-fw.fa-gears
                 .mr-5
                   %b TOTAL TRANSACTIONS: #{@countTransactions}
+        - if !@isAdmin
+          .card.mb-3
+            .card-header
+              %i.fa.fa-list-alt
+              Forwarded Documents
+            .card-body
+              - if flash[:receive]
+                .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                  %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                  %b.notice= flash[:receive]
+              .table-responsive
+                %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                  %thead{:align => "center"}
+                    %tr
+                      %th Name
+                      %th Author
+                      %th Description
+                      %th Options
+                  %tbody{:align => "center"}
+                    - @received.each do |document|
+                      %tr
+                        %td= document.name
+                        %td= document.author_name
+                        %td= document.description
+                        %td
+                          %a.btn-sm.btn-success{:href => receive_document_path(doc_id: document.id, user_id: "#{@user.id}")} Receive
         - if @isAdmin
           .card.mb-3
             .card-header
@@ -155,7 +182,7 @@
                     %th Name
                     %th Author
                 %tbody{:align => "center"}
-                  - @countDocumentToday.each do |document|
+                  - @documents.each do |document|
                     %tr
                       %td= document.name
                       %td= document.author_name
