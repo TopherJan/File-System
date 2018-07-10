@@ -124,7 +124,7 @@
                   %b Address:
                   #{@author.address}
                   %br/
-        
+
         %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
           %li.nav-item
             %a.nav-link.active{"data-toggle" => "tab", :href => "#events", :role => "tab"} Events
@@ -190,7 +190,6 @@
                                 function confirm_delete() {
                                   return confirm('Are you sure you want to delete the file?');
                                 }
-      
       /%a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper

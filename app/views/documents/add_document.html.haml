@@ -168,9 +168,7 @@
                         %select#val-doctype.form-control{:name => "event_type", :required => 'required', :placeholder => "Please select"}
                           %option{:value => "Created"} Created
                           %option{:value => "Received"} Received
-                          %option{:value => "Forwarded"} Forwarded
                           %option{:value => "Returned"} Returned
-                          %option{:value => "Acknowledged"} Acknowledged
                           %option{:value => "Accomplished"} Accomplished
                   .form-group
                     %label{:for => "val-remarks"}
@@ -178,8 +176,10 @@
                     %div
                       %input#val-remarks.form-control{:name => "event_remarks", :placeholder => "Add Description here", :type => "text"}/
                 %div
-                  %button.btn.btn-primary{:type => "submit"} Add
-                  %a.btn.btn-secondary{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
+                  %button.btn.btn-primary{:type => "submit"} Save
+                  %button.btn.btn-primary{:type => "submit", :name => 'sau'} Save and Upload
+                  %a.btn.btn-secondary{:href => view_file_path(id: "#{@doc_id}",emailadd: "#{@emailadd}")} Back
+                  %br/
         / /.container-fluid
         / /.content-wrapper
         / Scroll to Top Button
