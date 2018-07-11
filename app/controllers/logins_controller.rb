@@ -49,10 +49,13 @@ class LoginsController < ApplicationController
 	@user = User.find(params[:user_id])
 	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
 	if @events.save
+	  @event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
+	  @doc_status = "#{@event.event_type}"
+	  @doc_date = "#{@event.event_date}"
 	  doc = Document.find(params[:doc_id])
-	  doc.update(date_modified: DateTime.now.to_date, status: 'Acknowledged')
+	  doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-	  flash[:receive] = "The document has been received!"
+	  flash[:receive] = "The document ''#{doc.name.upcase}'' has been received!"
 	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	end
   end

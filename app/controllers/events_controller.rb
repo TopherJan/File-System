@@ -65,8 +65,11 @@ class EventsController < ApplicationController
 	if @forward.save
 	  @events = Event.new(event_date: DateTime.now.to_date, event_type: 'Forwarded', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
 	  if @events.save
+		@event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
+	    @doc_status = "#{@event.event_type}"
+	    @doc_date = "#{@event.event_date}"
 		doc = Document.find(params[:doc_id])
-	    doc.update(date_modified: DateTime.now.to_date, status: 'Forwarded')
+	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
         flash[:notice] = "The document was successfully sent to #{@user.emailadd}!"
 	    redirect_to forward_path(id: params[:doc_id], emailadd: "#{@emailadd}")
@@ -97,7 +100,7 @@ class EventsController < ApplicationController
 	  @events = Event.new(event_params)
 	  if @events.save
 	    @id = params[:doc_id]
-	    @event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc).first
+	    @event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
 	    @doc_status = "#{@event.event_type}"
 	    @doc_date = "#{@event.event_date}"
 		doc = Document.find(params[:doc_id])
