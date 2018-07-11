@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :documents
   resources :events
-  
+
   root 'logins#homepage'
 
   get 'auth/:provider/callback', to: 'logins#create'
@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get '/delete_user' => 'account#delete_user'
   get '/create_account' => 'account#create_account'
+  get '/up_mail' => 'account#up_mail'
   get '/profile_information' => 'account#profile_information'
   get '/edit_profile_information' => 'account#edit_profile_information'
   get '/update_profile_information' => 'account#update_profile_information'

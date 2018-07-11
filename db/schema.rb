@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705095303) do
+ActiveRecord::Schema.define(version: 20180711004746) do
 
   create_table "attachments", force: :cascade do |t|
     t.string "name"
@@ -73,6 +73,9 @@ ActiveRecord::Schema.define(version: 20180705095303) do
   end
 
   create_table "requests", force: :cascade do |t|
+    t.text "provider"
+    t.text "uid"
+    t.text "fullname"
     t.text "emailadd"
     t.text "first_name"
     t.text "last_name"
