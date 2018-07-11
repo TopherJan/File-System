@@ -120,9 +120,9 @@
                     %input#val-emailadd.form-control{:type => "text", :value => "#{@emailadd}", :readonly => "readonly"}/
                 .form-group
                   %input#val-emailadd.form-control{:name => "emailadd", :type => "hidden", :value => "#{@emailadd}"}/
-                .form-group
-                  .form-row
-                    - if !current_user
+                - if !current_user
+                  .form-group
+                    .form-row
                       .col-md-6
                         %label{:for => "password"}
                           %b Password
@@ -140,7 +140,7 @@
                   .form-row
                     .col-md-6
                       %label{:for => "jobtitle"}
-                        Job Title
+                        %b Job Title
                         %span.text-danger *
                       - if @isAdmin
                         %select#jobtitle.form-control{:name => "job_title", :required => 'required'}

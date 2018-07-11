@@ -62,45 +62,55 @@ class LoginsController < ApplicationController
   
   def accept_request
     @request = Request.find_by(emailadd: params[:emailadd])
-	@new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
+    @new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
 
-	if(@new_user.save)
-	  Request.delete(@request)
-	  flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
-	  redirect_to dashboard_path(emailadd: session[:emailadd])
-	else
-	  flash[:danger] = "The email already exists! Delete #{@request.emailadd} request now!"
-	  redirect_to dashboard_path(emailadd: session[:emailadd])
-	end
+    if(@new_user.save)
+      Request.delete(@request)
+      flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
+      redirect_to dashboard_path(emailadd: session[:emailadd])
+    else
+      flash[:danger] = "The email already exists! Delete #{@request.emailadd} request now!"
+      redirect_to dashboard_path(emailadd: session[:emailadd])
+    end
   end
 
   def delete_request
     @request = Request.find_by(emailadd: params[:emailadd])
-	Request.delete(@request)
+    Request.delete(@request)
 
-	flash[:danger] = "The account request from #{@request.emailadd} was denied!"
-	redirect_to dashboard_path(emailadd: session[:emailadd])
+    flash[:danger] = "The account request from #{@request.emailadd} was denied!"
+    redirect_to dashboard_path(emailadd: session[:emailadd])
   end
 
   def log_user
-	@emailadd = params[:emailadd]
-	@password = params[:password]
-	@user = User.find_by(emailadd: "#{@emailadd}", password: "#{@password}")
+    @emailadd = params[:emailadd]
+    @password = params[:password]
+    @user = User.find_by(emailadd: "#{@emailadd}", password: "#{@password}")
 
     if @user.nil?
-	  flash[:danger] = "User does not exist! Try again!"
-	  redirect_to '/login'
-	else
-	  flash[:notice] = "Successfully logged into the system!"
-	  redirect_to dashboard_path(emailadd: params[:emailadd])
+      flash[:danger] = "User does not exist! Try again!"
+      redirect_to '/login'
+    else
+      flash[:notice] = "Successfully logged into the system!"
+      redirect_to dashboard_path(emailadd: params[:emailadd])
     end
   end
 
   def create
-    user = User.from_omniauth(request.env["omniauth.auth"])
-	session[:user_id] = user.id
-    flash[:login] = "Successfully logged in!"
-    redirect_to view_documents_path
+
+    user = Request.from_omniauth(request.env["omniauth.auth"])
+    session[:user_id] = user.id
+
+    @current_user = User.find_by(emailadd: user.emailadd)
+
+    if @current_user.nil?
+      redirect_to up_mail_path
+    else
+      @request = Request.find_by(emailadd: user.emailadd)
+      Request.delete(@request)
+      flash[:notice] = "Successfully logged into the system!"
+      redirect_to dashboard_path(emailadd: user.emailadd)
+    end
   end
 
   def destroy
@@ -110,9 +120,9 @@ class LoginsController < ApplicationController
 
   def logout
     session[:user_id] = nil
-	reset_session
-	flash[:notice] = "Logged out successfully!"
-	redirect_to '/'
+    reset_session
+    flash[:notice] = "Logged out successfully!"
+    redirect_to '/'
   end
 
 end
