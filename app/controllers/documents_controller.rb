@@ -31,6 +31,7 @@ class DocumentsController < ApplicationController
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
+	@attachment = Attachment.new
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -54,12 +55,17 @@ class DocumentsController < ApplicationController
 		  
 		  @events = Event.new(doc_id: "#{@documents.id}", event_type: params[:event_type], event_date: params[:event_date], remarks: params[:event_remarks])
 		  @events.save
+		  
 		  doc = Document.find(@documents.id)
 	      doc.update(author_name: "#{@authors.name}", date_modified: "#{@events.event_date}", status: "#{@events.event_type}")
 	    end
-
-	    flash[:notice] = "The document was successfully added!"
-	    redirect_to view_documents_path(emailadd: params[:emailadd])
+		
+		if(params[:sau] != nil)
+	      redirect_to upload_file_path(id: "#{@documents.id}", emailadd: "#{@emailadd}")
+		else
+	      flash[:notice] = "The document was successfully added!"
+	      redirect_to view_documents_path(emailadd: params[:emailadd])
+		end
 	  end
 	end
   end

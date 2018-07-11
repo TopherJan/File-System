@@ -177,7 +177,7 @@
                       %input#val-remarks.form-control{:name => "event_remarks", :placeholder => "Add Description here", :type => "text"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Save
-                  %button.btn.btn-primary{:type => "submit", :name => 'sau'} Save and Upload
+                  %button.btn.btn-primary{:type => "submit", :sau => 'sau'} Save and Upload
                   %a.btn.btn-secondary{:href => view_file_path(id: "#{@doc_id}",emailadd: "#{@emailadd}")} Back
                   %br/
         / /.container-fluid

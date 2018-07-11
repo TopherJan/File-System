@@ -46,7 +46,7 @@ class AttachmentsController < ApplicationController
 
     if @attachment.save
 	  flash[:file] = "The file was successfuly added!"
-      redirect_to upload_file_path(id: params[:doc_id], emailadd: params[:emailadd])
+      redirect_to view_event_path(id: params[:doc_id], emailadd: params[:emailadd])
     end
   end
 

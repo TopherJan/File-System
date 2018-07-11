@@ -77,7 +77,7 @@
           %li.breadcrumb-item
             %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
           %li.breadcrumb-item
-            %a{:href => folders_path} Folders
+            %a{:href => folders_path(emailadd: "#{@emailadd}")} Folders
           %li.breadcrumb-item.active #{@doc_type}
         .card.mb-3
           .card-header
