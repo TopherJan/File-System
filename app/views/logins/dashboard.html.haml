@@ -68,56 +68,16 @@
             %a#sidenavToggler.nav-link.text-center
               %i.fa.fa-fw.fa-angle-left
         %ul.navbar-nav.ml-auto
-          %li.nav-item.dropdown
-            %a#alertsDropdown.nav-link.dropdown-toggle.mr-lg-2{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
-              %i.fa.fa-fw.fa-bell
-              %span.d-lg-none
-                Alerts
-                %span.badge.badge-pill.badge-warning 6 New
-              %span.indicator.text-warning.d-none.d-lg-block
-                %i.fa.fa-fw.fa-circle
-            .dropdown-menu{"aria-labelledby" => "alertsDropdown"}
-              %h6.dropdown-header New Alerts:
-              .dropdown-divider
-              %a.dropdown-item{:href => "#"}
-                %span.text-success
-                  %strong
-                    %i.fa.fa-long-arrow-up.fa-fw>
-                    Status Update
-                %span.small.float-right.text-muted 11:21 AM
-                .dropdown-message.small This is an automated server response message. All systems are online.
-              .dropdown-divider
-              %a.dropdown-item{:href => "#"}
-                %span.text-danger
-                  %strong
-                    %i.fa.fa-long-arrow-down.fa-fw>
-                    Status Update
-                %span.small.float-right.text-muted 11:21 AM
-                .dropdown-message.small This is an automated server response message. All systems are online.
-              .dropdown-divider
-              %a.dropdown-item{:href => "#"}
-                %span.text-success
-                  %strong
-                    %i.fa.fa-long-arrow-up.fa-fw>
-                    Status Update
-                %span.small.float-right.text-muted 11:21 AM
-                .dropdown-message.small This is an automated server response message. All systems are online.
-              .dropdown-divider
-              %a.dropdown-item.small{:href => "#"} View all alerts
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
               %i.fa.fa-fw.fa-sign-out
               Logout
 
     .content-wrapper
-      - if flash[:danger]
-        .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-          %b.notice= flash[:danger]
-      - if flash[:notice]
+      - if flash[:login]
         .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
           %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-          %b.notice= flash[:notice]
+          %b.notice= flash[:login]
       .container-fluid
         / Breadcrumbs
         %ol.breadcrumb
@@ -153,6 +113,14 @@
                 .mr-5
                   %b TOTAL TRANSACTIONS: #{@countTransactions}
         .card-body
+          - if flash[:danger]
+            .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+              %b.notice= flash[:danger]
+          - if flash[:notice]
+            .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+              %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+              %b.notice= flash[:notice]
           .card.mb-3
             %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
               - if @isAdmin
@@ -213,10 +181,6 @@
               - else
                 #forward.tab-pane.active{:role => "tabpanel"}
                   .card-body
-                    - if flash[:receive]
-                      .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                        %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                        %b.notice= flash[:receive]
                     .table-responsive
                       %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                         %thead{:align => "center"}

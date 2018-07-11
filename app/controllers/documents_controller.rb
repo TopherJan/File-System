@@ -60,7 +60,7 @@ class DocumentsController < ApplicationController
 	      doc.update(author_name: "#{@authors.name}", date_modified: "#{@events.event_date}", status: "#{@events.event_type}")
 	    end
 		
-		if(params[:sau] != nil)
+		if(params[:save_and_upload])
 	      redirect_to upload_file_path(id: "#{@documents.id}", emailadd: "#{@emailadd}")
 		else
 	      flash[:notice] = "The document was successfully added!"

@@ -55,7 +55,7 @@ class LoginsController < ApplicationController
 	  doc = Document.find(params[:doc_id])
 	  doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-	  flash[:receive] = "The document ''#{doc.name.upcase}'' has been received!"
+	  flash[:notice] = "The document ''#{doc.name.upcase}'' has been received!"
 	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	end
   end
@@ -91,7 +91,7 @@ class LoginsController < ApplicationController
       flash[:danger] = "User does not exist! Try again!"
       redirect_to '/login'
     else
-      flash[:notice] = "Successfully logged into the system!"
+      flash[:login] = "Successfully logged into the system!"
       redirect_to dashboard_path(emailadd: params[:emailadd])
     end
   end
@@ -108,7 +108,7 @@ class LoginsController < ApplicationController
     else
       @request = Request.find_by(emailadd: user.emailadd)
       Request.delete(@request)
-      flash[:notice] = "Successfully logged into the system!"
+      flash[:login] = "Successfully logged into the system!"
       redirect_to dashboard_path(emailadd: user.emailadd)
     end
   end
