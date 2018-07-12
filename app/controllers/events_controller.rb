@@ -35,9 +35,9 @@ class EventsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	
-	forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
-	@users = User.where.not(:id => "#{@user.id}").where.not(:id => forw)
-	@sent = User.where.not(:id => "#{@user.id}").where(:id => forw)
+	@forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
+	@users = User.where.not(:id => "#{@user.id}").where.not(:id => "#{@forw}")
+	@sent = User.where.not(:id => "#{@user.id}").where(:id => "#{@forw}")
 
 	@status = Forward.where(user_id: @sent.ids).where(doc_id: params[:id])
 	if(@job_title == "Admin")
@@ -48,8 +48,8 @@ class EventsController < ApplicationController
 	  @isOthers = true
 	else
 	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 	
 	@doc_id = params[:id]
