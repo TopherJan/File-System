@@ -19,9 +19,9 @@ class DocumentsController < ApplicationController
 	  @documents = Document.all.order(:date_modified)
 	else
 	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @documents = Document.where(:id => doc).order(:date_modified)
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
   end
 
@@ -35,14 +35,14 @@ class DocumentsController < ApplicationController
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
-	elsif(@job_title == "Secretary")
+    elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
 	if params[:document] != nil
@@ -77,12 +77,16 @@ class DocumentsController < ApplicationController
     @job_title = "#{@user.job_title}"
 
     if(@job_title == "Admin")
-      @isAdmin = true
+	  @isAdmin = true
     elsif(@job_title == "Secretary")
-      @isSecretary = true
-    else
+	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
+	else
       @isOthers = true
-    end
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+	end
 
     session[:emailadd] = params[:emailadd]
     @doc_id = params[:id]

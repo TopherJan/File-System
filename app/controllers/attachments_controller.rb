@@ -3,22 +3,6 @@ class AttachmentsController < ApplicationController
   @isSecretary = false;
   @isOthers = false;
 
-  def view_file
-    @emailadd = params[:emailadd]
-    @doc_id = params[:id]
-    @attachments = Attachment.where(doc_id: params[:id])
-	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	else
-	  @isOthers = true
-	end
-  end
-
   def upload_file
 	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
@@ -29,14 +13,14 @@ class AttachmentsController < ApplicationController
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
-	elsif(@job_title == "Secretary")
+    elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
   end
 

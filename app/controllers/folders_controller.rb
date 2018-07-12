@@ -19,8 +19,9 @@ class FoldersController < ApplicationController
 	  @isOthers = true
 	  @documents = Document.all
 	else
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-      @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
   end
 
@@ -38,8 +39,8 @@ class FoldersController < ApplicationController
 	  @isOthers = true
 	else
 	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     @doc_type = params[:doc_type]
@@ -65,9 +66,9 @@ class FoldersController < ApplicationController
 	  @isOthers = true
 	  @documents = Document.all
 	else
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-      @folders = Document.select(:doc_type).where(:id => doc).distinct
-	  @isOthers = true
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
 	@document_type = Document.where(doc_type: params[:doc_type])

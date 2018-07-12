@@ -17,15 +17,10 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
-
-    @doc_type = Doctype.all
-    @users = User.all
-	@jobtitle = Jobtitle.all
-  end
 
   def add_doctype
 	@folders = Document.select(:doc_type).distinct
@@ -40,9 +35,9 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     if params[:doctype] != nil
@@ -78,9 +73,9 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     @doc_id = params[:id]
@@ -109,9 +104,9 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     if params[:name] != nil
@@ -148,9 +143,9 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     @job_id = params[:id]
@@ -180,9 +175,9 @@ class SettingsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @isOthers = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
 	session[:emailadd] = @emailadd
