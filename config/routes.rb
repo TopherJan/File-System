@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get 'auth/:provider/callback', to: 'logins#create'
   get 'auth/failure', to: redirect('/login')
-  get '/log_user', to: 'logins#logout', as: 'logout'z
+  get '/log_user', to: 'logins#logout', as: 'logout'
 
   get '/login' => 'logins#login'
   get '/forgot' => 'logins#forget'
