@@ -21,6 +21,11 @@ class SettingsController < ApplicationController
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
+	
+	@doc_type = Doctype.all
+    @users = User.all
+	@jobtitle = Jobtitle.all
+  end
 
   def add_doctype
 	@folders = Document.select(:doc_type).distinct
