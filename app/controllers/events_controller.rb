@@ -35,11 +35,11 @@ class EventsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	
-	@forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
-	@users = User.where.not(:id => "#{@user.id}").where.not(:id => "#{@forw}")
-	@sent = User.where.not(:id => "#{@user.id}").where(:id => "#{@forw}")
-
+	forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
+	@users = User.where.not(:id => "#{@user.id}").where.not(:id => forw)
+	@sent = User.where.not(:id => "#{@user.id}").where(:id => forw)
 	@status = Forward.where(user_id: @sent.ids).where(doc_id: params[:id])
+
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
