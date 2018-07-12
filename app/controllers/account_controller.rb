@@ -100,6 +100,7 @@ class AccountController < ApplicationController
       request = Request.find_by(:emailadd => current_user.emailadd)
       request.update(job_title: "#{@job_title}", phone: "#{@phone}")
       flash[:success] = "Account registration sent to Admin!"
+	  session[:user_id] = nil
       redirect_to login_path
     end
 
