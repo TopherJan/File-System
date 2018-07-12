@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711034245) do
+ActiveRecord::Schema.define(version: 20180712082503) do
 
   create_table "attachments", force: :cascade do |t|
     t.string "name"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20180711034245) do
     t.text "doc_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "received", default: false
+    t.text "status"
   end
 
   create_table "jobtitles", force: :cascade do |t|

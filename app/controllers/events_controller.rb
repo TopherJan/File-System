@@ -35,10 +35,10 @@ class EventsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	
-	forw = Forward.select(:user_id).where(:doc_id => params[:id]).distinct
-	@users = User.where.not(:id => "#{@user.id}").where.not(:id => forw)
-	@sent = User.where.not(:id => "#{@user.id}").where(:id => forw)
-	@status = Forward.where(user_id: @sent.ids).where(doc_id: params[:id])
+	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
+	@users = User.where.not(:id => "#{@user.id}").where.not(:id => @forw)
+	@sent = User.where.not(:id => "#{@user.id}").where(:id => @forw)
+	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
@@ -59,7 +59,7 @@ class EventsController < ApplicationController
   
   def send_document
     @emailadd = params[:emailadd]
-	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], received: false)
+	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], status: 'FORWARDED')
 	@user = User.find(params[:user_id])
 	
 	if @forward.save

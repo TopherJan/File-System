@@ -26,26 +26,26 @@ class LoginsController < ApplicationController
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	  @documents = Document.all
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
-	  @received = Document.where(:id => "#{@forwards}")
+	  forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	  @received = Document.where(:id => forwards)
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
-	  @received = Document.where(:id => "#{@forwards}")
+	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	  @received = Document.where(:id => @forwards)
 	else
 	  @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @documents = Document.where(:id => "#{@doc}")
 	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:received => false)
-	  @received = Document.where(:id => "#{@forwards}")
+	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	  @received = Document.where(:id => @forwards)
 	end
   end
   
   def receive_document
     forward = Forward.find_by(doc_id: params[:doc_id], user_id: params[:user_id])
-	forward.update(:received => true)
+	forward.update(:status => 'RECEIVED')
 	@user = User.find(params[:user_id])
 	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
 	if @events.save
@@ -55,7 +55,7 @@ class LoginsController < ApplicationController
 	  doc = Document.find(params[:doc_id])
 	  doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-	  flash[:notice] = "The document ''#{doc.name.upcase}'' has been received!"
+	  flash[:notice] = "The document #{doc.name.upcase} has been received!"
 	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	end
   end
