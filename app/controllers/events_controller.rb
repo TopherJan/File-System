@@ -36,8 +36,8 @@ class EventsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 	
 	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
-	@users = User.where.not(:id => "#{@user.id}").where.not(:id => @forw)
-	@sent = User.where.not(:id => "#{@user.id}").where(:id => @forw)
+	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
+	@sent = User.where.not(:id => @user.id).where(:id => @forw)
 	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
 
 	if(@job_title == "Admin")

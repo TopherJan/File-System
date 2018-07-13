@@ -26,8 +26,8 @@ class LoginsController < ApplicationController
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	  @documents = Document.all
-	  forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
-	  @received = Document.where(:id => forwards)
+	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	  @received = Document.where(:id => @forwards)
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all
