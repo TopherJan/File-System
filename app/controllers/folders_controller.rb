@@ -45,7 +45,7 @@ class FoldersController < ApplicationController
 
     @doc_type = params[:doc_type]
 	@doc_id = Document.select(:id).distinct.where(doc_type: params[:doc_type])
-	@doc_year = Event.find_by_sql("SELECT DISTINCT strftime('%Y', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{@doc_type}'")
+	@doc_year = Event.find_by_sql("SELECT DISTINCT date_part('year', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{@doc_type}'")
   end
 
   def document_by_folder
