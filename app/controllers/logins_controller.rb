@@ -20,26 +20,23 @@ class LoginsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 	session[:emailadd] = @emailadd
 	
+	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	@received = Document.where(:id => @forwards)
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	  @documents = Document.all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
 	  @documents = Document.all
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
-	  @received = Document.where(:id => @forwards)
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
-	  @received = Document.where(:id => @forwards)
 	else
 	  @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @documents = Document.where(:id => "#{@doc}")
 	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	  @forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
-	  @received = Document.where(:id => @forwards)
 	end
   end
   
