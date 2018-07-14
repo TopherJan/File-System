@@ -92,11 +92,11 @@
                   .col-md-6
                     %label{:for => "val-firstname"}
                       %b First Name
-                    %input#val-firstname.form-control{:value => "#{@first_name}", :disabled => "disabled"}/
+                    %input#val-firstname.form-control{:value => "#{@current_user.first_name}", :disabled => "disabled"}/
                   .col-md-6
                     %label{:for => "val-lastname"}
                       %b Last Name
-                    %input#val-lastname.form-control{:value => "#{@last_name}", :disabled => "disabled"}/
+                    %input#val-lastname.form-control{:value => "#{@current_user.last_name}", :disabled => "disabled"}/
               .form-group
                 %label{:for => "val-email"}
                   %b Email Address
@@ -106,11 +106,11 @@
                   .col-md-6
                     %label{:for => "val-jobtitle"}
                       %b Job Title
-                    %input#val-jobtitle.form-control{:value => "#{@job_title}", :disabled => "disabled"}/
+                    %input#val-jobtitle.form-control{:value => "#{@current_user.job_title}", :disabled => "disabled"}/
                   .col-md-6
                     %label{:for => "val-contact"}
                       %b Contact Number
-                    %input#val-contact.form-control{:placeholder => "#{@phone}", :disabled => "disabled"}/
+                    %input#val-contact.form-control{:placeholder => "#{@current_user.phone}", :disabled => "disabled"}/
               %a.btn.btn-primary{:href => edit_profile_information_path(emailadd: "#{@emailadd}")} Update Account
               %a.btn.btn-danger{:href => delete_user_path(emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete your account?')"} Delete Account
               :javascript

@@ -25,7 +25,6 @@ class EventsController < ApplicationController
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	@events = Event.where(:doc_id => params[:id]).order(:event_date)
-    @doc = Document.where(@doc_id)
 	@attachments = Attachment.where(doc_id: params[:id])
   end
   
@@ -71,7 +70,7 @@ class EventsController < ApplicationController
 		doc = Document.find(params[:doc_id])
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-        flash[:notice] = "The document was successfully sent to #{@user.emailadd}!"
+        flash[:notice] = "The document was successfully SENT to #{@user.emailadd}!"
 	    redirect_to forward_path(id: params[:doc_id], emailadd: "#{@emailadd}")
 	  end
 	end
@@ -106,7 +105,7 @@ class EventsController < ApplicationController
 		doc = Document.find(params[:doc_id])
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-		flash[:notice] = "The event was successfully added!"
+		flash[:notice] = "The event was successfully ADDED!"
 		redirect_to view_event_path(id: params[:doc_id], emailadd: params[:emailadd])
 	  end
 	end

@@ -11,13 +11,10 @@ class FoldersController < ApplicationController
 
 	if(@job_title == "Admin")
 	  @isAdmin = true
-	  @documents = Document.all
 	elsif(@job_title == "Secretary")
 	  @isSecretary = true
-	  @documents = Document.all
 	elsif(@job_title == "Dean")
 	  @isOthers = true
-	  @documents = Document.all
 	else
       @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")

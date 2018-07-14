@@ -29,7 +29,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new(attachment_params)
 
     if @attachment.save
-	  flash[:file] = "The file was successfuly added!"
+	  flash[:notice] = "The file was successfuly ADDED!"
       redirect_to view_event_path(id: params[:doc_id], emailadd: params[:emailadd])
     end
   end
@@ -39,7 +39,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
 	@doc_id = "#{@attachment.doc_id}"
     @attachment.destroy
-	flash[:file] = "The file was successfuly deleted!"
+	flash[:notice] = "The file was successfuly DELETED!"
     redirect_to view_event_path(id: "#{@doc_id}", emailadd: params[:emailadd])
   end
 

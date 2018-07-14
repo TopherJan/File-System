@@ -128,13 +128,13 @@
                           %b Password
                           %span.text-danger *
                         %div
-                          %input#val-password.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
+                          %input#val-password.form-control{:name => "password", :type => "password", :value => "#{@current_user.password}", :required => "required"}/
                       .col-md-6
                         %label{:for => "confirm-password"}
                           %b Confirm Password
                           %span.text-danger *
                         %div
-                          %input#val-confirmpass.form-control{:name => "password", :type => "password", :value => "#{@password}", :required => "required"}/
+                          %input#val-confirmpass.form-control{:name => "password", :type => "password", :value => "#{@current_user.password}", :required => "required"}/
                           %input#val-jobtitle.form-control{:name => "job_title", :type => "hidden", :value => "#{@job_title}"}/
                 .form-group
                   .form-row
@@ -144,13 +144,13 @@
                         %span.text-danger *
                       - if @isAdmin
                         %select#jobtitle.form-control{:name => "job_title", :required => 'required'}
-                          %option{:value => "#{@job_title}"} #{@job_title}
+                          %option{:value => "#{@job_title}"} #{@current_user.job_title}
                           - @jobtitle.each do |t|
                             %option{:value => t.name}
                               %td= t.name
                       - else
                         %select#jobtitle.form-control{:name => "job_title", :required => 'required', :disabled => 'disabled'}
-                          %option{:value => "#{@job_title}"} #{@job_title}
+                          %option{:value => "#{@job_title}"} #{@current_user.job_title}
                           - @jobtitle.each do |t|
                             %option{:value => t.name}
                               %td= t.name
@@ -159,7 +159,7 @@
                         %b Contact Number
                         %span.text-danger *
                       %div
-                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@phone}", :required => "required"}/
+                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@current_user.phone}", :required => "required"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} SAVE
                   %a.btn.btn-secondary{:href => profile_information_path(emailadd: "#{@emailadd}")} CANCEL

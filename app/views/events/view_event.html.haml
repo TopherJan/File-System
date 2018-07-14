@@ -124,7 +124,11 @@
                   %b Address:
                   #{@author.address}
                   %br/
-
+        
+        - if flash[:notice]
+          .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            %b.notice= flash[:notice]
         %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
           %li.nav-item
             %a.nav-link.active{"data-toggle" => "tab", :href => "#events", :role => "tab"} Events
@@ -139,10 +143,6 @@
                 - if !@isOthers
                   %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
               .card-body
-                - if flash[:notice]
-                  .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                    %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                    %b.notice= flash[:notice]
                 .table-responsive
                   %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                     %thead{:align => "center"}
@@ -164,10 +164,6 @@
                 - if !@isOthers
                   %a.btn.btn-primary.float-right{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
               .card-body
-                - if flash[:file]
-                  .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                    %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                    %b.notice= flash[:file]
                 .table-responsive
                   %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                     %thead{:align => "center"}

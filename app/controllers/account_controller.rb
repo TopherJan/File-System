@@ -10,17 +10,11 @@ class AccountController < ApplicationController
     @emailadd = params[:emailadd]
 
     if !(@emailadd.nil?)
-      @password = @current_user.password
-      @first_name = @current_user.first_name
-      @last_name = @current_user.last_name
-      @job_title = @current_user.job_title
-      @phone = @current_user.phone
-
-	  if(@job_title == "Admin")
+	  if(@current_user.job_title == "Admin")
 	    @isAdmin = true
-      elsif(@job_title == "Secretary")
+      elsif(@current_user.job_title == "Secretary")
 	    @isSecretary = true
-	  elsif(@job_title == "Dean")
+	  elsif(@current_user.job_title == "Dean")
 	    @isOthers = true
 	  else
         @isOthers = true
@@ -36,18 +30,13 @@ class AccountController < ApplicationController
     @emailadd = params[:emailadd]
 
     if !(@emailadd.nil?)
-      @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where name != '#{@current_user.job_title}'")
-      @password = @current_user.password
-      @first_name = @current_user.first_name
-      @last_name = @current_user.last_name
-      @job_title =@current_user.job_title
-      @phone = @current_user.phone
+	  @jobtitle = Jobtitle.where.not(name: "#{@current_user.job_title}")
 
-	  if(@job_title == "Admin")
+	  if(@current_user.job_title == "Admin")
 	    @isAdmin = true
-      elsif(@job_title == "Secretary")
+      elsif(@current_user.job_title == "Secretary")
 	    @isSecretary = true
-	  elsif(@job_title == "Dean")
+	  elsif(@current_user.job_title == "Dean")
 	    @isOthers = true
 	  else
         @isOthers = true

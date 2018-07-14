@@ -11,6 +11,7 @@ class LoginsController < ApplicationController
     @countEventToday = Event.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countTransactions = @countEventToday.count + @countDocumentToday.count
+	
 	@requests = Request.all
 	@users = User.all
 	@attachments = Attachment.all
@@ -20,7 +21,7 @@ class LoginsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 	session[:emailadd] = @emailadd
 	
-	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}").where(:status => 'FORWARDED')
+	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
 	if(@job_title == "Admin")
@@ -43,8 +44,10 @@ class LoginsController < ApplicationController
   def receive_document
     forward = Forward.find_by(doc_id: params[:doc_id], user_id: params[:user_id])
 	forward.update(:status => 'RECEIVED')
+	
 	@user = User.find(params[:user_id])
 	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	
 	if @events.save
 	  @event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
 	  @doc_status = "#{@event.event_type}"
@@ -52,7 +55,7 @@ class LoginsController < ApplicationController
 	  doc = Document.find(params[:doc_id])
 	  doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
-	  flash[:notice] = "The document #{doc.name.upcase} has been received!"
+	  flash[:notice] = "The document #{doc.name.upcase} has been RECEIVED!"
 	  redirect_to dashboard_path(emailadd: session[:emailadd])
 	end
   end
@@ -63,7 +66,7 @@ class LoginsController < ApplicationController
 
     if(@new_user.save)
       Request.delete(@request)
-      flash[:notice] = "The account request from #{@request.emailadd} was accepted!"
+      flash[:notice] = "The account request from #{@request.emailadd} was ACCEPTED!"
       redirect_to dashboard_path(emailadd: session[:emailadd])
     else
       flash[:danger] = "The email already exists! Delete #{@request.emailadd} request now!"
@@ -75,7 +78,7 @@ class LoginsController < ApplicationController
     @request = Request.find_by(emailadd: params[:emailadd])
     Request.delete(@request)
 
-    flash[:danger] = "The account request from #{@request.emailadd} was denied!"
+    flash[:danger] = "The account request from #{@request.emailadd} was REJECTED!"
     redirect_to dashboard_path(emailadd: session[:emailadd])
   end
 
@@ -94,10 +97,8 @@ class LoginsController < ApplicationController
   end
 
   def create
-
     user = Request.from_omniauth(request.env["omniauth.auth"])
     session[:user_id] = user.id
-
     @current_user = User.find_by(emailadd: user.emailadd)
 
     if @current_user.nil?

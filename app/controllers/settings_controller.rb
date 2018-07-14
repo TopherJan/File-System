@@ -50,7 +50,7 @@ class SettingsController < ApplicationController
 	  if !(@doc_type.save)
 	    flash[:taken] = "Name has already been taken. Please enter a unique name!"
 	  else
-	    flash[:notice] = "The document type was successfully added!"
+	    flash[:notice] = "The document type #{@doc_type.name.upcase} was successfully ADDED!"
 	    redirect_to settings_path(emailadd: params[:emailadd])
 	  end
 	end
@@ -59,9 +59,8 @@ class SettingsController < ApplicationController
   def delete_doctype
     @emailadd = params[:emailadd]
     @doc = Doctype.find(params[:id])
+	flash[:notice] = "The document type #{@doc.name.upcase} was successfully DELETED!"
 	Doctype.delete(@doc)
-
-	flash[:notice] = "The document type was successfully deleted!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
@@ -85,14 +84,13 @@ class SettingsController < ApplicationController
 
     @doc_id = params[:id]
     @doctype = Doctype.find(params[:id])
+	flash[:notice] = "The document type #{@doctype.name.upcase} was successfully UPDATED!"
   end
 
   def update_doctype
 	@folders = Document.select(:doc_type).distinct
     doc = Doctype.find(params[:doctype_id])
 	doc.update(name: params[:doctype_name])
-
-	flash[:notice] = "The document type was successfully updated!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
@@ -120,7 +118,7 @@ class SettingsController < ApplicationController
 	  if !(@jobtitle.save)
 	    flash[:taken] = "Name has already been taken. Please enter a unique name!"
 	  else
-	    flash[:notice] = "The job title was successfully added!"
+	    flash[:notice] = "The job title #{jobtitle.name.upcase} was successfully ADDED!"
 	    redirect_to settings_path(emailadd: params[:emailadd])
 	  end
 	end
@@ -129,9 +127,8 @@ class SettingsController < ApplicationController
   def delete_jobtitle
     @emailadd = params[:emailadd]
     @job = Jobtitle.find(params[:id])
+	flash[:notice] = "The job title #{@job.name.upcase}was successfully DELETED!"
 	Jobtitle.delete(@job)
-
-	flash[:notice] = "The job title was successfully deleted!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
@@ -155,6 +152,7 @@ class SettingsController < ApplicationController
 
     @job_id = params[:id]
     @jobtitle = Jobtitle.find(params[:id])
+	flash[:notice] = "The job title #{@jobtitle.name.upcase} was successfully UPDATED!"
   end
 
   def update_jobtitle
@@ -162,8 +160,6 @@ class SettingsController < ApplicationController
     @emailadd = params[:emailadd]
     job = Jobtitle.find(params[:jobtitle_id])
 	job.update(name: params[:jobtitle_name])
-
-	flash[:notice] = "The job title was successfully updated!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
@@ -187,17 +183,15 @@ class SettingsController < ApplicationController
 
 	session[:emailadd] = @emailadd
 	@user_edit = User.find(params[:id])
-    @jobtitle = Jobtitle.find_by_sql("SELECT * FROM jobtitles where name != '#{@user_edit.job_title}'")
+	@jobtitle = Jobtitle.where.not(name: "#{@user_edit.job_title}")
+	flash[:notice] = "User #{@user_edit.emailadd} successfully UPDATED!"
   end
 
   def update_users
 	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-
     current_user = User.find_by(emailadd: params[:user_emailadd])
 	current_user.update(job_title: params[:job_title])
-
-	flash[:notice] = "Profile successfully updated!"
 	redirect_to settings_path(emailadd: params[:emailadd])
   end
 

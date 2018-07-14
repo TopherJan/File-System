@@ -63,7 +63,7 @@ class DocumentsController < ApplicationController
 		if(params[:save_and_upload])
 	      redirect_to upload_file_path(id: "#{@documents.id}", emailadd: "#{@emailadd}")
 		else
-	      flash[:notice] = "The document was successfully added!"
+	      flash[:notice] = "The document was successfully ADDED!"
 	      redirect_to view_documents_path(emailadd: params[:emailadd])
 		end
 	  end
@@ -93,6 +93,8 @@ class DocumentsController < ApplicationController
     @doc = Document.find(params[:id])
     @author = Author.find(params[:id])
     @doc_type = Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{@doc.doc_type}'")
+	
+	flash[:notice] = "The document #{@doc.name.upcase} was successfully UPDATED!"
   end
 
   def update_document
@@ -102,7 +104,7 @@ class DocumentsController < ApplicationController
     doc = Document.find(params[:document_id])
     doc.update(name: params[:document_name], doc_type: params[:document_type], description: params[:document_description], location: params[:document_location], author_name: params[:author_name])
 
-    flash[:notice] = "The document was successfully updated!"
+    
     redirect_to view_documents_path(emailadd: params[:emailadd])
   end
 
@@ -112,14 +114,17 @@ class DocumentsController < ApplicationController
     @author = Author.find(params[:id])
     event = Event.where(:doc_id => params[:id])
     attachment = Attachment.where(:doc_id => params[:id])
+	forward = Forward.where(doc_id => params[:id])
+
+    flash[:notice] = "The document #{@doc.name.upcase} was successfully DELETED!"
 
     Document.delete(@doc)
     Author.delete(@author)
     Event.delete(event)
     Attachment.delete(attachment)
+	Forward.delete(forward)
 
     session[:return_to] ||= request.referer
-    flash[:notice] = "The document was successfully deleted!"
     redirect_to session.delete(:return_to)
   end
 
