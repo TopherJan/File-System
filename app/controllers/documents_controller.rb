@@ -8,6 +8,7 @@ class DocumentsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 	@folders = Document.select(:doc_type).distinct
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	  @documents = Document.order(date_modified: :desc).all
@@ -20,7 +21,7 @@ class DocumentsController < ApplicationController
 	else
 	  @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @documents = Document.where(:id => doc).order(:date_modified)
+	  @documents = Document.where(:id => @doc).order(:date_modified)
 	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
   end
