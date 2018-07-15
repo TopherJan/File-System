@@ -49,8 +49,8 @@ class AccountController < ApplicationController
   end
 
   def update_profile_information
-    current_user = User.find_by(emailadd: params[:emailadd])
-    current_user.update(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
+    current = User.find_by(emailadd: params[:emailadd])
+    current.update!(first_name: params[:first_name], last_name: params[:last_name], job_title: params[:job_title], phone: params[:phone])
 
     flash[:notice] = "Profile successfully updated!"
     redirect_to profile_information_path(emailadd: params[:emailadd])
@@ -66,7 +66,6 @@ class AccountController < ApplicationController
 
 
   def redirect_account
-
     @first_name = params[:first_name]
     @last_name = params[:last_name]
     @emailadd = params[:emailadd]

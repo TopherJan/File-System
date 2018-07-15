@@ -92,13 +92,13 @@
                           %b First Name
                           %span.text-danger *
                         %div
-                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required", :disabled => "#disabled"}/
+                          %input#val-firstname.form-control{:name => "first_name", :type => "text", :value => "#{@current_user.first_name}", :required => "required", :readonly => "readonly"}/
                       .col-md-6
                         %label{:for => "lastname"}
                           %b Last Name
                           %span.text-danger *
                         %div
-                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required", :disabled => "disabled"}/
+                          %input#val-lastname.form-control{:name => "last_name", :type => "text", :value => "#{@current_user.last_name}", :required => "required", :readonly => "readonly"}/
                     - else
                       .col-md-6
                         %label{:for => "firstname"}
@@ -149,7 +149,7 @@
                             %option{:value => t.name}
                               %td= t.name
                       - else
-                        %select#jobtitle.form-control{:name => "job_title", :required => 'required', :disabled => 'disabled'}
+                        %select#jobtitle.form-control{:name => "job_title", :required => 'required', :readonly => "readonly"}
                           %option{:value => "#{@current_user.job_title}"} #{@current_user.job_title}
                           - @jobtitle.each do |t|
                             %option{:value => t.name}
@@ -159,7 +159,7 @@
                         %b Contact Number
                         %span.text-danger *
                       %div
-                        %input#val-phone.form-control{:name => "phone", :type => "text", :placeholder => "#{@current_user.phone}", :required => "required"}/
+                        %input#val-phone.form-control{:name => "phone", :type => "text", :value => "#{@current_user.phone}", :required => "required"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} SAVE
                   %a.btn.btn-secondary{:href => profile_information_path(emailadd: "#{@emailadd}")} CANCEL
