@@ -1,24 +1,21 @@
-# README
+# UPVTC Physical Document Tracking System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is Ruby-on-Rails-based application used to track, manage, and store documents. It is a tool that provides a flexible solution for any organization that needs to track documents and materials assigned to a person or location. Made for University of the Philippines Visayas Tacloban College as a requirement for the internship.
 
-Things you may want to cover:
+## Client
 
-* Ruby version
+* Arvin M. de Veyra
 
-* System dependencies
+## Developers
 
-* Configuration
+* [Christopher Jan Riños](https://github.com/TopherJan)
+* [Faith Cerena](https://github.com/faithcerena)
 
-* Database creation
+## Project Manager
 
-* Database initialization
+* [John Ultra](https://github.com/jultra)
 
-* How to run the test suite
+# Herokuapp Website
 
-* Services (job queues, cache servers, search engines, etc.)
+[https://pdts.herokuapp.com/](https://pdts.herokuapp.com/)
 
-* Deployment instructions
-
-* ...
