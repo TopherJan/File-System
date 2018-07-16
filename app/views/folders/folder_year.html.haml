@@ -86,11 +86,11 @@
           .card-body
             %h3 #{@doc_type}
             - @doc_year.each do |document|
-              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date_given: document.dates, emailadd: "#{@emailadd}")}
+              %a.nav-link{:href => document_by_folder_path(doc_type: "#{@doc_type}", date_given: document.dates.to_i, emailadd: "#{@emailadd}")}
                 %h1
                   %i.fa.fa-fw.fa-folder-open
                   %span.nav-link-text
-                  %td= document.dates
+                  %td= document.dates.to_i
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
