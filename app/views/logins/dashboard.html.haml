@@ -206,7 +206,7 @@
                             %th Name
                             %th Author
                         %tbody{:align => "center"}
-                          - @countDocumentToday.each do |document|
+                          - @documents.each do |document|
                             %tr
                               %td= document.name
                               %td= document.author_name

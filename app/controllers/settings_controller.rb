@@ -118,7 +118,7 @@ class SettingsController < ApplicationController
 	  if !(@jobtitle.save)
 	    flash[:taken] = "Name has already been taken. Please enter a unique name!"
 	  else
-	    flash[:notice] = "The job title #{jobtitle.name.upcase} was successfully ADDED!"
+	    flash[:notice] = "The job title #{@jobtitle.name.upcase} was successfully ADDED!"
 	    redirect_to settings_path(emailadd: params[:emailadd])
 	  end
 	end

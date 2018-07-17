@@ -35,11 +35,12 @@ class EventsController < ApplicationController
   
   def send_document
     @emailadd = params[:emailadd]
+	@sender = User.find_by(emailadd: params[:emailadd])
 	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], status: 'FORWARDED')
 	@user = User.find(params[:user_id])
 	
 	if @forward.save
-	  @events = Event.new(event_date: DateTime.now.to_date, event_type: 'Forwarded', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	  @events = Event.new(event_date: DateTime.now.to_date, event_type: 'Forwarded', remarks: "Forwarded to #{@user.emailadd} by #{@sender.emailadd}", doc_id: params[:doc_id])
 	  if @events.save
 		@event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
 	    @doc_status = "#{@event.event_type}"

@@ -9,6 +9,7 @@ class DocumentsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 	@folders = Document.select(:doc_type).distinct
 	
+	name = @job_title.split(' ')
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	  @documents = Document.order(date_modified: :desc).all
@@ -18,6 +19,12 @@ class DocumentsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all.order(:date_modified)
+	elsif(name[1] == "Secretary")
+	  @isDivision = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	else
 	  @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")

@@ -24,6 +24,8 @@ class LoginsController < ApplicationController
 	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
+	name = @job_title.split(' ')
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	  @documents = Document.all
@@ -33,6 +35,12 @@ class LoginsController < ApplicationController
 	elsif(@job_title == "Dean")
 	  @isOthers = true
 	  @documents = Document.all
+	elsif(name[1] == "Secretary")
+	  @isDivision = true
+	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	else
 	  @isOthers = true
 	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
@@ -46,7 +54,7 @@ class LoginsController < ApplicationController
 	forward.update(:status => 'RECEIVED')
 	
 	@user = User.find(params[:user_id])
-	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "#{@user.emailadd}", doc_id: params[:doc_id])
+	@events = Event.new(event_date: DateTime.now.to_date, event_type: 'Acknowledged', remarks: "Acknowledged by #{@user.emailadd}", doc_id: params[:doc_id])
 	
 	if @events.save
 	  @event = Event.where(doc_id: params[:doc_id]).order(event_date: :desc, created_at: :desc).first
