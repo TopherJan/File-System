@@ -150,6 +150,7 @@
                     %div
                       %input#val-address.form-control{:name => "author[address]", :placeholder => "Address of the Author", :type => "text", :required => 'required'}/
                       %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
+                      %input#val-user_id.form-control{:name => "document[user_id]", :value => "#{@user.id}", :type => "hidden"}/
                 .form-group
                   %h4
                     %b DOCUMENT EVENT

@@ -130,7 +130,7 @@ class DocumentsController < ApplicationController
   end
 
   def user_params
-    params.require(:document).permit(:name, :description, :location, :doc_type)
+    params.require(:document).permit(:name, :description, :location, :doc_type, :user_id)
   end
 
   def author_params
