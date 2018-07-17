@@ -84,8 +84,6 @@
         / Example DataTables Card
         .card.mb-3
           .card-header
-            - if !@isOthers
-              %a.btn.btn-success.float-right{:href => forward_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Forward
           .card-body
             .form-group
               .form-row
@@ -133,13 +131,16 @@
           %li.nav-item
             %a.nav-link.active{"data-toggle" => "tab", :href => "#events", :role => "tab"} Events
           %li.nav-item
-            %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} Files
+            %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} Attachments
+          - if !@isOthers
+            %li.nav-item
+              %a.nav-link{"data-toggle" => "tab", :href => "#forward", :role => "tab"} Forward
         .tab-content
           #events.tab-pane.active{:role => "tabpanel"}
             .card.mb-3
               .card-header
                 %i.fa.fa-paste
-                Events
+                Events History
                 - if !@isOthers
                   %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
               .card-body
@@ -160,7 +161,7 @@
             .card.mb-3
               .card-header
                 %i.fa.fa-copy
-                Files
+                Attachments
                 - if !@isOthers
                   %a.btn.btn-primary.float-right{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
               .card-body
@@ -186,6 +187,45 @@
                                 function confirm_delete() {
                                   return confirm('Are you sure you want to delete the file?');
                                 }
+          #forward.tab-pane{:role => "tabpanel"}
+            .card.mb-3
+              .card-header
+                %i.fa.fa-share-square
+                Forward
+              .card-body
+                - if flash[:notice]
+                  .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
+                    %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+                    %b.notice= flash[:notice]
+                .table-responsive
+                  %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                    %thead{:align => "center"}
+                      %tr
+                        %th Name
+                        %th Email
+                        %th Job Title
+                        %th Status
+                        %th Options
+                    %tbody{:align => "center"}
+                      - @sent.zip(@status).each do |user,stat|
+                        %tr
+                          %td= user.first_name + " " + user.last_name
+                          %td= user.emailadd
+                          %td= user.job_title
+                          %td
+                            %b
+                              =stat.status
+                          %td
+                            %a.btn.btn-success{:disabled=> "disabled"}
+                              %i.fa.fa-check-square-o
+                      - @users.each do |user|
+                        %tr
+                          %td= user.first_name + " " + user.last_name
+                          %td= user.emailadd
+                          %td= user.job_title
+                          %td
+                          %td
+                            %a.btn.btn-success{:href => send_document_path(doc_id: "#{@doc_id}", emailadd: "#{@emailadd}", user_id: user.id), :onclick => "myFunction()"} Send
       /%a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper

@@ -9,6 +9,11 @@ class EventsController < ApplicationController
 	@user = User.find_by(emailadd: params[:emailadd])
 	@job_title = "#{@user.job_title}"
 
+	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
+	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
+	@sent = User.where.not(:id => @user.id).where(:id => @forw)
+	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
@@ -28,34 +33,6 @@ class EventsController < ApplicationController
 	@attachments = Attachment.where(doc_id: params[:id])
   end
   
-  def forward
-    @folders = Document.select(:doc_type).distinct
-    @emailadd = params[:emailadd]
-	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
-	
-	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
-	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
-	@sent = User.where.not(:id => @user.id).where(:id => @forw)
-	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	else
-	  @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	end
-	
-	@doc_id = params[:id]
-	@document = Document.find(params[:id])
-	@author = Author.find(params[:id])
-  end
-  
   def send_document
     @emailadd = params[:emailadd]
 	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], status: 'FORWARDED')
@@ -71,7 +48,7 @@ class EventsController < ApplicationController
 	    doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
         flash[:notice] = "The document was successfully SENT to #{@user.emailadd}!"
-	    redirect_to forward_path(id: params[:doc_id], emailadd: "#{@emailadd}")
+	    redirect_to view_event_path(id: params[:doc_id], emailadd: "#{@emailadd}")
 	  end
 	end
   end
