@@ -14,25 +14,32 @@ class EventsController < ApplicationController
 	@sent = User.where.not(:id => @user.id).where(:id => @forw)
 	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
 	
-	
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
-	end
-
 	@doc_id = params[:id]
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
 	@attachments = Attachment.where(doc_id: params[:id])
 	@logs = Log.where(doc_id: params[:id]).order(created_at: :desc)
+	
+	name = @job_title.split(' ')
+	if(@job_title == "Admin")
+	  @isAdmin = true
+	elsif(@job_title == "Secretary")
+	  @isSecretary = true
+	elsif(@job_title == "Dean")
+	  @isOthers = true
+	elsif(name[1] == "Secretary")
+	  if (@document.user_id == @user.id)
+	    @isOthers = false
+	  else
+	    @isOthers = true
+	  end
+	else
+	  @isOthers = true
+	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	end
+
   end
   
   def send_document
