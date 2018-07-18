@@ -5,18 +5,24 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Jobtitle.destroy_all
-Doctype.destroy_all
-User.destroy_all
-Event.destroy_all
 Attachment.destroy_all
 Author.destroy_all
+Doctype.destroy_all
 Document.destroy_all
+Event.destroy_all
+Forward.destroy_all
+Jobtitle.destroy_all
+Log.destroy_all
 Request.destroy_all
+User.destroy_all
 
 Jobtitle.create!(name: 'Dean')
 Jobtitle.create!(name: 'Secretary')
 Jobtitle.create!(name: 'Faculty')
+Jobtitle.create!(name: 'DNSM Secretary')
+Jobtitle.create!(name: 'DM Secretary')
+Jobtitle.create!(name: 'DSS Secretary')
+Jobtitle.create!(name: 'DH Secretary')
 
 Doctype.create!(name: 'Letter')
 Doctype.create!(name: 'Memo')

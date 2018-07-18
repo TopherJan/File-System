@@ -14,6 +14,7 @@ class EventsController < ApplicationController
 	@sent = User.where.not(:id => @user.id).where(:id => @forw)
 	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
 	
+	
 	if(@job_title == "Admin")
 	  @isAdmin = true
 	elsif(@job_title == "Secretary")
@@ -29,8 +30,9 @@ class EventsController < ApplicationController
 	@doc_id = params[:id]
 	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
-	@events = Event.where(:doc_id => params[:id]).order(:event_date)
+	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
 	@attachments = Attachment.where(doc_id: params[:id])
+	@logs = Log.where(doc_id: params[:id]).order(created_at: :desc)
   end
   
   def send_document

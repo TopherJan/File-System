@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180717080534) do
+ActiveRecord::Schema.define(version: 20180718003416) do
 
   create_table "attachments", force: :cascade do |t|
     t.string "name"
@@ -77,6 +77,13 @@ ActiveRecord::Schema.define(version: 20180717080534) do
   end
 
   create_table "logins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.integer "doc_id"
+    t.text "action"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

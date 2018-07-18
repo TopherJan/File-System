@@ -66,6 +66,9 @@ class DocumentsController < ApplicationController
 		  
 		  doc = Document.find(@documents.id)
 	      doc.update(author_name: "#{@authors.name}", date_modified: "#{@events.event_date}", status: "#{@events.event_type}")
+		  
+		  @logs = Log.new(doc_id: "#{@documents.id}", action: "Added by #{@emailadd}")
+		  @logs.save
 	    end
 		
 		if(params[:save_and_upload])
@@ -106,6 +109,9 @@ class DocumentsController < ApplicationController
   end
 
   def update_document
+	@emailadd = params[:emailadd]
+    @logs = Log.new(doc_id: params[:document_id], action: "Edited by #{@emailadd}")
+	@logs.save
     @folders = Document.select(:doc_type).distinct
     author = Author.find(params[:document_id])
     author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])
@@ -122,7 +128,7 @@ class DocumentsController < ApplicationController
     @author = Author.find(params[:id])
     event = Event.where(:doc_id => params[:id])
     attachment = Attachment.where(:doc_id => params[:id])
-	forward = Forward.where(doc_id => params[:id])
+	forward = Forward.where(:doc_id => params[:id])
 
     flash[:notice] = "The document #{@doc.name.upcase} was successfully DELETED!"
 

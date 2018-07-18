@@ -132,6 +132,8 @@
             %a.nav-link.active{"data-toggle" => "tab", :href => "#events", :role => "tab"} Events
           %li.nav-item
             %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} Attachments
+          %li.nav-item
+            %a.nav-link{"data-toggle" => "tab", :href => "#logs", :role => "tab"} Logs
           - if !@isOthers
             %li.nav-item
               %a.nav-link{"data-toggle" => "tab", :href => "#forward", :role => "tab"} Forward
@@ -178,7 +180,7 @@
                       - @attachments.each do |attachment|
                         %tr
                           %td= attachment.attachment_in_database
-                          %td= attachment.created_at
+                          %td= attachment.created_at.to_date
                           %td= link_to "Download File", attachment.attachment_url
                           - if !@isOthers
                             %td
@@ -226,6 +228,23 @@
                           %td
                           %td
                             %a.btn.btn-success{:href => send_document_path(doc_id: "#{@doc_id}", emailadd: "#{@emailadd}", user_id: user.id), :onclick => "myFunction()"} Send
+          #logs.tab-pane{:role => "tabpanel"}
+            .card.mb-3
+              .card-header
+                %i.fa.fa-book
+                Logs History
+              .card-body
+                .table-responsive
+                  %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                    %thead{:align => "center"}
+                      %tr
+                        %th Action
+                        %th Date
+                    %tbody{:align => "center"}
+                      - @logs.each do |log|
+                        %tr
+                          %td= log.action
+                          %td= log.created_at.to_date
       /%a.btn.btn-secondary.float-right{:href => view_documents_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
