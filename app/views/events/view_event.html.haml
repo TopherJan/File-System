@@ -195,10 +195,6 @@
                 %i.fa.fa-share-square
                 Forward
               .card-body
-                - if flash[:notice]
-                  .alert.alert-success.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
-                    %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                    %b.notice= flash[:notice]
                 .table-responsive
                   %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                     %thead{:align => "center"}
