@@ -119,6 +119,32 @@
                       %input#val-location.form-control{:name => "document[location]", :placeholder => "Location of the Document", :type => "text", :required => 'required'}/
                 .form-group
                   %h4
+                    %b DOCUMENT EVENT
+                  .form-group
+                    .form-row
+                      .col-md-6
+                        %label{:for => "val-date"}
+                          Date
+                          %span.text-danger *
+                        %input#val-date.form-control{:name => "event_date", :value => DateTime.now.to_date, :type => "date", :required => 'required'}/
+                        %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
+                      .col-md-6
+                        %label{:for => "val-type"}
+                          Type
+                          %span.text-danger *
+                        %select#val-doctype.form-control{:name => "event_type", :required => 'required', :placeholder => "Please select", :onClick=>"displayForm(this)"}
+                          %option{:value => ""} Please select document type
+                          %option#created{:value => "Created"} Created
+                          %option#received{:value => "Received"} Received
+                          %option{:value => "Returned"} Returned
+                          %option{:value => "Accomplished"} Accomplished
+                  .form-group
+                    %label{:for => "val-remarks"}
+                      Remarks
+                    %div
+                      %input#val-remarks.form-control{:name => "event_remarks", :placeholder => "Add Description here", :type => "text"}/
+                .form-group
+                  %h4
                     %b AUTHOR INFORMATION
                   .form-group
                     .form-row
@@ -151,31 +177,6 @@
                       %input#val-address.form-control{:name => "author[address]", :placeholder => "Address of the Author", :type => "text", :required => 'required'}/
                       %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
                       %input#val-user_id.form-control{:name => "document[user_id]", :value => "#{@user.id}", :type => "hidden"}/
-                .form-group
-                  %h4
-                    %b DOCUMENT EVENT
-                  .form-group
-                    .form-row
-                      .col-md-6
-                        %label{:for => "val-date"}
-                          Date
-                          %span.text-danger *
-                        %input#val-date.form-control{:name => "event_date", :placeholder => "", :type => "date", :required => 'required'}/
-                        %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
-                      .col-md-6
-                        %label{:for => "val-type"}
-                          Type
-                          %span.text-danger *
-                        %select#val-doctype.form-control{:name => "event_type", :required => 'required', :placeholder => "Please select"}
-                          %option{:value => "Created"} Created
-                          %option{:value => "Received"} Received
-                          %option{:value => "Returned"} Returned
-                          %option{:value => "Accomplished"} Accomplished
-                  .form-group
-                    %label{:for => "val-remarks"}
-                      Remarks
-                    %div
-                      %input#val-remarks.form-control{:name => "event_remarks", :placeholder => "Add Description here", :type => "text"}/
                 %div
                   %button.btn.btn-primary{:type => "submit", :submit_tag => "save"} Save
                   %button.btn.btn-primary{:type => "submit", :name => 'save_and_upload',:submit_tag => "save_and_upload"} Save then Upload
@@ -212,3 +213,30 @@
         / Custom scripts for this page
         %script{:src => "js/sb-admin-datatables.min.js"}
         %script{:src => "js/sb-admin-charts.min.js"}
+		
+        :javascript
+          function displayForm(c) {
+            if (c.value == "Created") {
+              document.getElementById("val-authorname").readOnly = true;
+              document.getElementById("val-authorname").value = "#{@user.first_name} #{@user.last_name}";
+              document.getElementById("val-contactnum").readOnly = true;
+              document.getElementById("val-contactnum").value = "#{@user.phone}";
+              document.getElementById("val-agency").readOnly = true;
+              document.getElementById("val-agency").value = "UPVTC";
+              document.getElementById("val-address").readOnly = true;
+              document.getElementById("val-address").value = "Magsaysay Boulevard corner Army Road, Tacloban City";
+              document.getElementById("val-department").readOnly = true;
+              document.getElementById("val-department").value = "#{@job_title}";
+            }else{
+              document.getElementById("val-authorname").readOnly = false;
+              document.getElementById("val-contactnum").readOnly = false;
+              document.getElementById("val-agency").readOnly = false;
+              document.getElementById("val-address").readOnly = false;
+              document.getElementById("val-department").readOnly = false;
+              document.getElementById("val-authorname").value = "";
+              document.getElementById("val-contactnum").value = "";
+              document.getElementById("val-agency").value = "";
+              document.getElementById("val-address").value = "";
+              document.getElementById("val-department").value = "";
+            }
+          }

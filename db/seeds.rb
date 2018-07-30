@@ -12,7 +12,6 @@ Document.destroy_all
 Event.destroy_all
 Forward.destroy_all
 Jobtitle.destroy_all
-Log.destroy_all
 Request.destroy_all
 User.destroy_all
 

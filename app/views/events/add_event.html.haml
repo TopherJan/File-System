@@ -104,7 +104,7 @@
                         %label{:for => "val-date"}
                           Date
                           %span.text-danger *
-                        %input#val-date.form-control{:name => "event[event_date]", :placeholder => "", :type => "date", :required => 'required'}/
+                        %input#val-date.form-control{:name => "event[event_date]", :value => DateTime.now.to_date, :type => "date", :required => 'required'}/
                         %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
                       .col-md-6
                         %label{:for => "val-type"}

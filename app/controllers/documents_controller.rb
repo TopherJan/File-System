@@ -61,14 +61,14 @@ class DocumentsController < ApplicationController
 	      @authors = Author.new(author_params)
 	      @authors.save
 		  
+		  @event = Event.new(doc_id: "#{@documents.id}", remarks: "Added by #{@emailadd}", event_date: DateTime.now.to_date, event_type: "Added")
+		  @event.save
+		  
 		  @events = Event.new(doc_id: "#{@documents.id}", event_type: params[:event_type], event_date: params[:event_date], remarks: params[:event_remarks])
 		  @events.save
 		  
 		  doc = Document.find(@documents.id)
 	      doc.update(author_name: "#{@authors.name}", date_modified: "#{@events.event_date}", status: "#{@events.event_type}")
-		  
-		  @logs = Log.new(doc_id: "#{@documents.id}", action: "Added by #{@emailadd}")
-		  @logs.save
 	    end
 		
 		if(params[:save_and_upload])
@@ -110,8 +110,14 @@ class DocumentsController < ApplicationController
 
   def update_document
 	@emailadd = params[:emailadd]
-    @logs = Log.new(doc_id: params[:document_id], action: "Edited by #{@emailadd}")
-	@logs.save
+    @events = Event.new(doc_id: params[:document_id], remarks: "Edited by #{@emailadd}", event_date: DateTime.now.to_date, event_type: "Updated")
+    if @events.save
+      @event = Event.where(doc_id: params[:document_id]).order(event_date: :desc, created_at: :desc).first
+      @doc_status = "#{@event.event_type}"
+      @doc_date = "#{@event.event_date}"
+      doc = Document.find(params[:document_id])
+      doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
+	end
     @folders = Document.select(:doc_type).distinct
     author = Author.find(params[:document_id])
     author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])

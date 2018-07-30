@@ -19,7 +19,6 @@ class EventsController < ApplicationController
 	@author = Author.find(params[:id])
 	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
 	@attachments = Attachment.where(doc_id: params[:id])
-	@logs = Log.where(doc_id: params[:id]).order(created_at: :desc)
 	
 	name = @job_title.split(' ')
 	if(@job_title == "Admin")
