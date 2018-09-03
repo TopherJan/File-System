@@ -8,19 +8,23 @@ development:
   adapter: postgresql
   encoding: unicode
   database: file_tracking
+  host: localhost
   pool: 5
-  username: tfs_user
-  password: tfs_password
+  username: track_user
+  password: track_password
+  port: 5432
 
 test:
   adapter: postgresql
   encoding: unicode
   database: file_tracking
+  host: localhost
   pool: 5
-  username: tfs_user
-  password: tfs_password
+  username: track_user
+  password: track_password
+  port: 5432
 
-test:
+production:
   adapter: postgresql
   encoding: unicode
   database: file_tracking
