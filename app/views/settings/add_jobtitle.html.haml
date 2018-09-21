@@ -100,6 +100,188 @@
                       %span.text-danger *
                     %input#val-doctypename.form-control{:name => "name", :placeholder => "Name of the job title", :type => "text", :required => 'required'}/
                     %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
+                .form-group
+                  .form-row
+                    .col-md-6
+                      %h5
+                        %b DOCUMENTS
+                      .form-group
+                        %label.form-control-label VIEW DOCUMENTS
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "viewDocs", :type => "radio", :value => "option1"}>/
+                                View ALL Documents
+                            .radio
+                              %label.form-check-label{:for => "radio2"}
+                                %input#radio2.form-check-input{:name => "viewDocs", :type => "radio", :value => "option2"}>/
+                                View OWN and FORWARDED Documents
+                      .form-group
+                        %label.form-control-label ADD DOCUMENTS
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio3"}
+                                %input#radio1.form-check-input{:name => "addDocs", :type => "radio", :value => "option3"}>/
+                                ADD Document
+                      .form-group
+                        %label.form-control-label EDIT DOCUMENTS
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio4"}
+                                %input#radio1.form-check-input{:name => "editDocs", :type => "radio", :value => "option4"}>/
+                                Edit ALL Documents
+                            .radio
+                              %label.form-check-label{:for => "radio5"}
+                                %input#radio2.form-check-input{:name => "editDocs", :type => "radio", :value => "option5"}>/
+                                Edit OWN Documents
+                      .form-group
+                        %label.form-control-label DELETE DOCUMENTS
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "deleteDocs", :type => "radio", :value => "option1"}>/
+                                Delete ALL Documents
+                            .radio
+                              %label.form-check-label{:for => "radio2"}
+                                %input#radio2.form-check-input{:name => "deleteDocs", :type => "radio", :value => "option2"}>/
+                                Delete OWN Documents
+                    .col-md-6
+                      .form-group
+                        %h5
+                          %b EVENTS
+                        .form-group
+                          %label.form-control-label ADD EVENTS
+                          .col
+                            .form-check
+                              .radio
+                                %label.form-check-label{:for => "radio1"}
+                                  %input#radio1.form-check-input{:name => "addEvents", :type => "radio", :value => "option1"}>/
+                                  Add events in ALL Documents
+                              .radio
+                                %label.form-check-label{:for => "radio2"}
+                                  %input#radio2.form-check-input{:name => "addEvents", :type => "radio", :value => "option2"}>/
+                                  Add events in OWN Documents
+                      .form-group
+                        %h5
+                          %b ATTACHMENTS
+                        .form-group
+                          %label.form-control-label UPLOAD ATTACHMENTS
+                          .col
+                            .form-check
+                              .radio
+                                %label.form-check-label{:for => "radio1"}
+                                  %input#radio1.form-check-input{:name => "uploadAttach", :type => "radio", :value => "option1"}>/
+                                  Upload attachments in ALL Documents
+                              .radio
+                                %label.form-check-label{:for => "radio2"}
+                                  %input#radio2.form-check-input{:name => "uploadAttach", :type => "radio", :value => "option2"}>/
+                                  Upload attachments in OWN Documents
+                        .form-group
+                          %label.form-control-label DELETE ATTACHMENTS
+                          .col
+                            .form-check
+                              .radio
+                                %label.form-check-label{:for => "radio1"}
+                                  %input#radio1.form-check-input{:name => "deleteAttach", :type => "radio", :value => "option1"}>/
+                                  Delete attachments in ALL Documents
+                              .radio
+                                %label.form-check-label{:for => "radio2"}
+                                  %input#radio2.form-check-input{:name => "deleteAttach", :type => "radio", :value => "option2"}>/
+                                  Delete attachments in OWN Documents
+                      .form-group
+                        %h5
+                          %b USER REQUEST
+                        .form-group
+                          %label.form-control-label ACCEPT/REJECT USER REQUESTS
+                          .col
+                            .form-check
+                              .radio
+                                %label.form-check-label{:for => "radio1"}
+                                  %input#radio1.form-check-input{:name => "userRequests", :type => "radio", :value => "option1"}>/
+                                  Accept or Reject User Request
+                .form-group
+                  %h5
+                    %b SETTINGS
+                  .form-row
+                    .col-md-6
+                      %h6
+                        %b
+                          %u JOB TITLE SETTINGS
+                      .form-group
+                        %label.form-control-label ADD JOB TITLE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "addJobTitle", :type => "radio", :value => "option1"}>/
+                                Add Job Title
+                      .form-group
+                        %label.form-control-label EDIT JOB TITLE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "editJobTitle", :type => "radio", :value => "option1"}>/
+                                Edit Job Title
+                      .form-group
+                        %label.form-control-label DELETE JOB TITLE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "deleteJobTitle", :type => "radio", :value => "option1"}>/
+                                Delete Job Title
+                      %h6
+                        %b
+                          %u USER SETTINGS
+                      .form-group
+                        %label.form-control-label EDIT USER
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "editUser", :type => "radio", :value => "option1"}>/
+                                Edit Users
+                      .form-group
+                        %label.form-control-label DELETE USER
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "deleteUser", :type => "radio", :value => "option1"}>/
+                                Delete Users
+                    .col-md-6
+                      %h6
+                        %b
+                          %u DOCUMENT TYPE SETTINGS
+                      .form-group
+                        %label.form-control-label ADD DOCUMENT TYPE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "addDocType", :type => "radio", :value => "option1"}>/
+                                Add Document Type	
+                      .form-group
+                        %label.form-control-label EDIT DOCUMENT TYPE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "editDocType", :type => "radio", :value => "option1"}>/
+                                Edit Document Type
+                      .form-group
+                        %label.form-control-label DELETE DOCUMENT TYPE
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "radio1"}
+                                %input#radio1.form-check-input{:name => "deleteDocType", :type => "radio", :value => "option1"}>/
+                                Delete Document Type
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => settings_path(emailadd: "#{@emailadd}") } Back
