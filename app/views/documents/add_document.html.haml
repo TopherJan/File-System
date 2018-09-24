@@ -104,7 +104,8 @@
                         %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
                           - @doc_type.each do |t|
                             %option{:value => t.name}
-                              %td= t.name
+                              %td= t.name							  
+                        = link_to 'add document type', add_doctype_path(emailadd: "#{@emailadd}")
                   .form-group
                     %label{:for => "val-description"}
                       Description
@@ -157,7 +158,7 @@
                         %label{:for => "val-contactnum"}
                           Contact Number
                           %span.text-danger *
-                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69278781163", :type => "text", :required => 'required'}/
+                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69123456789", :type => "text", :required => 'required'}/
                   .form-group
                     .form-row
                       .col-md-6
