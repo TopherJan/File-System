@@ -1,8 +1,8 @@
 class SettingsController < ApplicationController
-
-@isAdmin = false;
-@isSecretary = false;
-@isOthers = false;
+	before_filter :confirm_logged_in
+	@isAdmin = false;
+	@isSecretary = false;
+	@isOthers = false;
 
   def settings
 	@folders = Document.select(:doc_type).distinct
@@ -156,52 +156,52 @@ class SettingsController < ApplicationController
   end
 
   def update_jobtitle
-	@folders = Document.select(:doc_type).distinct
+		@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     job = Jobtitle.find(params[:jobtitle_id])
-	job.update(name: params[:jobtitle_name])
-	redirect_to settings_path(emailadd: params[:emailadd])
+		job.update(name: params[:jobtitle_name])
+		redirect_to settings_path(emailadd: params[:emailadd])
   end
 
-   def edit_users
-	@folders = Document.select(:doc_type).distinct
+  def edit_users
+		@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-	@current_user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@current_user.job_title}"
+		@current_user = User.find_by(emailadd: params[:emailadd])
+		@job_title = "#{@current_user.job_title}"
 
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	else
+		if(@job_title == "Admin")
+	  	@isAdmin = true
+		elsif(@job_title == "Secretary")
+	  	@isSecretary = true
+		elsif(@job_title == "Dean")
+	  	@isOthers = true
+		else
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	end
+	  	@doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  	@folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+		end
 
-	session[:emailadd] = @emailadd
-	@user_edit = User.find(params[:id])
-	@jobtitle = Jobtitle.where.not(name: "#{@user_edit.job_title}")
-	flash[:notice] = "User #{@user_edit.emailadd} successfully UPDATED!"
+		session[:emailadd] = @emailadd
+		@user_edit = User.find(params[:id])
+		@jobtitle = Jobtitle.where.not(name: "#{@user_edit.job_title}")
+		flash[:notice] = "User #{@user_edit.emailadd} successfully UPDATED!"
   end
 
   def update_users
-	@folders = Document.select(:doc_type).distinct
+		@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     current_user = User.find_by(emailadd: params[:user_emailadd])
-	current_user.update(job_title: params[:job_title])
-	redirect_to settings_path(emailadd: params[:emailadd])
+		current_user.update(job_title: params[:job_title])
+		redirect_to settings_path(emailadd: params[:emailadd])
   end
 
   def delete_users
     @emailadd = params[:emailadd]
     @user = User.find(params[:id])
-	User.delete(@user)
+		User.delete(@user)
 
-	flash[:notice] = "The user was successfully deleted!"
-	redirect_to settings_path(emailadd: params[:emailadd])
+		flash[:notice] = "The user was successfully deleted!"
+		redirect_to settings_path(emailadd: params[:emailadd])
   end
 
   def doctype_params

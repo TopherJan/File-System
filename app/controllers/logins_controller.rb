@@ -1,4 +1,5 @@
 class LoginsController < ApplicationController
+  before_action :confirm_logged_in, only: [:dashboard, :receive_document, :accept_request, :delete_request]
   attr_accessor :user, :dash
   @isAdmin = false;
   @isSecretary = false;
@@ -93,16 +94,17 @@ class LoginsController < ApplicationController
   def log_user
     @emailadd = params[:emailadd]
     @password = params[:password]
-    @user = User.find_by(emailadd: "#{@emailadd}", password: "#{@password}")
-	@user_email = User.find_by(emailadd: "#{@emailadd}")
+    @user = User.find_by(emailadd: "#{@emailadd}")
+	  @user_email = User.find_by(emailadd: "#{@emailadd}")
 
     if @user_email.nil?
 	  flash[:danger] = "User does not exist!"
       redirect_to '/login'
-	elsif @user.nil?
+	elsif (@user.nil?) || (@user.authenticate(@password) == false)
       flash[:danger] = "Incorrect emailaddress or password!"
       redirect_to '/login'
     else
+      session[:user_id] = @user_email.id
       flash[:login] = "Successfully logged into the system!"
       redirect_to dashboard_path(emailadd: params[:emailadd])
     end

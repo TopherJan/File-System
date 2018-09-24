@@ -10,18 +10,18 @@ class AccountController < ApplicationController
     @emailadd = params[:emailadd]
 
     if !(@emailadd.nil?)
-	  if(@current_user.job_title == "Admin")
-	    @isAdmin = true
-      elsif(@current_user.job_title == "Secretary")
-	    @isSecretary = true
-	  elsif(@current_user.job_title == "Dean")
-	    @isOthers = true
-	  else
+      if(@current_user.job_title == "Admin")
+        @isAdmin = true
+        elsif(@current_user.job_title == "Secretary")
+        @isSecretary = true
+      elsif(@current_user.job_title == "Dean")
         @isOthers = true
-	    @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
-	    @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+      else
+          @isOthers = true
+        @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
+        @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+      end
 	  end
-	end
   end
 
   def edit_profile_information
@@ -75,7 +75,8 @@ class AccountController < ApplicationController
 
 
     if !current_user
-      @request = Request.new(:emailadd => @emailadd, :password => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
+      #@request = Request.new(:emailadd => @emailadd, :password_ => @password, :first_name => @first_name, :last_name => @last_name, :job_title => @job_title, :phone => @phone)
+      @request = Request.new(user_params)
       if !(@request.save)
         flash[:error] = "Email already taken!"
         redirect_to '/create_account'
@@ -106,4 +107,14 @@ class AccountController < ApplicationController
     flash[:success] = "Account was deleted successfully!"
     redirect_to '/'
   end
+
+  private
+
+  def user_params
+    user = params
+    # strong parameters - whitelist of allowed fields #=> permit(:name, :email, ...)
+    # that can be submitted by a form to the user model #=> require(:user)
+    params.permit(:first_name,:last_name,:emailadd, :password, :password_confirmation, :job_title, :phone)
+  end
+
 end
