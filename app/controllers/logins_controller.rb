@@ -13,39 +13,19 @@ class LoginsController < ApplicationController
     @countTransactions = @countEventToday.count + @countDocumentToday.count
 	
 	@requests = Request.all
-	@users = User.all
-	@attachments = Attachment.all
     @folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
 	session[:emailadd] = @emailadd
 	
 	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
-	name = @job_title.split(' ')
+	@settings = false
 	
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	  @documents = Document.all
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	  @documents = Document.all
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	  @documents = Document.all
-	elsif(name[1] == "Secretary")
-	  @isDivision = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @doc1 = Document.where(user_id: "#{@user.id}")
-	  @doc2 = Document.where(:id => @doc).order(:date_modified)
-	  @documents = @doc1 + @doc2
-	else
-	  @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @documents = Document.where(:id => "#{@doc}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
 	end
   end
   

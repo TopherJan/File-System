@@ -36,7 +36,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -52,7 +52,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -110,45 +110,57 @@
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "viewDocs", :type => "radio", :value => "option1"}>/
+                              %label.form-check-label{:for => "viewDocument"}
+                                %input#radio1.form-check-input{:name => "viewDocument", :type => "radio", :value => "true"}>/
                                 View ALL Documents
                             .radio
-                              %label.form-check-label{:for => "radio2"}
-                                %input#radio2.form-check-input{:name => "viewDocs", :type => "radio", :value => "option2"}>/
+                              %label.form-check-label{:for => "viewDocument"}
+                                %input#radio2.form-check-input{:name => "viewDocument", :type => "radio", :value => "false"}>/
                                 View OWN and FORWARDED Documents
                       .form-group
                         %label.form-control-label ADD DOCUMENTS
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio3"}
-                                %input#radio1.form-check-input{:name => "addDocs", :type => "radio", :value => "option3"}>/
+                              %label.form-check-label{:for => "addDocument"}
+                                %input#radio1.form-check-input{:name => "addDocument", :type => "radio", :value => "true"}>/
                                 ADD Document
                       .form-group
                         %label.form-control-label EDIT DOCUMENTS
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio4"}
-                                %input#radio1.form-check-input{:name => "editDocs", :type => "radio", :value => "option4"}>/
+                              %label.form-check-label{:for => "editDocument"}
+                                %input#radio1.form-check-input{:name => "editDocument", :type => "radio", :value => "true"}>/
                                 Edit ALL Documents
                             .radio
-                              %label.form-check-label{:for => "radio5"}
-                                %input#radio2.form-check-input{:name => "editDocs", :type => "radio", :value => "option5"}>/
+                              %label.form-check-label{:for => "editDocument"}
+                                %input#radio2.form-check-input{:name => "editDocument", :type => "radio", :value => "false"}>/
                                 Edit OWN Documents
                       .form-group
                         %label.form-control-label DELETE DOCUMENTS
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "deleteDocs", :type => "radio", :value => "option1"}>/
+                              %label.form-check-label{:for => "deleteDocument"}
+                                %input#radio1.form-check-input{:name => "deleteDocument", :type => "radio", :value => "true"}>/
                                 Delete ALL Documents
                             .radio
-                              %label.form-check-label{:for => "radio2"}
-                                %input#radio2.form-check-input{:name => "deleteDocs", :type => "radio", :value => "option2"}>/
+                              %label.form-check-label{:for => "deleteDocument"}
+                                %input#radio2.form-check-input{:name => "deleteDocument", :type => "radio", :value => "false"}>/
                                 Delete OWN Documents
+                      .form-group
+                        %label.form-control-label FORWARD DOCUMENTS
+                        .col
+                          .form-check
+                            .radio
+                              %label.form-check-label{:for => "forwardDocument"}
+                                %input#radio1.form-check-input{:name => "forwardDocument", :type => "radio", :value => "true"}>/
+                                Forward ALL Documents
+                            .radio
+                              %label.form-check-label{:for => "forwardDocument"}
+                                %input#radio2.form-check-input{:name => "forwardDocument", :type => "radio", :value => "false"}>/
+                                Forward OWN Documents
                     .col-md-6
                       .form-group
                         %h5
@@ -158,12 +170,12 @@
                           .col
                             .form-check
                               .radio
-                                %label.form-check-label{:for => "radio1"}
-                                  %input#radio1.form-check-input{:name => "addEvents", :type => "radio", :value => "option1"}>/
+                                %label.form-check-label{:for => "addEvent"}
+                                  %input#radio1.form-check-input{:name => "addEvent", :type => "radio", :value => "true"}>/
                                   Add events in ALL Documents
                               .radio
-                                %label.form-check-label{:for => "radio2"}
-                                  %input#radio2.form-check-input{:name => "addEvents", :type => "radio", :value => "option2"}>/
+                                %label.form-check-label{:for => "addEvent"}
+                                  %input#radio2.form-check-input{:name => "addEvent", :type => "radio", :value => "false"}>/
                                   Add events in OWN Documents
                       .form-group
                         %h5
@@ -173,24 +185,24 @@
                           .col
                             .form-check
                               .radio
-                                %label.form-check-label{:for => "radio1"}
-                                  %input#radio1.form-check-input{:name => "uploadAttach", :type => "radio", :value => "option1"}>/
+                                %label.form-check-label{:for => "uploadFile"}
+                                  %input#radio1.form-check-input{:name => "uploadFile", :type => "radio", :value => "true"}>/
                                   Upload attachments in ALL Documents
                               .radio
-                                %label.form-check-label{:for => "radio2"}
-                                  %input#radio2.form-check-input{:name => "uploadAttach", :type => "radio", :value => "option2"}>/
+                                %label.form-check-label{:for => "uploadFile"}
+                                  %input#radio2.form-check-input{:name => "uploadFile", :type => "radio", :value => "false"}>/
                                   Upload attachments in OWN Documents
                         .form-group
                           %label.form-control-label DELETE ATTACHMENTS
                           .col
                             .form-check
                               .radio
-                                %label.form-check-label{:for => "radio1"}
-                                  %input#radio1.form-check-input{:name => "deleteAttach", :type => "radio", :value => "option1"}>/
+                                %label.form-check-label{:for => "deleteFile"}
+                                  %input#radio1.form-check-input{:name => "deleteFile", :type => "radio", :value => "true"}>/
                                   Delete attachments in ALL Documents
                               .radio
-                                %label.form-check-label{:for => "radio2"}
-                                  %input#radio2.form-check-input{:name => "deleteAttach", :type => "radio", :value => "option2"}>/
+                                %label.form-check-label{:for => "deleteFile"}
+                                  %input#radio2.form-check-input{:name => "deleteFile", :type => "radio", :value => "false"}>/
                                   Delete attachments in OWN Documents
                       .form-group
                         %h5
@@ -200,88 +212,53 @@
                           .col
                             .form-check
                               .radio
-                                %label.form-check-label{:for => "radio1"}
-                                  %input#radio1.form-check-input{:name => "userRequests", :type => "radio", :value => "option1"}>/
+                                %label.form-check-label{:for => "userRequest"}
+                                  %input#radio1.form-check-input{:name => "userRequest", :type => "radio", :value => "true"}>/
                                   Accept or Reject User Request
                 .form-group
                   %h5
                     %b SETTINGS
                   .form-row
                     .col-md-6
-                      %h6
-                        %b
-                          %u JOB TITLE SETTINGS
                       .form-group
-                        %label.form-control-label ADD JOB TITLE
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "addJobTitle", :type => "radio", :value => "option1"}>/
-                                Add Job Title
+                              %label.form-check-label{:for => "jobtitleSettings"}
+                                %input#radio1.form-check-input{:name => "jobtitleSettings", :type => "radio", :value => "true"}>/
+                                %b JOB TITLE SETTINGS
+                              %div
+                                %label.form-control-label Add Job Title
+                              %div
+                                %label.form-control-label Edit Job Title
+                              %div
+                                %label.form-control-label Delete Job Title
+                      
                       .form-group
-                        %label.form-control-label EDIT JOB TITLE
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "editJobTitle", :type => "radio", :value => "option1"}>/
-                                Edit Job Title
-                      .form-group
-                        %label.form-control-label DELETE JOB TITLE
-                        .col
-                          .form-check
-                            .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "deleteJobTitle", :type => "radio", :value => "option1"}>/
-                                Delete Job Title
-                      %h6
-                        %b
-                          %u USER SETTINGS
-                      .form-group
-                        %label.form-control-label EDIT USER
-                        .col
-                          .form-check
-                            .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "editUser", :type => "radio", :value => "option1"}>/
-                                Edit Users
-                      .form-group
-                        %label.form-control-label DELETE USER
-                        .col
-                          .form-check
-                            .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "deleteUser", :type => "radio", :value => "option1"}>/
-                                Delete Users
+                              %label.form-check-label{:for => "userSettings"}
+                                %input#radio1.form-check-input{:name => "userSettings", :type => "radio", :value => "true"}>/
+                                %b USER SETTINGS
+                              %div
+                                %label.form-control-label Edit Users
+                              %div
+                                %label.form-control-label Delete User
                     .col-md-6
-                      %h6
-                        %b
-                          %u DOCUMENT TYPE SETTINGS
                       .form-group
-                        %label.form-control-label ADD DOCUMENT TYPE
                         .col
                           .form-check
                             .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "addDocType", :type => "radio", :value => "option1"}>/
-                                Add Document Type	
-                      .form-group
-                        %label.form-control-label EDIT DOCUMENT TYPE
-                        .col
-                          .form-check
-                            .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "editDocType", :type => "radio", :value => "option1"}>/
-                                Edit Document Type
-                      .form-group
-                        %label.form-control-label DELETE DOCUMENT TYPE
-                        .col
-                          .form-check
-                            .radio
-                              %label.form-check-label{:for => "radio1"}
-                                %input#radio1.form-check-input{:name => "deleteDocType", :type => "radio", :value => "option1"}>/
-                                Delete Document Type
+                              %label.form-check-label{:for => "doctypeSettings"}
+                                %input#radio1.form-check-input{:name => "doctypeSettings", :type => "radio", :value => "true"}>/
+                                %b DOCUMENT TYPE SETTINGS
+                              %div
+                                %label.form-control-label Add Document Type
+                              %div
+                                %label.form-control-label Edit Document Type
+                              %div
+                                %label.form-control-label Delete Document Type
                 %div
                   %button.btn.btn-primary{:type => "submit"} Add
                   %a.btn.btn-secondary{:href => settings_path(emailadd: "#{@emailadd}") } Back

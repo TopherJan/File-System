@@ -8,18 +8,20 @@ class SettingsController < ApplicationController
 	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
 	else
-      @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 	
 	@doc_type = Doctype.all
@@ -34,25 +36,25 @@ class SettingsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 
 	if(@job_title == "Admin")
-	  @isAdmin = true
+ @isAdmin = true
 	elsif(@job_title == "Secretary")
-	  @isSecretary = true
+ @isSecretary = true
 	elsif(@job_title == "Dean")
-	  @isOthers = true
+ @isOthers = true
 	else
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+ @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+ @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     if params[:doctype] != nil
-	  @doc_type = Doctype.new(doctype_params)
-	  if !(@doc_type.save)
-	    flash[:taken] = "Name has already been taken. Please enter a unique name!"
-	  else
-	    flash[:notice] = "The document type #{@doc_type.name.upcase} was successfully ADDED!"
-	    redirect_to settings_path(emailadd: params[:emailadd])
-	  end
+ @doc_type = Doctype.new(doctype_params)
+ if !(@doc_type.save)
+   flash[:taken] = "Name has already been taken. Please enter a unique name!"
+ else
+   flash[:notice] = "The document type #{@doc_type.name.upcase} was successfully ADDED!"
+   redirect_to settings_path(emailadd: params[:emailadd])
+ end
 	end
   end
 
@@ -71,15 +73,15 @@ class SettingsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 
 	if(@job_title == "Admin")
-	  @isAdmin = true
+ @isAdmin = true
 	elsif(@job_title == "Secretary")
-	  @isSecretary = true
+ @isSecretary = true
 	elsif(@job_title == "Dean")
-	  @isOthers = true
+ @isOthers = true
 	else
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+ @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+ @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     @doc_id = params[:id]
@@ -95,32 +97,35 @@ class SettingsController < ApplicationController
   end
 
   def add_jobtitle
-	@folders = Document.select(:doc_type).distinct
+    @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
 	else
-      @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+	  @settings = false
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 
     if params[:name] != nil
-	  @jobtitle = Jobtitle.new(name: params[:name])
+ 	  @jobtitle = Jobtitle.new(name: params[:name], viewDocument: params[:viewDocument], addDocument: params[:addDocument], editDocument: params[:editDocument], deleteDocument: params[:deleteDocument], forwardDocument: params[:forwardDocument], addEvent: params[:addEvent], uploadFile: params[:uploadFile], deleteFile: params[:deleteFile], userRequest: params[:userRequest], jobtitleSettings: params[:jobtitleSettings], doctypeSettings: params[:doctypeSettings], userSettings: params[:userSettings])
 
-	  if !(@jobtitle.save)
-	    flash[:taken] = "Name has already been taken. Please enter a unique name!"
-	  else
-	    flash[:notice] = "The job title #{@jobtitle.name.upcase} was successfully ADDED!"
-	    redirect_to settings_path(emailadd: params[:emailadd])
-	  end
+      if !(@jobtitle.save)
+        flash[:taken] = "Name has already been taken. Please enter a unique name!"
+      else
+        flash[:notice] = "The job title #{@jobtitle.name.upcase} was successfully ADDED!"
+        redirect_to settings_path(emailadd: params[:emailadd])
+      end
 	end
   end
 
@@ -139,15 +144,15 @@ class SettingsController < ApplicationController
 	@job_title = "#{@user.job_title}"
 
 	if(@job_title == "Admin")
-	  @isAdmin = true
+ @isAdmin = true
 	elsif(@job_title == "Secretary")
-	  @isSecretary = true
+ @isSecretary = true
 	elsif(@job_title == "Dean")
-	  @isOthers = true
+ @isOthers = true
 	else
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+ @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+ @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
     @job_id = params[:id]
@@ -170,15 +175,15 @@ class SettingsController < ApplicationController
 	@job_title = "#{@current_user.job_title}"
 
 	if(@job_title == "Admin")
-	  @isAdmin = true
+ @isAdmin = true
 	elsif(@job_title == "Secretary")
-	  @isSecretary = true
+ @isSecretary = true
 	elsif(@job_title == "Dean")
-	  @isOthers = true
+ @isOthers = true
 	else
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+ @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+ @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
 
 	session[:emailadd] = @emailadd

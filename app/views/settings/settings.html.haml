@@ -38,7 +38,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -54,7 +54,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -91,18 +91,26 @@
                 %b.notice= flash[:notice]
             .col-lg-12
               %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
-                - if @isAdmin
+                - if @job.userSettings
                   %li.nav-item
                     %a.nav-link.active{"data-toggle" => "tab", :href => "#user", :role => "tab"} Users
+                  - if @job.jobtitleSettings
+                    %li.nav-item
+                      %a.nav-link{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
+                  - if @job.doctypeSettings
+                    %li.nav-item
+                      %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
+                - elsif @job.jobtitleSettings
                   %li.nav-item
-                    %a.nav-link{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
-                  %li.nav-item
-                    %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
-                - else
+                    %a.nav-link.active{"data-toggle" => "tab", :href => "#jobtitle", :role => "tab"} Job Titles
+                  - if @job.doctypeSettings
+                    %li.nav-item
+                      %a.nav-link{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
+                - elsif @job.doctypeSettings
                   %li.nav-item
                     %a.nav-link.active{"data-toggle" => "tab", :href => "#doctype", :role => "tab"} Document Types
               .tab-content
-                - if @isAdmin
+                - if @job.userSettings
                   #user.tab-pane.active{:role => "tabpanel"}
                     .card.mb-3
                       .card-header
@@ -128,10 +136,55 @@
                                       function confirm_delete() {
                                         return confirm('Are you sure you want to delete the user?');
                                       }
-                  #doctype.tab-pane{:role => "tabpanel"}
+                  - if @job.jobtitleSettings
+                    #jobtitle.tab-pane{:role => "tabpanel"}
+                      .card.mb-3
+                        .card-header
+                          %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
+                        .card-body
+                          %table.table
+                            %thead
+                              %tr{:align => "center"}
+                                %th Name
+                                %th Options
+                            %tbody{:align => "center"}
+                              - @jobtitle.each do |job|
+                                %tr
+                                  %td= job.name
+                                  %td
+                                    %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                                    %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
+                                    :javascript
+                                      function confirm_delete() {
+                                        return confirm('Are you sure you want to delete the job title?');
+                                      }
+                  - if @job.doctypeSettings
+                    #doctype.tab-pane{:role => "tabpanel"}
+                      .card.mb-3
+                        .card-header
+                          %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                        .card-body
+                          %table.table
+                            %thead
+                              %tr{:align => "center"}
+                                %th Name
+                                %th Options
+                            %tbody{:align => "center"}
+                              - @doc_type.each do |type|
+                                %tr
+                                  %td= type.name
+                                  %td
+                                    %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                    %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                    :javascript
+                                      function confirm_delete() {
+                                        return confirm('Are you sure you want to delete the document type?');
+                                      }
+                - elsif @job.jobtitleSettings
+                  #jobtitle.tab-pane.active{:role => "tabpanel"}
                     .card.mb-3
                       .card-header
-                        %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                        %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
                       .card-body
                         %table.table
                           %thead
@@ -139,17 +192,39 @@
                               %th Name
                               %th Options
                           %tbody{:align => "center"}
-                            - @doc_type.each do |type|
+                            - @jobtitle.each do |job|
                               %tr
-                                %td= type.name
+                                %td= job.name
                                 %td
-                                  %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                  %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                                  %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
                                   :javascript
                                     function confirm_delete() {
-                                      return confirm('Are you sure you want to delete the document type?');
+                                      return confirm('Are you sure you want to delete the job title?');
                                     }
-                - else
+                  - if @job.doctypeSettings
+                    #doctype.tab-pane{:role => "tabpanel"}
+                      .card.mb-3
+                        .card-header
+                          %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                        .card-body
+                          %table.table
+                            %thead
+                              %tr{:align => "center"}
+                                %th Name
+                                %th Options
+                            %tbody{:align => "center"}
+                              - @doc_type.each do |type|
+                                %tr
+                                  %td= type.name
+                                  %td
+                                    %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                    %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                    :javascript
+                                      function confirm_delete() {
+                                        return confirm('Are you sure you want to delete the document type?');
+                                      }
+                - elsif @job.doctypeSettings
                   #doctype.tab-pane.active{:role => "tabpanel"}
                     .card.mb-3
                       .card-header
@@ -171,28 +246,6 @@
                                     function confirm_delete() {
                                       return confirm('Are you sure you want to delete the document type?');
                                     }
-                #jobtitle.tab-pane{:role => "tabpanel"}
-                  .card.mb-3
-                    .card-header
-                      %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
-                    .card-body
-                      %table.table
-                        %thead
-                          %tr{:align => "center"}
-                            %th Name
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @jobtitle.each do |job|
-                            %tr
-                              %td= job.name
-                              %td
-                                %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                                %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
-                                :javascript
-                                  function confirm_delete() {
-                                    return confirm('Are you sure you want to delete the job title?');
-                                  }
-                
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
