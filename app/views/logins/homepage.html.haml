@@ -26,11 +26,11 @@
         #probootstrap-nav.collapse.navbar-collapse
           %ul.navbar-nav.ml-auto
             %li.nav-item
-              %a.nav-link{:href => "services.html"} User Manual
+              %a.nav-link{:href => root_path << 'UserManualPDTS.pdf', :target => :_blank} User Manual
             %li.nav-item.probootstrap-cta.probootstrap-seperator
-              %a.nav-link{:href => "/create_account"} Sign up
-            %li.nav-item.probootstrap-cta
               %a.nav-link{:href => "/login"} Log In
+            %li.nav-item.probootstrap-cta
+              %a.nav-link{:href => "/create_account"} Sign up
     %section.probootstrap-cover
       .container
         .row.probootstrap-vh-100.align-items-center.text-center
