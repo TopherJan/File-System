@@ -38,7 +38,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -54,7 +54,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -132,7 +132,7 @@
             %a.nav-link.active{"data-toggle" => "tab", :href => "#events", :role => "tab"} Events
           %li.nav-item
             %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} Attachments
-          - if !@isOthers
+          - if @job.forwardDocument || (!@job.forwardDocument && @document.user_id == @user.id)
             %li.nav-item
               %a.nav-link{"data-toggle" => "tab", :href => "#forward", :role => "tab"} Forward
         .tab-content
@@ -141,7 +141,7 @@
               .card-header
                 %i.fa.fa-paste
                 Events History
-                - if !@isOthers
+                - if @job.addEvent || (!@job.addEvent && @document.user_id == @user.id)
                   %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
               .card-body
                 .table-responsive
@@ -162,7 +162,7 @@
               .card-header
                 %i.fa.fa-copy
                 Attachments
-                - if !@isOthers
+                - if @job.uploadFile || (!@job.uploadFile && @document.user_id == @user.id)
                   %a.btn.btn-primary.float-right{:href => upload_file_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Upload File
               .card-body
                 .table-responsive
@@ -172,7 +172,7 @@
                         %th Name
                         %th Date Uploaded
                         %th Download Link
-                        - if !@isOthers
+                        - if @job.deleteFile || (!@job.deleteFile && @document.user_id == @user.id)
                           %th Options
                     %tbody{:align => "center"}
                       - @attachments.each do |attachment|
@@ -180,7 +180,7 @@
                           %td= attachment.attachment_in_database
                           %td= attachment.created_at.to_date
                           %td= link_to "Download File", attachment.attachment_url
-                          - if !@isOthers
+                          - if @job.deleteFile || (!@job.deleteFile && @document.user_id == @user.id)
                             %td
                               %a.btn.btn-danger{:href => delete_file_path(id: attachment.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the file??')"} Delete
                               :javascript

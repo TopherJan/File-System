@@ -7,8 +7,7 @@ class EventsController < ApplicationController
     @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
-
+	
 	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
 	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
 	@sent = User.where.not(:id => @user.id).where(:id => @forw)
@@ -20,25 +19,21 @@ class EventsController < ApplicationController
 	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
 	@attachments = Attachment.where(doc_id: params[:id])
 	
-	name = @job_title.split(' ')
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	elsif(name[1] == "Secretary")
-	  if (@document.user_id == @user.id)
-	    @isOthers = false
-	  else
-	    @isOthers = true
-	  end
-	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
 	end
-
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
+	end
   end
   
   def send_document
@@ -67,18 +62,20 @@ class EventsController < ApplicationController
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@doc_id = params[:id]
-	@job_title = "#{@user.job_title}"
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
 	else
-	  @isOthers = true
-	  doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => doc).distinct
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 
 	if params[:event] != nil

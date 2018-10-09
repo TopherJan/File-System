@@ -38,7 +38,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -54,7 +54,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -109,19 +109,18 @@
                       %td= document.status
                       %td
                         %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
-                        - if @isAdmin
+                        - if (!@job.editDocument && document.user_id == @user.id) || @job.editDocument
                           %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
+                        - if (!@job.deleteDocument && document.user_id == @user.id) || @job.deleteDocument
                           %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document?')"} Delete
                           :javascript
                             function confirm_delete() {
                               return confirm('Are you sure you want to delete the document?');
                             }
-                        - elsif (@isDivision && document.user_id == @user.id) || @isSecretary
-                          %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
             %br
-            - if !@isOthers
+            - if @job.addDocument
               %a.btn.btn-primary{:href => add_document_path(emailadd: "#{@emailadd}")} Add Document
-              %a.btn.btn-secondary{:href => dashboard_path(emailadd: "#{@emailadd}")} Back
+            %a.btn.btn-secondary{:href => dashboard_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
