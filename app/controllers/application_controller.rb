@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_logged_in
-    unless session[:current_user_emailadd]
+    unless session[:user_id]
         flash[:warning] = "Please log in first."
         redirect_to :root
         return false

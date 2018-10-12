@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  @isAdmin = false;
+	before_action :confirm_logged_in
+	@isAdmin = false;
   @isSecretary = false;
   @isOthers = false;
 

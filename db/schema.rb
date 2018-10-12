@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20180924072011) do
     t.text "emailadd"
     t.text "first_name"
     t.text "last_name"
-    t.text "password"
+    t.text "password_digest"
     t.text "job_title"
     t.text "phone"
     t.datetime "created_at", null: false
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20180924072011) do
     t.string "emailadd"
     t.string "first_name"
     t.string "last_name"
-    t.string "password"
+    t.string "password_digest"
     t.string "job_title"
     t.string "phone"
     t.datetime "created_at", null: false
