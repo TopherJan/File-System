@@ -36,7 +36,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -52,7 +52,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -104,7 +104,8 @@
                         %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
                           - @doc_type.each do |t|
                             %option{:value => t.name}
-                              %td= t.name
+                              %td= t.name							  
+                        = link_to 'add document type', add_doctype_path(emailadd: "#{@emailadd}")
                   .form-group
                     %label{:for => "val-description"}
                       Description
@@ -132,10 +133,9 @@
                         %label{:for => "val-type"}
                           Type
                           %span.text-danger *
-                        %select#val-doctype.form-control{:name => "event_type", :required => 'required', :placeholder => "Please select", :onClick=>"displayForm(this)"}
-                          %option{:value => ""} Please select document type
-                          %option#created{:value => "Created"} Created
+                        %select#val-doctype.form-control{:name => "event_type", :required => 'required', :onClick=>"displayForm(this)"}
                           %option#received{:value => "Received"} Received
+                          %option#created{:value => "Created"} Created
                           %option{:value => "Returned"} Returned
                           %option{:value => "Accomplished"} Accomplished
                   .form-group
@@ -157,7 +157,7 @@
                         %label{:for => "val-contactnum"}
                           Contact Number
                           %span.text-danger *
-                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69278781163", :type => "text", :required => 'required'}/
+                        %input#val-contactnum.form-control{:name => "author[contact]", :placeholder => "+69123456789", :type => "text", :required => 'required'}/
                   .form-group
                     .form-row
                       .col-md-6
@@ -226,7 +226,7 @@
               document.getElementById("val-address").readOnly = true;
               document.getElementById("val-address").value = "Magsaysay Boulevard corner Army Road, Tacloban City";
               document.getElementById("val-department").readOnly = true;
-              document.getElementById("val-department").value = "#{@job_title}";
+              document.getElementById("val-department").value = "#{@job.name}";
             }else{
               document.getElementById("val-authorname").readOnly = false;
               document.getElementById("val-contactnum").readOnly = false;

@@ -1,50 +1,46 @@
 !!!
-/
-  Industrious by TEMPLATED
-  templated.co @templatedco
-  Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
-%html
+%html{:lang => "en"}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %link{:href => "favicon.ico", :rel => "shortcut icon"}/
     %title UP PDTS
     %meta{:charset => "utf-8"}/
-    %meta{:content => "width=device-width, initial-scale=1, user-scalable=no", :name => "viewport"}/
-    %meta{:content => "", :name => "description"}/
-    %meta{:content => "", :name => "keywords"}/
-    %link{:href => "assets/css/main.css", :rel => "stylesheet"}/
-  %body.is-preload
-    / Header
-    %header#header
-      %a.logo{:href => "/"}
-      %nav
-        %a{:href => "/login"} Log-in
-        %a{:href => "/create_account"} Sign-up
-        %a{:href=> root_path << 'UserManualPDTS.pdf'} Manual
-    / Banner
-    %section#banner
-      .inner
-        %img.img-valign{:alt => "", :src => "/images/up.png"}/
-        %img.img-valign{:alt => "", :src => "/images/upv.png"}/
-        %p
-          %span.text1
-          University of the Philippines Visayas
-          %br
-          TACLOBAN COLLEGE
-        %h1
-          %b Physical Document Tracking System
-      %video{:autoplay => "", :loop => "", :muted => "", :playsinline => "", :src => "/images/banner.mp4"}
-    / Footer
-    %footer#footer
-      .inner
-        .copyright
-          © Pards Duo, 2018
-          %div
-            Faith Cerena  &amp;
-            Christopher Jan E. Riños
-    / Scripts
-    %script{:src => "assets/js/jquery.min.js"}
-    %script{:src => "assets/js/browser.min.js"}
-    %script{:src => "assets/js/breakpoints.min.js"}
-    %script{:src => "assets/js/util.js"}
-    %script{:src => "assets/js/main.js"}
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %meta{:content => "Free HTML5 Website Template by uicookies.com", :name => "description"}/
+    %meta{:content => "free bootstrap 4, free bootstrap 4 template, free website templates, free html5, free template, free website template, html5, css3, mobile first, responsive", :name => "keywords"}/
+    %meta{:content => "uicookies.com", :name => "author"}/
+    %link{:href => "favicon.ico", :rel => "shortcut icon"}/
+    %link{:href => "https://fonts.googleapis.com/css?family=Raleway", :rel => "stylesheet"}/
+    %link{:href => "css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "css/open-iconic-bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "css/icomoon.css", :rel => "stylesheet"}/
+    %link{:href => "css/style.css", :rel => "stylesheet"}/
+  %body
+    %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.probootstrap-navabr-dark
+      .container
+        %a
+          %img.navbar-brand{:src => "images/up.png", :style => "width:70px;height:77px;"}/
+        %a
+          %img.navbar-brand{:src => "images/upv.png", :style => "width:70px;height:77px;"}/
+        %button.navbar-toggler{"aria-controls" => "probootstrap-nav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#probootstrap-nav", "data-toggle" => "collapse", :type => "button"}
+          %span.navbar-toggler-icon
+        #probootstrap-nav.collapse.navbar-collapse
+          %ul.navbar-nav.ml-auto
+            %li.nav-item
+              %a.nav-link{:href => root_path << 'UserManualPDTS.pdf', :target => :_blank} User Manual
+            %li.nav-item.probootstrap-cta.probootstrap-seperator
+              %a.nav-link{:href => "/login"} Log In
+            %li.nav-item.probootstrap-cta
+              %a.nav-link{:href => "/create_account"} Sign up
+    %section.probootstrap-cover
+      .container
+        .row.probootstrap-vh-100.align-items-center.text-center
+          .col-sm
+            .probootstrap-text
+              %h1.probootstrap-heading.text-white.mb-4 Physical Document Tracking System
+              .probootstrap-subheading.mb-5
+                %p.h4.font-weight-normal University of the Philippines Visayas Tacloban
+             
+    %script{:src => "js/jquery-3.2.1.slim.min.js"}
+    %script{:src => "js/popper.min.js"}
+    %script{:src => "js/bootstrap.min.js"}
+    %script{:src => "js/main.js"}

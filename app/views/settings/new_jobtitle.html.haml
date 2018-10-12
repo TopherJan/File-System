@@ -12,8 +12,6 @@
     %link{:href => "vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
     / Custom fonts for this template
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
-    / Page level plugin CSS
-    %link{:href => "vendor/datatables/dataTables.bootstrap4.css", :rel => "stylesheet"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
   %body#page-top.fixed-nav.sticky-footer.bg-dark
@@ -79,79 +77,88 @@
           %li.breadcrumb-item
             %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
           %li.breadcrumb-item
-            %a{:href => folders_path(emailadd: "#{@emailadd}")} Folders
-          %li.breadcrumb-item
-            %a{:href => folder_year_path(doc_type: "#{@doc_type}", emailadd: "#{@emailadd}")} #{@doc_type}
-          %li.breadcrumb-item.active #{@date_given}
+            %a{:href => settings_path(emailadd: "#{@emailadd}")} Settings
+          %li.breadcrumb-item.active Add Job Title
         / Example DataTables Card
         .card.mb-3
           .card-header
             %i.fa.fa-list-alt
-            Documents
+            Add Job Title
           .card-body
-            - if flash[:danger]
+            - if flash[:taken]
               .alert.alert-danger.alert-dismissible.fade.show{"data-auto-dismiss" => "2000", :role => "alert"}
                 %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
-                %b.notice= flash[:danger]
-            .table-responsive
-              %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                %thead{:align => "center"}
-                  %tr
-                    %th Name
-                    %th Author
-                    %th Description
-                    %th Location
-                    %th Date Modified
-                    %th Status
-                    %th Actions
-                %tbody{:align => "center"}
-                  - @documents.each do |document|
-                    %tr
-                      %td= document.name
-                      %td= document.author_name
-                      %td= document.description
-                      %td= document.location
-                      %td= document.date_modified
-                      %td= document.status
-                      %td
-                        %a.btn-sm.btn-primary{:href => view_event_path(id: document.id, emailadd: "#{@emailadd}")} View
-                        - if (!@job.editDocument && document.user_id == @user.id) || @job.editDocument
-                          %a.btn-sm.btn-success{:href => edit_document_view_path(id: document.id, emailadd: "#{@emailadd}")} Edit
-                        - if (!@job.deleteDocument && document.user_id == @user.id) || @job.deleteDocument
-                          %a.btn-sm.btn-danger{:href => delete_document_path(id: document.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document?')"} Delete
-                          :javascript
-                            function confirm_delete() {
-                              return confirm('Are you sure you want to delete the document?');
-                            }
-            %br
-            %a.btn.btn-secondary.float-right{:href => folder_year_path(doc_type: "#{@doc_type}", emailadd: "#{@emailadd}")} Back
-      / /.container-fluid
-      / /.content-wrapper
-      / Scroll to Top Button
-      %a.scroll-to-top.rounded{:href => "#page-top"}
-        %i.fa.fa-angle-up
-      / Logout Modal
-      #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
-        .modal-dialog{:role => "document"}
-          .modal-content
-            .modal-header
-              %h5#exampleModalLabel.modal-title Ready to Leave?
-              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                %span{"aria-hidden" => "true"} ×
-            .modal-body Select "Logout" below if you are ready to end your current session.
-            .modal-footer
-              %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-              %a.btn.btn-primary{:href => "/"} Logout
-      / Delete Modal
-      / Bootstrap core JavaScript
-      %script{:src => "vendor/jquery/jquery.min.js"}
-      %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
-      / Core plugin JavaScript
-      %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
-      / Page level plugin JavaScript
-      %script{:src => "vendor/datatables/jquery.dataTables.js"}
-      %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
-      / Custom scripts for all pages
-      %script{:src => "js/sb-admin.min.js"}
-      / Custom scripts for this page
-      %script{:src => "js/sb-admin-datatables.min.js"}
+                %b.notice= flash[:taken]
+            .form-validation
+              %form.form-valide{:action => '/add_jobtitle', :method => "get", :name =>"addDocumentType"}
+                .form-group
+                  %h4
+                    %b JOB TITLE INFORMATION
+                  .form-group
+                    .col.col-md-3
+                      %label.form-control-label Checkboxes
+                    .col.col-md-9
+                      .form-check
+                        .checkbox
+                          %label.form-check-label{:for => "checkbox1"}
+                            %input#checkbox1.form-check-input{:name => "checkbox1", :type => "checkbox", :value => "option1"}>/
+                            Option 1
+                        .checkbox
+                          %label.form-check-label{:for => "checkbox2"}
+                            %input#checkbox2.form-check-input{:name => "checkbox2", :type => "checkbox", :value => "option2"}/
+                            Option 2
+                        .checkbox
+                          %label.form-check-label{:for => "checkbox3"}
+                            %input#checkbox3.form-check-input{:name => "checkbox3", :type => "checkbox", :value => "option3"}/
+                            Option 3
+                  .form-group
+                    .col.col-md-3
+                      %label.form-control-label Radios
+                    .col.col-md-9
+                      .form-check
+                        .radio
+                          %label.form-check-label{:for => "radio1"}
+                            %input#radio1.form-check-input{:name => "radios1", :type => "radio", :value => "option1"}>/
+                              Option 1
+                        .radio
+                          %label.form-check-label{:for => "radio2"}
+                            %input#radio2.form-check-input{:name => "radios2", :type => "radio", :value => "option2"}>/
+                            Option 2
+                        .radio
+                          %label.form-check-label{:for => "radio3"}
+                            %input#radio3.form-check-input{:name => "radios3", :type => "radio", :value => "option3"}>/
+                            Option 3
+                %div
+                  %button.btn.btn-primary{:type => "submit"} Add
+                  %a.btn.btn-secondary{:href => settings_path(emailadd: "#{@emailadd}") } Back
+        / /.container-fluid
+        / /.content-wrapper
+        / Scroll to Top Button
+        %a.scroll-to-top.rounded{:href => "#page-top"}
+          %i.fa.fa-angle-up
+        / Logout Modal
+        #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+          .modal-dialog{:role => "document"}
+            .modal-content
+              .modal-header
+                %h5#exampleModalLabel.modal-title Ready to Leave?
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} ×
+              .modal-body Select "Logout" below if you are ready to end your current session.
+              .modal-footer
+                %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
+                %a.btn.btn-primary{:href => "/log_user", :id => "sign_out"} Logout
+        / Bootstrap core JavaScript
+        %script{:src => "vendor/jquery/jquery.min.js"}
+        %script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js"}
+        / Core plugin JavaScript
+        %script{:src => "vendor/jquery-easing/jquery.easing.min.js"}
+        / Page level plugin JavaScript
+        %script{:src => "vendor/chart.js/Chart.min.js"}
+        %script{:src => "vendor/datatables/jquery.dataTables.js"}
+        %script{:src => "vendor/datatables/dataTables.bootstrap4.js"}
+        / Custom scripts for all pages
+        %script{:src => "js/sb-admin.min.js"}
+        / Custom scripts for this page
+        %script{:src => "js/sb-admin-datatables.min.js"}
+        %script{:src => "js/sb-admin-charts.min.js"}

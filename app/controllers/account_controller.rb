@@ -8,41 +8,43 @@ class AccountController < ApplicationController
     @folders = Document.select(:doc_type).distinct
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
-
-    if !(@emailadd.nil?)
-      if(@current_user.job_title == "Admin")
-        @isAdmin = true
-        elsif(@current_user.job_title == "Secretary")
-        @isSecretary = true
-      elsif(@current_user.job_title == "Dean")
-        @isOthers = true
-      else
-          @isOthers = true
-        @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
-        @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-      end
-	  end
+	
+	@job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
+	end
   end
 
   def edit_profile_information
     @folders = Document.select(:doc_type).distinct
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
-
-    if !(@emailadd.nil?)
-	  @jobtitle = Jobtitle.where.not(name: "#{@current_user.job_title}")
-
-	  if(@current_user.job_title == "Admin")
-	    @isAdmin = true
-      elsif(@current_user.job_title == "Secretary")
-	    @isSecretary = true
-	  elsif(@current_user.job_title == "Dean")
-	    @isOthers = true
-	  else
-        @isOthers = true
-	    @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
-	    @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	  end
+    
+	@job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 
     flash[:notice] = "No changes were made!"

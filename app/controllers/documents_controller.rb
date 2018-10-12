@@ -7,30 +7,22 @@ class DocumentsController < ApplicationController
   def view_documents
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
 	@folders = Document.select(:doc_type).distinct
 	
-	name = @job_title.split(' ')
-	if(@job_title == "Admin")
-	  @isAdmin = true
-	  @documents = Document.order(date_modified: :desc).all
-	elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	  @documents = Document.all.order(:date_modified)
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	  @documents = Document.all.order(:date_modified)
-	elsif(name[1] == "Secretary")
-	  @isDivision = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
 	  @doc1 = Document.where(user_id: "#{@user.id}")
 	  @doc2 = Document.where(:id => @doc).order(:date_modified)
 	  @documents = @doc1 + @doc2
-	else
-	  @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @documents = Document.where(:id => @doc).order(:date_modified)
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
 	end
   end
 
@@ -39,19 +31,22 @@ class DocumentsController < ApplicationController
     @doc_type = Doctype.all
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
 	@attachment = Attachment.new
-
-	if(@job_title == "Admin")
-	  @isAdmin = true
-    elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
+	
+	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
 	else
-      @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 
 	if params[:document] != nil
@@ -86,18 +81,20 @@ class DocumentsController < ApplicationController
     @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     @user = User.find_by(emailadd: params[:emailadd])
-    @job_title = "#{@user.job_title}"
-
-    if(@job_title == "Admin")
-	  @isAdmin = true
-    elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
+    @job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
 	else
-      @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
 	end
 
     session[:emailadd] = params[:emailadd]

@@ -38,7 +38,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -54,7 +54,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -123,123 +123,55 @@
               %b.notice= flash[:notice]
           .card.mb-3
             %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
-              - if @isAdmin
+              %li.nav-item
+                %a.nav-link.active{"data-toggle" => "tab", :href => "#forward", :role => "tab"} All Forwarded Documents
+              - if @job.userRequest
                 %li.nav-item
-                  %a.nav-link.active{"data-toggle" => "tab", :href => "#reqs", :role => "tab"} All Pending Requests
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#accts", :role => "tab"} All Existing Users
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#files", :role => "tab"} All Existing Attachments
-              - else
-                %li.nav-item
-                  %a.nav-link.active{"data-toggle" => "tab", :href => "#forward", :role => "tab"} All Forwarded Documents
-                %li.nav-item
-                  %a.nav-link{"data-toggle" => "tab", :href => "#docs", :role => "tab"} All Existing Documents
+                  %a.nav-link{"data-toggle" => "tab", :href => "#reqs", :role => "tab"} All User Requests
             .tab-content
-              - if @isAdmin
-                #reqs.tab-pane.active{:role => "tabpanel"}
-                  .card-body
-                    .table-responsive
-                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                        %thead{:align => "center"}
-                          %tr
-                            %th Name
-                            %th Email
-                            %th Job Title
-                            %th Contact #
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @requests.each do |request|
-                            %tr
-                              %td= request.first_name + " " + request.last_name
-                              %td= request.emailadd
-                              %td= request.job_title
-                              %td= request.phone
-                              %td
-                                %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
-                                %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
-                                :javascript
-                                  function confirm_delete() {
-                                    return confirm('Are you sure you want to reject the request?');
-                                  }
-              - if @isAdmin
-                #docs.tab-pane{:role => "tabpanel"}
-                  .card-body
-                    .table-responsive
-                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                        %thead{:align => "center"}
-                          %tr
-                            %th Name
-                            %th Author
-                        %tbody{:align => "center"}
-                          - @documents.each do |document|
-                            %tr
-                              %td= document.name
-                              %td= document.author_name
-              - else
-                #forward.tab-pane.active{:role => "tabpanel"}
-                  .card-body
-                    .table-responsive
-                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                        %thead{:align => "center"}
-                          %tr
-                            %th Name
-                            %th Author
-                            %th Description
-                            %th Options
-                        %tbody{:align => "center"}
-                          - @received.each do |document|
-                            %tr
-                              %td= document.name
-                              %td= document.author_name
-                              %td= document.description
-                              %td
-                                %a.btn-sm.btn-success{:href => receive_document_path(doc_id: document.id, user_id: "#{@user.id}")} Receive
-                #docs.tab-pane{:role => "tabpanel"}
-                  .card-body
-                    .table-responsive
-                      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                        %thead{:align => "center"}
-                          %tr
-                            %th Name
-                            %th Author
-                        %tbody{:align => "center"}
-                          - @documents.each do |document|
-                            %tr
-                              %td= document.name
-                              %td= document.author_name
-              #accts.tab-pane{:role => "tabpanel"}
+              #forward.tab-pane.active{:role => "tabpanel"}
                 .card-body
                   .table-responsive
                     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
                       %thead{:align => "center"}
                         %tr
-                          %th Email Address
-                          %th Full Name
-                          %th Job Title
+                          %th Name
+                          %th Author
+                          %th Description
+                          %th Options
                       %tbody{:align => "center"}
-                        - @users.each do |user|
+                        - @received.each do |document|
                           %tr
-                            %td= user.emailadd
-                            %td= user.first_name + " " + user.last_name
-                            %td= user.job_title
-
-              #files.tab-pane{:role => "tabpanel"}
+                            %td= document.name
+                            %td= document.author_name
+                            %td= document.description
+                            %td
+                              %a.btn-sm.btn-success{:href => receive_document_path(doc_id: document.id, user_id: "#{@user.id}")} Receive
+              #reqs.tab-pane{:role => "tabpanel"}
                 .card-body
                   .table-responsive
-                  %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-                    %thead{:align => "center"}
-                      %tr
-                        %th Name of File
-                        %th
+                    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                      %thead{:align => "center"}
+                        %tr
+                          %th Name
+                          %th Email
+                          %th Job Title
+                          %th Contact #
+                          %th Options
                       %tbody{:align => "center"}
-                        - @attachments.each do |attachment|
+                        - @requests.each do |request|
                           %tr
-                            %td= attachment.attachment_in_database
-                            %td= link_to "Download", attachment.attachment_url
-
+                            %td= request.first_name + " " + request.last_name
+                            %td= request.emailadd
+                            %td= request.job_title
+                            %td= request.phone
+                            %td
+                              %a.btn-sm.btn-success{:href => accept_request_path(emailadd: request.emailadd)} Accept
+                              %a.btn-sm.btn-danger{:href => delete_request_path(emailadd: request.emailadd), :onclick => "return confirm('Are you sure you want to reject the request?')"} Reject
+                              :javascript
+                                function confirm_delete() {
+                                  return confirm('Are you sure you want to reject the request?');
+                                }
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button

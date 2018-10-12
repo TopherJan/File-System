@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180923195101) do
+ActiveRecord::Schema.define(version: 20180924072011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,18 @@ ActiveRecord::Schema.define(version: 20180923195101) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "viewDocument", default: false
+    t.boolean "addDocument", default: false
+    t.boolean "editDocument", default: false
+    t.boolean "deleteDocument", default: false
+    t.boolean "forwardDocument", default: false
+    t.boolean "addEvent", default: false
+    t.boolean "uploadFile", default: false
+    t.boolean "deleteFile", default: false
+    t.boolean "userRequest", default: false
+    t.boolean "jobtitleSettings", default: false
+    t.boolean "doctypeSettings", default: false
+    t.boolean "userSettings", default: false
   end
 
   create_table "logins", force: :cascade do |t|

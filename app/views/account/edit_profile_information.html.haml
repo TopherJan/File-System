@@ -36,7 +36,7 @@
                 %a.nav-link{:href => view_documents_path(emailadd: "#{@emailadd}")}
                   %i.fa.fa-fw.fa-eye
                   %span.nav-link-text View Documents
-              - if !@isOthers
+              - if @job.addDocument
                 %li
                   %a.nav-link{:href => add_document_path(emailadd: "#{@emailadd}")}
                     %i.fa.fa-fw.fa-pencil
@@ -52,7 +52,7 @@
                       %i.fa.fa-fw.fa-folder-open
                       %span.nav-link-text
                       %td= folder.doc_type
-          - if @isAdmin || @isSecretary
+          - if @settings
             %li.nav-item{"data-placement" => "right", "data-toggle" => "tooltip", :title => "Settings"}
               %a.nav-link{:href => settings_path(emailadd: "#{@emailadd}")}
                 %i.fa.fa-fw.fa-gear
@@ -142,18 +142,8 @@
                       %label{:for => "jobtitle"}
                         %b Job Title
                         %span.text-danger *
-                      - if @isAdmin
-                        %select#jobtitle.form-control{:name => "job_title", :required => 'required'}
-                          %option{:value => "#{@current_user.job_title}"} #{@current_user.job_title}
-                          - @jobtitle.each do |t|
-                            %option{:value => t.name}
-                              %td= t.name
-                      - else
-                        %select#jobtitle.form-control{:name => "job_title", :required => 'required', :readonly => "readonly"}
-                          %option{:value => "#{@current_user.job_title}"} #{@current_user.job_title}
-                          - @jobtitle.each do |t|
-                            %option{:value => t.name}
-                              %td= t.name
+                      %div
+                        %input#val-confirmpass.form-control{:name => "job_title", :type => "tex", :value => "#{@current_user.job_title}", :readonly => "readonly"}/
                     .col-md-6
                       %label{:for => "phone"}
                         %b Contact Number
