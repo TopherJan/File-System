@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-	before_filter :confirm_logged_in
+	before_action :confirm_logged_in
 	@isAdmin = false;
 	@isSecretary = false;
 	@isOthers = false;
