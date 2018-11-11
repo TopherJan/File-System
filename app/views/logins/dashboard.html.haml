@@ -67,6 +67,18 @@
           %li.nav-item
             %a#sidenavToggler.nav-link.text-center
               %i.fa.fa-fw.fa-angle-left
+        .dropdown.for-notification
+          %button#notification.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %i.fa.fa-bell
+            %span.count 5
+          .dropdown-menu{"aria-labelledby" => "notification"}
+            %p You have 3 Notification
+            %a.dropdown-item.media{:href => "#"}
+              %p Server #1 overloaded.
+            %a.dropdown-item.media{:href => "#"}
+              %p Server #2 overloaded.
+            %a.dropdown-item.media{:href => "#"}
+              %p Server #3 overloaded.
         %ul.navbar-nav.ml-auto
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}

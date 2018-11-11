@@ -104,8 +104,9 @@
                         %select#val-doctype.form-control{:name => "document[doc_type]", :required => 'required'}
                           - @doc_type.each do |t|
                             %option{:value => t.name}
-                              %td= t.name							  
-                        = link_to 'add document type', add_doctype_path(emailadd: "#{@emailadd}")
+                              %td= t.name
+                        - if @job.doctypeSettings
+                          = link_to 'Add Document Type', add_doctype_path(emailadd: "#{@emailadd}")
                   .form-group
                     %label{:for => "val-description"}
                       Description
