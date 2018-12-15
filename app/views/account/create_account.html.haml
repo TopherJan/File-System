@@ -14,6 +14,9 @@
     %link{:href => "vendor/font-awesome/css/font-awesome.min.css", :rel => "stylesheet", :type => "text/css"}/
     / Custom styles for this template
     %link{:href => "css/sb-admin.css", :rel => "stylesheet"}/
+    / recaptcha needed api
+    %script{src: "https://www.google.com/recaptcha/api.js"}
+
   %body.bg-dark
     .container
       .card.card-register.mx-auto.mt-5
@@ -72,6 +75,8 @@
                       Contact Number
                       %span.text-danger *
                     %input#phone.form-control{:required =>"required", :name => "phone", :placeholder => "+639123456789", :type => "text", :value => "#{@phone}"}/
+              .form-group
+                = recaptcha_tags
               %button.btn.btn-primary.btn-block{:type => "submit"} Register
           .text-center
             %a.d-block.small.mt-3{:href => "/auth/google_oauth2", :id => "sign_in"} Use UP Mail

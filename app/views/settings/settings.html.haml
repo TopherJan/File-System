@@ -115,34 +115,85 @@
                     .card.mb-3
                       .card-header
                       .card-body
-                        %table.table
-                          %thead
-                            %tr
-                              %th Name
-                              %th Email Address
-                              %th Job Title
-                              %th Options
-                          %tbody
-                            - @users.each do |user|
+                        .table-responsive
+                          %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                            %thead
                               %tr
-                                %td= user.first_name
-                                %td= user.emailadd
-                                %td= user.job_title
-                                - if user.job_title != "Admin"
-                                  %td
-                                    %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
-                                    %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
-                                    :javascript
-                                      function confirm_delete() {
-                                        return confirm('Are you sure you want to delete the user?');
-                                      }
+                                %th Name
+                                %th Email Address
+                                %th Job Title
+                                %th Options
+                            %tbody
+                              - @users.each do |user|
+                                %tr
+                                  %td= user.first_name
+                                  %td= user.emailadd
+                                  %td= user.job_title
+                                  - if user.job_title != "Admin"
+                                    %td
+                                      %a.btn-sm.btn-success{:href => edit_users_path(id: user.id, emailadd: "#{@emailadd}")} Edit
+                                      %a.btn-sm.btn-danger{:href =>delete_users_path(id: user.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the user?')"} Delete
+                                      :javascript
+                                        function confirm_delete() {
+                                          return confirm('Are you sure you want to delete the user?');
+                                        }
+                                  - else
+                                    %td
+                                      %p N.A
                   - if @job.jobtitleSettings
                     #jobtitle.tab-pane{:role => "tabpanel"}
                       .card.mb-3
                         .card-header
                           %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
                         .card-body
-                          %table.table
+                          .table-responsive
+                            %table#dataTable2.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                              %thead
+                                %tr{:align => "center"}
+                                  %th Name
+                                  %th Options
+                              %tbody{:align => "center"}
+                                - @jobtitle.each do |job|
+                                  %tr
+                                    %td= job.name
+                                    %td
+                                      %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
+                                      %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
+                                      :javascript
+                                        function confirm_delete() {
+                                          return confirm('Are you sure you want to delete the job title?');
+                                        }
+                  - if @job.doctypeSettings
+                    #doctype.tab-pane{:role => "tabpanel"}
+                      .card.mb-3
+                        .card-header
+                          %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
+                        .card-body
+                          .table-responsive
+                            %table#dataTable3.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                              %thead
+                                %tr{:align => "center"}
+                                  %th Name
+                                  %th Options
+                              %tbody{:align => "center"}
+                                - @doc_type.each do |type|
+                                  %tr
+                                    %td= type.name
+                                    %td
+                                      %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                      %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                      :javascript
+                                        function confirm_delete() {
+                                          return confirm('Are you sure you want to delete the document type?');
+                                        }
+                - elsif @job.jobtitleSettings
+                  #jobtitle.tab-pane.active{:role => "tabpanel"}
+                    .card.mb-3
+                      .card-header
+                        %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
+                      .card-body
+                        .table-responsive
+                          %table#dataTable2.table.table-bordered{:cellspacing => "0", :width => "100%"}
                             %thead
                               %tr{:align => "center"}
                                 %th Name
@@ -164,88 +215,46 @@
                         .card-header
                           %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
                         .card-body
-                          %table.table
-                            %thead
-                              %tr{:align => "center"}
-                                %th Name
-                                %th Options
-                            %tbody{:align => "center"}
-                              - @doc_type.each do |type|
-                                %tr
-                                  %td= type.name
-                                  %td
-                                    %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                    %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
-                                    :javascript
-                                      function confirm_delete() {
-                                        return confirm('Are you sure you want to delete the document type?');
-                                      }
-                - elsif @job.jobtitleSettings
-                  #jobtitle.tab-pane.active{:role => "tabpanel"}
-                    .card.mb-3
-                      .card-header
-                        %a.btn.btn-primary.float-right{:href => add_jobtitle_path(emailadd: "#{@emailadd}")} Add Job Title
-                      .card-body
-                        %table.table
-                          %thead
-                            %tr{:align => "center"}
-                              %th Name
-                              %th Options
-                          %tbody{:align => "center"}
-                            - @jobtitle.each do |job|
-                              %tr
-                                %td= job.name
-                                %td
-                                  %a.btn-sm.btn-success{:href => edit_jobtitle_path(id: job.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href => delete_jobtitle_path(id: job.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the job title?')"} Delete
-                                  :javascript
-                                    function confirm_delete() {
-                                      return confirm('Are you sure you want to delete the job title?');
-                                    }
-                  - if @job.doctypeSettings
-                    #doctype.tab-pane{:role => "tabpanel"}
-                      .card.mb-3
-                        .card-header
-                          %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
-                        .card-body
-                          %table.table
-                            %thead
-                              %tr{:align => "center"}
-                                %th Name
-                                %th Options
-                            %tbody{:align => "center"}
-                              - @doc_type.each do |type|
-                                %tr
-                                  %td= type.name
-                                  %td
-                                    %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                    %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
-                                    :javascript
-                                      function confirm_delete() {
-                                        return confirm('Are you sure you want to delete the document type?');
-                                      }
+                          .table-responsive
+                            %table#dataTable3.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                              %thead
+                                %tr{:align => "center"}
+                                  %th Name
+                                  %th Options
+                              %tbody{:align => "center"}
+                                - @doc_type.each do |type|
+                                  %tr
+                                    %td= type.name
+                                    %td
+                                      %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                      %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                      :javascript
+                                        function confirm_delete() {
+                                          return confirm('Are you sure you want to delete the document type?');
+                                        }
                 - elsif @job.doctypeSettings
                   #doctype.tab-pane.active{:role => "tabpanel"}
                     .card.mb-3
                       .card-header
                         %a.btn.btn-primary.float-right{:href => add_doctype_path(emailadd: "#{@emailadd}")} Add Document Type
                       .card-body
-                        %table.table
-                          %thead
-                            %tr{:align => "center"}
-                              %th Name
-                              %th Options
-                          %tbody{:align => "center"}
-                            - @doc_type.each do |type|
-                              %tr
-                                %td= type.name
-                                %td
-                                  %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
-                                  %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
-                                  :javascript
-                                    function confirm_delete() {
-                                      return confirm('Are you sure you want to delete the document type?');
-                                    }
+                        .table-responsive
+                          %table#dataTable3.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                            %thead
+                              %tr{:align => "center"}
+                                %th Name
+                                %th Options
+                            %tbody{:align => "center"}
+                              - @doc_type.each do |type|
+                                %tr
+                                  %td= type.name
+                                  %td
+                                    %a.btn-sm.btn-success{:href => edit_doctype_path(id: type.id, emailadd: "#{@emailadd}")} Edit
+                                    %a.btn-sm.btn-danger{:href => delete_doctype_path(id: type.id, emailadd: "#{@emailadd}"), :onclick => "return confirm('Are you sure you want to delete the document type?')"} Delete
+                                    :javascript
+                                      function confirm_delete() {
+                                        return confirm('Are you sure you want to delete the document type?');
+                                      }
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
@@ -276,3 +285,13 @@
       %script{:src => "js/sb-admin.min.js"}
       / Custom scripts for this page
       %script{:src => "js/sb-admin-datatables.min.js"}
+      :javascript
+        $(document).ready(function() {
+          $("a[data-toggle=\"tab\"]").on("shown.bs.tab", function (e) {
+            //$($.fn.dataTable.tables(true)).DataTable().draw();
+            $("#dataTable").DataTable().draw();
+            $("#dataTable2").DataTable().draw();
+            $("#dataTable3").DataTable().draw();
+          });
+
+        });

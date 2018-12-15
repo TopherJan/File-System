@@ -78,10 +78,10 @@ class LoginsController < ApplicationController
 	  @user_email = User.find_by(emailadd: "#{@emailadd}")
 
     if @user_email.nil?
-	  flash[:danger] = "User does not exist!"
+	    flash[:danger] = "Incorrect email or password!"
       redirect_to '/login'
-	elsif (@user.nil?) || (@user.authenticate(@password) == false)
-      flash[:danger] = "Incorrect emailaddress or password!"
+	  elsif (@user.nil?) || (@user.authenticate(@password) == false)
+      flash[:danger] = "Incorrect email or password!"
       redirect_to '/login'
     else
       session[:user_id] = @user_email.id

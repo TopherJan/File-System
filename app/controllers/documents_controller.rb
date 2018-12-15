@@ -101,7 +101,8 @@ class DocumentsController < ApplicationController
     @doc_id = params[:id]
     @doc = Document.find(params[:id])
     @author = Author.find(params[:id])
-    @doc_type = Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{@doc.doc_type}'")
+    #@doc_type = Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{@doc.doc_type}'")
+    @doc_type = Doctype.where.not(name: @doc.doc_type)
 	
 	flash[:notice] = "The document #{@doc.name.upcase} was successfully UPDATED!"
   end

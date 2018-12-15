@@ -45,6 +45,7 @@ GEM
     bindex (0.5.0)
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
+    brakeman (4.3.1)
     builder (3.2.3)
     byebug (10.0.2)
     capybara (2.18.0)
@@ -178,6 +179,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    recaptcha (4.13.0)
+      json
     ruby_dep (1.5.0)
     ruby_parser (3.11.0)
       sexp_processor (~> 4.9)
@@ -237,6 +240,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 2.3.2)
+  brakeman
   byebug
   capybara (~> 2.13)
   carrierwave (~> 0.9)
@@ -250,6 +254,7 @@ DEPENDENCIES
   pg
   puma (~> 3.7)
   rails (~> 5.1.6)
+  recaptcha
   sass-rails (~> 5.0)
   selenium-webdriver
   spring
