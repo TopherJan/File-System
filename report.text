@@ -1,0 +1,87 @@
+
+== Brakeman Report ==
+
+Application Path: /mnt/c/Users/Aerol Nebril/Desktop/repos/public/File-System
+Rails Version: 5.1.6
+Brakeman Version: 4.3.1
+Scan Date: 2018-11-30 17:07:53 +0800
+Duration: 2.5281763 seconds
+Checks Run: BasicAuth, BasicAuthTimingAttack, ContentTag, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, DynamicFinders, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONEncoding, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, MimeTypeDoS, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NestedAttributesBypass, NumberToCurrency, PermitAttributes, QuoteTableName, Redirect, RegexDoS, Render, RenderDoS, RenderInline, ResponseSplitting, RouteDoS, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionManipulation, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, StripTags, SymbolDoSCVE, TranslateBug, UnsafeReflection, ValidationRegex, WithoutProtection, XMLDoS, YAMLParsing
+
+== Overview ==
+
+Controllers: 8
+Models: 12
+Templates: 24
+Errors: 1
+Security Warnings: 7
+
+== Warning Types ==
+
+Cross-Site Request Forgery: 1
+Cross-Site Scripting: 4
+SQL Injection: 2
+
+== Errors ==
+
+Error: Illegal nesting: nesting within a self-closing tag is illegal.
+Location: While compiling HAML in /mnt/c/Users/Aerol Nebril/Desktop/repos/public/File-System/app/views/settings/new_jobtitle.html.haml
+
+== Warnings ==
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Event.find_by_sql("SELECT DISTINCT date_part('year', event_date) as dates FROM events e JOIN documents d ON  e.event_date = d.date_modified where d.doc_type = '#{params[:doc_type]}'")
+File: app/controllers/folders_controller.rb
+Line: 47
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Doctype.find_by_sql("SELECT * FROM doctypes where name != '#{Document.find(params[:id]).doc_type}'")
+File: app/controllers/documents_controller.rb
+Line: 104
+
+Confidence: Medium
+Category: Cross-Site Request Forgery
+Check: ForgerySetting
+Message: protect_from_forgery should be configured with 'with: :exception'
+Code: protect_from_forgery(:with => :null_session)
+File: app/controllers/application_controller.rb
+Line: 2
+
+Confidence: Medium
+Category: Cross-Site Scripting
+Check: CrossSiteScripting
+Message: Unescaped model attribute
+Code: User.find_by(:emailadd => params[:emailadd]).phone
+File: app/views/documents/add_document.html.haml
+Line: 223
+
+Confidence: Medium
+Category: Cross-Site Scripting
+Check: CrossSiteScripting
+Message: Unescaped model attribute
+Code: Jobtitle.find_by(:name => ("#{User.find_by(:emailadd => params[:emailadd]).job_title}")).name
+File: app/views/documents/add_document.html.haml
+Line: 229
+
+Confidence: Medium
+Category: Cross-Site Scripting
+Check: CrossSiteScripting
+Message: Unescaped model attribute
+Code: User.find_by(:emailadd => params[:emailadd]).first_name
+File: app/views/documents/add_document.html.haml
+Line: 221
+
+Confidence: Weak
+Category: Cross-Site Scripting
+Check: LinkToHref
+Message: Potentially unsafe model attribute in link_to href
+Code: link_to("Download File", Attachment.new.attachment_url)
+File: app/views/events/view_event.html.haml
+Line: 182
+

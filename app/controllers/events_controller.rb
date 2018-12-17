@@ -7,34 +7,34 @@ class EventsController < ApplicationController
   def view_event
     @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-	@user = User.find_by(emailadd: params[:emailadd])
-	
-	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
-	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
-	@sent = User.where.not(:id => @user.id).where(:id => @forw)
-	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
-	
-	@doc_id = params[:id]
-	@document = Document.find(params[:id])
-	@author = Author.find(params[:id])
-	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
-	@attachments = Attachment.where(doc_id: params[:id])
-	
-	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
-    @settings = false
-	
-	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
-	  @settings = true
-	end
-	
-	if(@job.viewDocument)
-	  @documents = Document.all
-	else
-      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @doc1 = Document.where(user_id: "#{@user.id}")
-	  @doc2 = Document.where(:id => @doc).order(:date_modified)
-	  @documents = @doc1 + @doc2
-	end
+		@user = User.find_by(emailadd: params[:emailadd])
+		
+		@forw = Forward.select(:user_id).where(:doc_id => params[:id])
+		@users = User.where.not(:id => @user.id).where.not(:id => @forw)
+		@sent = User.where.not(:id => @user.id).where(:id => @forw)
+		@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
+		
+		@doc_id = params[:id]
+		@document = Document.find(params[:id])
+		@author = Author.find(params[:id])
+		@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
+		@attachments = Attachment.where(doc_id: params[:id])
+		
+		@job = Jobtitle.find_by(:name => "#{@user.job_title}")
+			@settings = false
+		
+		if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+			@settings = true
+		end
+		
+		if(@job.viewDocument)
+			@documents = Document.all
+		else
+			@doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+			@doc1 = Document.where(user_id: "#{@user.id}")
+			@doc2 = Document.where(:id => @doc).order(:date_modified)
+			@documents = @doc1 + @doc2
+		end
   end
   
   def send_document

@@ -1,0 +1,2 @@
+to login to postgresql on lin subsystem:
+psql -h localhost -d file_tracking -U track_user

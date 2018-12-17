@@ -5,24 +5,24 @@ class AttachmentsController < ApplicationController
   @isOthers = false;
 
   def upload_file
-	@folders = Document.select(:doc_type).distinct
+	  @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-	@doc_id = params[:id]
+	  @doc_id = params[:id]
     @attachment = Attachment.new
-	@user = User.find_by(emailadd: params[:emailadd])
-	@job_title = "#{@user.job_title}"
+  	@user = User.find_by(emailadd: params[:emailadd])
+	  @job_title = "#{@user.job_title}"
 
-	if(@job_title == "Admin")
-	  @isAdmin = true
-    elsif(@job_title == "Secretary")
-	  @isSecretary = true
-	elsif(@job_title == "Dean")
-	  @isOthers = true
-	else
+    if(@job_title == "Admin")
+      @isAdmin = true
+      elsif(@job_title == "Secretary")
+      @isSecretary = true
+    elsif(@job_title == "Dean")
       @isOthers = true
-	  @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-	  @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-	end
+    else
+      @isOthers = true
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
+      @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
+    end
   end
 
   def save_file
@@ -38,9 +38,9 @@ class AttachmentsController < ApplicationController
   def delete_file
     @emailadd = params[:emailadd]
     @attachment = Attachment.find(params[:id])
-	@doc_id = "#{@attachment.doc_id}"
+	  @doc_id = "#{@attachment.doc_id}"
     @attachment.destroy
-	flash[:notice] = "The file was successfuly DELETED!"
+	  flash[:notice] = "The file was successfuly DELETED!"
     redirect_to view_event_path(id: "#{@doc_id}", emailadd: params[:emailadd])
   end
 
