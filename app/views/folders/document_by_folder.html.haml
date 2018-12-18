@@ -108,7 +108,7 @@
                   - @documents.each do |document|
                     %tr
                     - if document.doc_type == @doc_type
-                      %td= link_to document.name
+                      %td= document.name 
                       %td= document.author_name
                       %td= document.description
                       %td= document.location

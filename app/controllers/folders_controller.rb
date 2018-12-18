@@ -5,9 +5,12 @@ class FoldersController < ApplicationController
   @isOthers = false;
 
   def folders
+    @attachments = Attachment.all
+    @documents = Document.all
     @folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
+	
 
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
     @settings = false
@@ -24,6 +27,9 @@ class FoldersController < ApplicationController
   end
 
   def folder_year
+   @attachments = Attachment.all
+   @documents = Document.all
+   		
     @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
 		@user = User.find_by(emailadd: params[:emailadd])
@@ -52,6 +58,8 @@ class FoldersController < ApplicationController
 	end
 
   def document_by_folder
+  @attachments = Attachment.all
+  @documents = Document.all
     @folders = Document.select(:doc_type).distinct
     @doc_type = params[:doc_type]
 	@date_given = params[:date_given]
