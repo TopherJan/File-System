@@ -1,38 +1,53 @@
 class AccountController < ApplicationController
   skip_before_action :verify_authenticity_token
-  @isAdmin = false;
-  @isSecretary = false;
-  @isOthers = false;
 
   def profile_information
     @folders = Document.select(:doc_type).distinct
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
-	
-	  @job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
+	@job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
     @settings = false
 	
-	  if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
-	    @settings = true
-	  end
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
 	
-	  if(@job.viewDocument)
-	    @documents = Document.all
-	  else
-      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-      @doc1 = Document.where(user_id: "#{@user.id}")
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@current_user.id}", status: false)
+	@countNotif = @notifications.count
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
+      @doc1 = Document.where(user_id: "#{@current_user.id}")
       @doc2 = Document.where(:id => @doc).order(:date_modified)
       @documents = @doc1 + @doc2
-	  end
+	end
   end
 
   def edit_profile_information
     @folders = Document.select(:doc_type).distinct
     @current_user = User.find_by(emailadd: params[:emailadd])
     @emailadd = params[:emailadd]
-    
-	  @job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
+	@job = Jobtitle.find_by(:name => "#{@current_user.job_title}")
     @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@current_user.id}", status: false)
+	@countNotif = @notifications.count
 	
     if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
       @settings = true
@@ -41,11 +56,11 @@ class AccountController < ApplicationController
     if(@job.viewDocument)
       @documents = Document.all
     else
-      @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-      @doc1 = Document.where(user_id: "#{@user.id}")
+      @doc = Forward.select(:doc_id).where(:user_id => "#{@current_user.id}")
+      @doc1 = Document.where(user_id: "#{@current_user.id}")
       @doc2 = Document.where(:id => @doc).order(:date_modified)
       @documents = @doc1 + @doc2
-	  end
+	end
 
     flash[:notice] = "No changes were made!"
   end
@@ -91,15 +106,13 @@ class AccountController < ApplicationController
         redirect_to login_path
       end
 
-      else
-        request = Request.find_by(:emailadd => current_user.emailadd)
-        request.update(job_title: "#{@job_title}", phone: "#{@phone}")
-        flash[:success] = "Account registration sent to Admin!"
-        session[:user_id] = nil
-        redirect_to login_path
-      end
-
-
+    else
+      request = Request.find_by(:emailadd => current_user.emailadd)
+      request.update(job_title: "#{@job_title}", phone: "#{@phone}")
+      flash[:success] = "Account registration sent to Admin!"
+      session[:user_id] = nil
+      redirect_to login_path
+    end
   end
 
   def delete_user

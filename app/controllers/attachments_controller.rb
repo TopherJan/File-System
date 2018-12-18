@@ -1,28 +1,35 @@
 class AttachmentsController < ApplicationController
   before_action :confirm_logged_in
-  @isAdmin = false;
-  @isSecretary = false;
-  @isOthers = false;
 
   def upload_file
-	  @folders = Document.select(:doc_type).distinct
+    @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-	  @doc_id = params[:id]
+    @doc_id = params[:id]
     @attachment = Attachment.new
   	@user = User.find_by(emailadd: params[:emailadd])
-	  @job_title = "#{@user.job_title}"
-
-    if(@job_title == "Admin")
-      @isAdmin = true
-      elsif(@job_title == "Secretary")
-      @isSecretary = true
-    elsif(@job_title == "Dean")
-      @isOthers = true
-    else
-      @isOthers = true
+    @job = Jobtitle.find_by(:name => "#{@user.job_title}")
+    @settings = false
+	
+	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
+	  @settings = true
+	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
+	
+	if(@job.viewDocument)
+	  @documents = Document.all
+	else
       @doc = Forward.select(:doc_id).where(:user_id => "#{@user.id}")
-      @folders = Document.select(:doc_type).where(:id => "#{@doc}").distinct
-    end
+	  @doc1 = Document.where(user_id: "#{@user.id}")
+	  @doc2 = Document.where(:id => @doc).order(:date_modified)
+	  @documents = @doc1 + @doc2
+	end
   end
 
   def save_file
@@ -38,9 +45,9 @@ class AttachmentsController < ApplicationController
   def delete_file
     @emailadd = params[:emailadd]
     @attachment = Attachment.find(params[:id])
-	  @doc_id = "#{@attachment.doc_id}"
+    @doc_id = "#{@attachment.doc_id}"
     @attachment.destroy
-	  flash[:notice] = "The file was successfuly DELETED!"
+	flash[:notice] = "The file was successfuly DELETED!"
     redirect_to view_event_path(id: "#{@doc_id}", emailadd: params[:emailadd])
   end
 
