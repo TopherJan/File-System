@@ -76,20 +76,41 @@
         %ol.breadcrumb
           %li.breadcrumb-item
             %a{:href => dashboard_path(emailadd: "#{@emailadd}")} Dashboard
-          %li.breadcrumb-item.active Folders
-        .card.mb-3
-          .card-header
-            %i.fa.fa-folder
-            Folders
-          .card-body
-            - @folders.each do |folder|
-              %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type, emailadd: "#{@emailadd}")}
-                %h1
-                  %i.fa.fa-fw.fa-folder-open
-                  %span.nav-link-text
-                  %td= folder.doc_type
-            %div
-              %a.btn.btn-secondary.float-right{:href => dashboard_path(emailadd: "#{@emailadd}")} Back
+          %li.breadcrumb-item
+            %a{:href => folders_path(emailadd: "#{@emailadd}")} Folders
+          %li.breadcrumb-item.active #{@doc_type}
+        %ul.nav.nav-tabs.profile-tab{:role => "tablist"}
+          %li.nav-item
+            %a.nav-link.active{"data-toggle" => "tab", :href => "#folders", :role => "tab"} All Folders
+          %li.nav-item
+            %a.nav-link{"data-toggle" => "tab", :href => "#attachments", :role => "tab"} All Attachments
+        .tab-content
+          #folders.tab-pane.active{:role => "tabpanel"}
+            .card-body
+              .table-responsive
+                - @folders.each do |folder|
+                  %a.nav-link{:href => folder_year_path(doc_type: folder.doc_type, emailadd: "#{@emailadd}")}
+                    %h1
+                      %i.fa.fa-fw.fa-folder-open
+                      %span.nav-link-text
+                      %td= folder.doc_type
+          #attachments.tab-pane{:role => "tabpanel"}
+            .card-body
+              .table-responsive
+                %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+                  %thead{:align => "center"}
+                    %tr
+                      %th Name
+                      %th Date Uploaded
+                      %th Download Link
+                  %tbody{:align => "center"}
+                    - @attachments.each do |attachment|
+                      %tr
+                        %td= attachment.attachment_in_database
+                        %td= attachment.created_at.to_date
+                        %td= link_to "Download File", attachment.attachment_url            
+        %div
+        %a.btn.btn-secondary.float-right{:href => dashboard_path(emailadd: "#{@emailadd}")} Back
       / /.container-fluid
       / /.content-wrapper
       / Scroll to Top Button
