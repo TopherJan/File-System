@@ -23,15 +23,16 @@ class LoginsController < ApplicationController
 	  @notif.update(status: true)
 	end
 	
-	if(@job == "Admin")
+	if("#{@user.job_title}" == "Admin")
 	  @not1 = Notification.where(user_id: "#{@user.id}", status: false)
-	  @not2 = Notification.where(notif_type: 1)
+	  @not2 = Notification.where(notif_type: 1, status: false)
 	  @notifications = @not1 + @not2
 	  @countNotif = @notifications.count
 	else
 	  @notifications = Notification.where(user_id: "#{@user.id}", status: false, notif_type: 2)
 	  @countNotif = @notifications.count
 	end
+	
 	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
@@ -57,7 +58,7 @@ class LoginsController < ApplicationController
 	  doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 
 	  flash[:notice] = "The document #{doc.name.upcase} has been RECEIVED!"
-	  redirect_to dashboard_path(emailadd: session[:emailadd])
+	  redirect_to request.referer
 	end
   end
   

@@ -72,9 +72,8 @@
           .dropdown-menu{"aria-labelledby" => "notification"}
             %p You have #{@countNotif} Notification
             - @notifications.each do |notif|
-              - if notif.type == false
-                %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
-                  %p= notif.message
+              %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
+                %p= notif.message
         %ul.navbar-nav.ml-auto
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
@@ -99,7 +98,7 @@
             .card.mb-3
               .card-header
                 %i.fa.fa-folder
-                Folders (Memo)
+                Folders (#{@doc_type})
               .card-body
                 %h3 #{@doc_type}
                 - @doc_year.each do |document|
@@ -112,7 +111,7 @@
             .card.mb-3
               .card-header
                 %i.fa.fa-file
-                Attachments (Memo)
+                Attachments (#{@doc_type})
                 .card-body
                   .table-responsive
                     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}

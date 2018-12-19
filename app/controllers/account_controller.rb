@@ -103,7 +103,7 @@ class AccountController < ApplicationController
         redirect_to '/create_account'
       else
 		@users = User.where(job_title: "Admin")
-		@notifications = Notification.new(type: 1, message: "A new user request was sent by #{@emailadd}", date: DateTime.now.to_date)
+		@notifications = Notification.new(notif_type: 1, message: "A new user request was sent by #{@emailadd}", date: DateTime.now.to_date)
 		@notifications.save!
         flash[:success] = "Account registration sent to Admin!"
         redirect_to login_path

@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20181217135544) do
     t.datetime "updated_at", null: false
     t.boolean "status", default: false
     t.integer "notif_type"
+    t.integer "doc_id"
   end
 
   create_table "requests", force: :cascade do |t|

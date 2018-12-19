@@ -2,21 +2,24 @@ class EventsController < ApplicationController
   before_action :confirm_logged_in
 
   def view_event
+	@doc_id = params[:id]
+	@document = Document.find(params[:id])
     @folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     @user = User.find_by(emailadd: params[:emailadd])
 	@forw = Forward.select(:user_id).where(:doc_id => params[:id])
-	@users = User.where.not(:id => @user.id).where.not(:id => @forw)
+	@users = User.where.not(:id => "#{@document.user_id}").where.not(:id => @user.id).where.not(:id => @forw)
 	@sent = User.where.not(:id => @user.id).where(:id => @forw)
 	@status = Forward.select(:status).where(user_id: @sent.ids).where(doc_id: params[:id])
-	@doc_id = params[:id]
-	@document = Document.find(params[:id])
 	@author = Author.find(params[:id])
 	@events = Event.where(:doc_id => params[:id]).order(event_date: :desc, created_at: :desc)
 	@attachments = Attachment.where(doc_id: params[:id])
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
 	@settings = false
 		
+	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
+	@received = Document.where(:id => @forwards)
+	
 	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
 	  @settings = true
 	end
@@ -43,7 +46,7 @@ class EventsController < ApplicationController
     @emailadd = params[:emailadd]
 	@sender = User.find_by(emailadd: params[:emailadd])
 	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], status: 'FORWARDED')
-	@notif = Notification.new(user_id: params[:user_id], message: "A new document was forwarded to you by #{@sender.emailadd}", date: DateTime.now.to_date, notif_type: 2)
+	@notif = Notification.new(user_id: params[:user_id], message: "A new document was forwarded to you by #{@sender.emailadd}", date: DateTime.now.to_date, notif_type: 2, doc_id: params[:doc_id])
 	@user = User.find(params[:user_id])
 	
 	if @forward.save

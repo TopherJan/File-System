@@ -74,8 +74,12 @@
           .dropdown-menu{"aria-labelledby" => "notification"}
             %p You have #{@countNotif} Notification
             - @notifications.each do |notif|
-              %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
-                %p= notif.message
+              - if notif.notif_type == 2
+                %a.dropdown-item.media{:href => view_event_path(id: notif.doc_id, emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
+                  %p= notif.message
+              - else
+                %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
+                  %p= notif.message
         %ul.navbar-nav.ml-auto
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}

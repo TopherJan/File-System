@@ -74,9 +74,8 @@
           .dropdown-menu{"aria-labelledby" => "notification"}
             %p You have #{@countNotif} Notification
             - @notifications.each do |notif|
-              - if notif.type == false
-                %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
-                  %p= notif.message
+              %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
+                %p= notif.message
         %ul.navbar-nav.ml-auto
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
@@ -94,8 +93,10 @@
         / Example DataTables Card
         .card.mb-3
           .card-header
-            - if (!@job.editDocument && document.user_id == @user.id) || @job.editDocument
+            - if (!@job.editDocument && @document.user_id == @user.id) || @job.editDocument
               %a.btn.btn-success.float-right{:href => edit_document_view_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Edit
+            - elsif !("#{@document.status}" == "Acknowledged")
+              %a.btn.btn-primary.float-right{:href => receive_document_path(doc_id: "#{@doc_id}", user_id: "#{@user.id}")} Receive
           .card-body
             .form-group
               .form-row
@@ -155,6 +156,19 @@
                 Events History
                 - if @job.addEvent || (!@job.addEvent && @document.user_id == @user.id)
                   %a.btn.btn-primary.float-right{:margin-left => "20px", :href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
+                %button.btn.btn-danger.float-right{:onclick => "printData()"} Print
+                :javascript
+                  function printData() {
+                    var divToPrint=document.getElementById("dataTable");
+                    newWin= window.open("");
+                    newWin.document.write(divToPrint.outerHTML);
+                    newWin.print();
+                    newWin.close();
+                  }
+
+                  $('button').on('click',function(){
+                    printData();
+                  })
               .card-body
                 .table-responsive
                   %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -169,20 +183,6 @@
                           %td= event.event_date
                           %td= event.event_type
                           %td= event.remarks
-                  %div
-                    %button{:onclick => "printData()"} Print
-                    :javascript
-                      function printData() {
-                        var divToPrint=document.getElementById("dataTable");
-                        newWin= window.open("");
-                        newWin.document.write(divToPrint.outerHTML);
-                        newWin.print();
-                        newWin.close();
-                      }
-
-                      $('button').on('click',function(){
-                        printData();
-                      })
           #files.tab-pane{:role => "tabpanel"}
             .card.mb-3
               .card-header
