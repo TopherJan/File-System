@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20181217135544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "status", default: false
-    t.integer "type"
+    t.integer "notif_type"
   end
 
   create_table "requests", force: :cascade do |t|

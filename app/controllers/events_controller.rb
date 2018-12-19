@@ -43,7 +43,7 @@ class EventsController < ApplicationController
     @emailadd = params[:emailadd]
 	@sender = User.find_by(emailadd: params[:emailadd])
 	@forward = Forward.new(user_id: params[:user_id], doc_id: params[:doc_id], status: 'FORWARDED')
-	@notif = Notification.new(user_id: params[:user_id], message: "A new document was forwarded to you by #{@sender.emailadd}", date: DateTime.now.to_date)
+	@notif = Notification.new(user_id: params[:user_id], message: "A new document was forwarded to you by #{@sender.emailadd}", date: DateTime.now.to_date, notif_type: 2)
 	@user = User.find(params[:user_id])
 	
 	if @forward.save

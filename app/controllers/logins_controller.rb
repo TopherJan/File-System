@@ -22,9 +22,15 @@ class LoginsController < ApplicationController
 	  @notif.update(status: true)
 	end
 	
-	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
-	@countNotif = @notifications.count
-	
+	if(@job == "Admin")
+	  @not1 = Notification.where(user_id: "#{@user.id}", status: false)
+	  @not2 = Notification.where(notif_type: 1)
+	  @notifications = @not1 + @not2
+	  @countNotif = @notifications.count
+	else
+	  @notifications = Notification.where(user_id: "#{@user.id}", status: false, notif_type: 2)
+	  @countNotif = @notifications.count
+	end
 	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
