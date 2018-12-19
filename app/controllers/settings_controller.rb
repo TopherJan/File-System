@@ -1,8 +1,5 @@
 class SettingsController < ApplicationController
-	before_action :confirm_logged_in
-	@isAdmin = false;
-	@isSecretary = false;
-	@isOthers = false;
+  before_action :confirm_logged_in
 
   def settings
 	@folders = Document.select(:doc_type).distinct
@@ -24,6 +21,14 @@ class SettingsController < ApplicationController
 	  @documents = @doc1 + @doc2
 	end
 	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
+	
 	@doc_type = Doctype.all
     @users = User.all
 	@jobtitle = Jobtitle.all
@@ -40,6 +45,14 @@ class SettingsController < ApplicationController
 	  @settings = true
 	end
 	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
+	
 	if(@job.viewDocument)
 	  @documents = Document.all
 	else
@@ -51,12 +64,12 @@ class SettingsController < ApplicationController
 
     if params[:doctype] != nil
 	  @doc_type = Doctype.new(doctype_params)
-		if !(@doc_type.save)
-	  	  flash[:taken] = "Name has already been taken. Please enter a unique name!"
-		else
-		  flash[:notice] = "The document type #{@doc_type.name.upcase} was successfully ADDED!"
-		  redirect_to settings_path(emailadd: params[:emailadd])
-		end
+	  if !(@doc_type.save)
+        flash[:taken] = "Name has already been taken. Please enter a unique name!"
+	  else
+	    flash[:notice] = "The document type #{@doc_type.name.upcase} was successfully ADDED!"
+	    redirect_to settings_path(emailadd: params[:emailadd])
+	  end
 	end
   end
 
@@ -78,6 +91,14 @@ class SettingsController < ApplicationController
 	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
 	  @settings = true
 	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
 	
 	if(@job.viewDocument)
 	  @documents = Document.all
@@ -120,6 +141,14 @@ class SettingsController < ApplicationController
 	  @doc2 = Document.where(:id => @doc).order(:date_modified)
 	  @documents = @doc1 + @doc2
 	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
 
     if params[:name] != nil
  	  @jobtitle = Jobtitle.new(name: params[:name], viewDocument: params[:viewDocument], addDocument: params[:addDocument], editDocument: params[:editDocument], deleteDocument: params[:deleteDocument], forwardDocument: params[:forwardDocument], addEvent: params[:addEvent], uploadFile: params[:uploadFile], deleteFile: params[:deleteFile], userRequest: params[:userRequest], jobtitleSettings: params[:jobtitleSettings], doctypeSettings: params[:doctypeSettings], userSettings: params[:userSettings])
@@ -152,6 +181,14 @@ class SettingsController < ApplicationController
 	  @settings = true
 	end
 	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
+	
 	if(@job.viewDocument)
 	  @documents = Document.all
 	else
@@ -167,23 +204,31 @@ class SettingsController < ApplicationController
   end
 
   def update_jobtitle
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     job = Jobtitle.find(params[:jobtitle_id])
-		job.update(name: params[:jobtitle_name])
-		redirect_to settings_path(emailadd: params[:emailadd])
+	job.update(name: params[:jobtitle_name])
+	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
   def edit_users
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
-	@current_user = User.find_by(emailadd: params[:emailadd])
+	@user = User.find_by(emailadd: params[:emailadd])
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
     @settings = false
 	
 	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
 	  @settings = true
 	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
 	
 	if(@job.viewDocument)
 	  @documents = Document.all
@@ -194,27 +239,27 @@ class SettingsController < ApplicationController
 	  @documents = @doc1 + @doc2
 	end
 
-		session[:emailadd] = @emailadd
-		@user_edit = User.find(params[:id])
-		@jobtitle = Jobtitle.where.not(name: "#{@user_edit.job_title}")
-		flash[:notice] = "User #{@user_edit.emailadd} successfully UPDATED!"
+	session[:emailadd] = @emailadd
+	@user_edit = User.find(params[:id])
+	@jobtitle = Jobtitle.where.not(name: "#{@user_edit.job_title}")
+	flash[:notice] = "User #{@user_edit.emailadd} successfully UPDATED!"
   end
 
   def update_users
-		@folders = Document.select(:doc_type).distinct
+	@folders = Document.select(:doc_type).distinct
     @emailadd = params[:emailadd]
     current_user = User.find_by(emailadd: params[:user_emailadd])
-		current_user.update(job_title: params[:job_title])
-		redirect_to settings_path(emailadd: params[:emailadd])
+	current_user.update(job_title: params[:job_title])
+	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
   def delete_users
     @emailadd = params[:emailadd]
     @user = User.find(params[:id])
-		User.delete(@user)
+	User.delete(@user)
 
-		flash[:notice] = "The user was successfully deleted!"
-		redirect_to settings_path(emailadd: params[:emailadd])
+	flash[:notice] = "The user was successfully deleted!"
+	redirect_to settings_path(emailadd: params[:emailadd])
   end
 
   def doctype_params

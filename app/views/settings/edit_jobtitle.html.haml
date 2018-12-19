@@ -66,6 +66,16 @@
           %li.nav-item
             %a#sidenavToggler.nav-link.text-center
               %i.fa.fa-fw.fa-angle-left
+        .dropdown.for-notification
+          %button#notification.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %i.fa.fa-bell
+            %span.count #{@countNotif}
+          .dropdown-menu{"aria-labelledby" => "notification"}
+            %p You have #{@countNotif} Notification
+            - @notifications.each do |notif|
+              - if notif.type == false
+                %a.dropdown-item.media{:href => dashboard_path(emailadd: "#{@emailadd}", :notif_status => 1, :notif_id => notif.id)}
+                  %p= notif.message
         %ul.navbar-nav.ml-auto
           %li.nav-item
             %a.nav-link{"data-target" => "#exampleModal", "data-toggle" => "modal"}
@@ -102,7 +112,7 @@
                     %input#val-doctypename.form-control{:name => "emailadd", :value => "#{@emailadd}", :type => "hidden"}/
                 %div
                   %button.btn.btn-primary{:type => "submit"} Update
-                  %a.btn.btn-secondary{:href => settings_path(emailadd: "#{@emailadd}")} Back
+                  %a.btn.btn-secondary{:href => request.referer} Back
         / /.container-fluid
         / /.content-wrapper
         / Scroll to Top Button

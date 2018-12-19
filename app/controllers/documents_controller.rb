@@ -1,20 +1,24 @@
 class DocumentsController < ApplicationController
-	before_action :confirm_logged_in
-  @isAdmin = false;
-  @isSecretary = false;
-  @isOthers = false;
-
+  before_action :confirm_logged_in
+  
   def view_documents
     @emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@folders = Document.select(:doc_type).distinct
-	
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
     @settings = false
 	
 	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
 	  @settings = true
 	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
 	
 	if(@job.viewDocument)
 	  @documents = Document.all
@@ -32,13 +36,20 @@ class DocumentsController < ApplicationController
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])
 	@attachment = Attachment.new
-	
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
     @settings = false
 	
 	if(@job.jobtitleSettings || @job.doctypeSettings || @job.userSettings)
 	  @settings = true
 	end
+	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
 	
 	if(@job.viewDocument)
 	  @documents = Document.all
@@ -88,6 +99,14 @@ class DocumentsController < ApplicationController
 	  @settings = true
 	end
 	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	@notifications = Notification.where(user_id: "#{@user.id}", status: false)
+	@countNotif = @notifications.count
+	
 	if(@job.viewDocument)
 	  @documents = Document.all
 	else
@@ -110,20 +129,21 @@ class DocumentsController < ApplicationController
   def update_document
 	@emailadd = params[:emailadd]
     @events = Event.new(doc_id: params[:document_id], remarks: "Edited by #{@emailadd}", event_date: DateTime.now.to_date, event_type: "Updated")
-    if @events.save
+    
+	if @events.save
       @event = Event.where(doc_id: params[:document_id]).order(event_date: :desc, created_at: :desc).first
       @doc_status = "#{@event.event_type}"
       @doc_date = "#{@event.event_date}"
       doc = Document.find(params[:document_id])
       doc.update(date_modified: "#{@doc_date}", status: "#{@doc_status}")
 	end
-    @folders = Document.select(:doc_type).distinct
+    
+	@folders = Document.select(:doc_type).distinct
     author = Author.find(params[:document_id])
     author.update(name: params[:author_name], contact: params[:author_contact], department: params[:author_department], agency: params[:author_agency], address: params[:author_address])
     doc = Document.find(params[:document_id])
     doc.update(name: params[:document_name], doc_type: params[:document_type], description: params[:document_description], location: params[:document_location], author_name: params[:author_name])
 
-    
     redirect_to view_documents_path(emailadd: params[:emailadd])
   end
 
@@ -143,7 +163,6 @@ class DocumentsController < ApplicationController
     Attachment.delete(attachment)
 	Forward.delete(forward)
 
-    session[:return_to] ||= request.referer
     redirect_to session.delete(:return_to)
   end
 

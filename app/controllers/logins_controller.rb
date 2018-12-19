@@ -1,9 +1,5 @@
 class LoginsController < ApplicationController
-
   attr_accessor :user, :dash
-  @isAdmin = false;
-  @isSecretary = false;
-  @isOthers = false;
 
   def dashboard
     @countUser = User.count
@@ -12,6 +8,7 @@ class LoginsController < ApplicationController
     @countEventToday = Event.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countDocumentToday = Document.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
     @countTransactions = @countEventToday.count + @countDocumentToday.count
+
 	@requests = Request.all
 	@users = User.all
 	@attachments = Attachment.all
@@ -21,6 +18,20 @@ class LoginsController < ApplicationController
 	@job = Jobtitle.find_by(:name => "#{@user.job_title}")
 	session[:emailadd] = @emailadd
 	
+	if(params[:notif_status])
+	  @notif = Notification.where(id: params[:notif_id])
+	  @notif.update(status: true)
+	end
+	
+	if(@job == "Admin")
+	  @not1 = Notification.where(user_id: "#{@user.id}", status: false)
+	  @not2 = Notification.where(notif_type: 1)
+	  @notifications = @not1 + @not2
+	  @countNotif = @notifications.count
+	else
+	  @notifications = Notification.where(user_id: "#{@user.id}", status: false, notif_type: 2)
+	  @countNotif = @notifications.count
+	end
 	@forwards = Forward.select(:doc_id).where(:user_id => "#{@user.id}", :status => 'FORWARDED')
 	@received = Document.where(:id => @forwards)
 	
@@ -52,7 +63,7 @@ class LoginsController < ApplicationController
   
   def accept_request
     @request = Request.find_by(emailadd: params[:emailadd])
-    @new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password: "#{@request.password}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
+    @new_user = User.new(first_name: "#{@request.first_name}", last_name: "#{@request.last_name}",emailadd: "#{@request.emailadd}",password_digest: "#{@request.password_digest}",job_title: "#{@request.job_title}",phone: "#{@request.phone}")
 
     if(@new_user.save)
       Request.delete(@request)
@@ -76,12 +87,12 @@ class LoginsController < ApplicationController
     @emailadd = params[:emailadd]
     @password = params[:password]
     @user = User.find_by(emailadd: "#{@emailadd}")
-	  @user_email = User.find_by(emailadd: "#{@emailadd}")
+	@user_email = User.find_by(emailadd: "#{@emailadd}")
 
     if @user_email.nil?
-	    flash[:danger] = "Incorrect email or password!"
+	  flash[:danger] = "Incorrect email or password!"
       redirect_to '/login'
-	  elsif (@user.nil?) || (@user.authenticate(@password) == false)
+	elsif (@user.nil?) || (@user.authenticate(@password) == false)
       flash[:danger] = "Incorrect email or password!"
       redirect_to '/login'
     else
