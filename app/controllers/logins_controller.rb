@@ -1,5 +1,4 @@
 class LoginsController < ApplicationController
-  before_action :confirm_logged_in, only: [:dashboard, :receive_document, :accept_request, :delete_request]
   attr_accessor :user, :dash
 
   def dashboard
@@ -11,6 +10,8 @@ class LoginsController < ApplicationController
     @countTransactions = @countEventToday.count + @countDocumentToday.count
 
 	@requests = Request.all
+	@users = User.all
+	@attachments = Attachment.all
     @folders = Document.select(:doc_type).distinct
 	@emailadd = params[:emailadd]
 	@user = User.find_by(emailadd: params[:emailadd])

@@ -154,7 +154,7 @@
                 %i.fa.fa-paste
                 Events History
                 - if @job.addEvent || (!@job.addEvent && @document.user_id == @user.id)
-                  %a.btn.btn-primary.float-right{:href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
+                  %a.btn.btn-primary.float-right{:margin-left => "20px", :href => add_event_path(id: "#{@doc_id}", emailadd: "#{@emailadd}")} Add Event
               .card-body
                 .table-responsive
                   %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -169,6 +169,20 @@
                           %td= event.event_date
                           %td= event.event_type
                           %td= event.remarks
+                  %div
+                    %button{:onclick => "printData()"} Print
+                    :javascript
+                      function printData() {
+                        var divToPrint=document.getElementById("dataTable");
+                        newWin= window.open("");
+                        newWin.document.write(divToPrint.outerHTML);
+                        newWin.print();
+                        newWin.close();
+                      }
+
+                      $('button').on('click',function(){
+                        printData();
+                      })
           #files.tab-pane{:role => "tabpanel"}
             .card.mb-3
               .card-header
@@ -199,6 +213,8 @@
                                 function confirm_delete() {
                                   return confirm('Are you sure you want to delete the file?');
                                 }
+								
+								
           #forward.tab-pane{:role => "tabpanel"}
             .card.mb-3
               .card-header
